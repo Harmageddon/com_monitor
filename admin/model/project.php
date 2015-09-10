@@ -23,6 +23,16 @@ class MonitorModelProject extends MonitorModelAbstract
 	private $projectId;
 
 	/**
+	 * @var array All valid ordering options.
+	 */
+	private $orderOptions = array(
+		"id ASC",
+		"id DESC",
+		"name ASC",
+		"name DESC",
+	);
+
+	/**
 	 * Retrieves the project with the ID given in $projectId from the database.
 	 *
 	 * @return mixed Object describing the project; null, if $projectId is not set or the project doesn't exist.
@@ -56,6 +66,12 @@ class MonitorModelProject extends MonitorModelAbstract
 			->from('#__monitor_projects');
 
 		$this->countItems($query);
+
+		if ($this->list !== null && isset($this->list['fullordering']) && in_array($this->list['fullordering'], $this->orderOptions))
+		{
+			$query->order($this->list['fullordering']);
+		}
+
 		$this->db->setQuery($query);
 
 		return $this->db->loadObjectList();

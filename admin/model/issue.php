@@ -29,6 +29,18 @@ class MonitorModelIssue extends MonitorModelAbstract
 	private $issueId;
 
 	/**
+	 * @var array All valid ordering options.
+	 */
+	private $orderOptions = array(
+		"i.id ASC",
+		"i.id DESC",
+		"i.title ASC",
+		"i.title DESC",
+		"p.name ASC",
+		"p.name DESC",
+	);
+
+	/**
 	 * Retrieves an issue from the database.
 	 *
 	 * @return stdClass Object containing all relevant information about the issue, if it exists;
@@ -156,6 +168,11 @@ class MonitorModelIssue extends MonitorModelAbstract
 		}
 
 		$this->countItems($query);
+
+		if ($this->list !== null && isset($this->list['fullordering']) && in_array($this->list['fullordering'], $this->orderOptions))
+		{
+			$query->order($this->list['fullordering']);
+		}
 
 		$this->db->setQuery($query);
 

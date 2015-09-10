@@ -99,8 +99,15 @@ abstract class MonitorViewAbstract extends JViewHtml
 	 */
 	public function render()
 	{
-		// Pagination
-		$this->pagination = $this->model->getPagination();
+		if ($this->model)
+		{
+			// Pagination
+			$this->pagination = $this->model->getPagination();
+
+			// Ordering
+			$this->listOrder	= $this->escape($this->model->getState()->get('list.ordering'));
+			$this->listDir	= $this->escape($this->model->getState()->get('list.direction'));
+		}
 
 		// Page title
 		$app = JFactory::getApplication();
@@ -142,6 +149,7 @@ abstract class MonitorViewAbstract extends JViewHtml
 				{
 					$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 				}
+
 				$app->getDocument()->setTitle($title);
 			}
 		}

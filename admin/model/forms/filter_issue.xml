@@ -45,6 +45,22 @@
 	</fields>
 	<fields name="list">
 		<field
+				name="fullordering"
+				type="list"
+				label="COM_CONTENT_LIST_FULL_ORDERING"
+				description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
+				onchange="this.form.submit();"
+				default="id ASC"
+				>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="i.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="i.id DESC">JGRID_HEADING_ID_DESC</option>
+			<option value="i.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="i.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="p.name ASC">COM_MONITOR_SORT_PROJECT_ASC</option>
+			<option value="p.name DESC">COM_MONITOR_SORT_PROJECT_DESC</option>
+		</field>
+		<field
 				name="limit"
 				type="limitbox"
 				class="input-mini"

@@ -39,10 +39,10 @@ JHtml::_('behavior.multiselect');
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('JGLOBAL_TITLE'); ?>
+					<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'i.title', $this->listDir, $this->listOrder); ?>
 				</th>
 				<th>
-					<?php echo JText::_('COM_MONITOR_PROJECT_NAME'); ?>
+					<?php echo JHtml::_('searchtools.sort', 'COM_MONITOR_PROJECT_NAME', 'p.name', $this->listDir, $this->listOrder); ?>
 				</th>
 				<th>
 					<?php echo JText::_('COM_MONITOR_ISSUE_STATUS'); ?>
@@ -51,7 +51,7 @@ JHtml::_('behavior.multiselect');
 					<?php echo JText::_('COM_MONITOR_CLASSIFICATION'); ?>
 				</th>
 				<th width="1%">
-					<?php echo JText::_('JGRID_HEADING_ID'); ?>
+					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'i.id', $this->listDir, $this->listOrder); ?>
 				</th>
 			</tr>
 			</thead>

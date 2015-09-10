@@ -38,10 +38,10 @@ JHtml::_('behavior.multiselect');
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('JGLOBAL_TITLE'); ?>
+					<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $this->listDir, $this->listOrder); ?>
 				</th>
 				<th width="1%" class="nowrap hidden-phone">
-					<?php echo JText::_('JGRID_HEADING_ID'); ?>
+					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $this->listDir, $this->listOrder); ?>
 				</th>
 			</tr>
 			</thead>
