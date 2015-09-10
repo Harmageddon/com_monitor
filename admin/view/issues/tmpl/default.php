@@ -77,16 +77,7 @@ JHtml::_('behavior.multiselect');
 						<?php echo $this->escape($item->project_name); ?>
 					</td>
 					<td class="center">
-						<?php
-						if ($item->status)
-						{
-							echo $this->escape($item->status);
-						}
-						else
-						{
-							echo $this->params->get('list_show_date_modified');
-						}
-						?>
+						<?php echo $this->escape($item->status); ?>
 					</td>
 					<td class="center">
 						<?php echo $this->escape($item->classification_title); ?>
