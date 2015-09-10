@@ -115,21 +115,28 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 		// Process the content plugins.
 		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('content');
-		$dispatcher->trigger('onContentPrepare', array ('com_monitor.issue', &$this->item, &$this->params, 0));
 
-		$this->item->event = new stdClass;
-		$results = $dispatcher->trigger('onContentAfterTitle', array('com_monitor.issue', &$this->item, &$this->params, 0));
-		$this->item->event->afterDisplayTitle = trim(implode("\n", $results));
-
-		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_monitor.issue', &$this->item, &$this->params, 0));
-		$this->item->event->beforeDisplayContent = trim(implode("\n", $results));
-
-		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_monitor.issue', &$this->item, &$this->params, 0));
-		$this->item->event->afterDisplayContent = trim(implode("\n", $results));
-
-		foreach ($this->comments as $comment)
+		if ($this->item && $this->getLayout() === 'default')
 		{
-			$dispatcher->trigger('onContentPrepare', array ('com_monitor.comment', &$comment, &$this->params, 0));
+			$dispatcher->trigger('onContentPrepare', array('com_monitor.issue', &$this->item, &$this->params, 0));
+
+			$this->item->event = new stdClass;
+			$results = $dispatcher->trigger('onContentAfterTitle', array('com_monitor.issue', &$this->item, &$this->params, 0));
+			$this->item->event->afterDisplayTitle = trim(implode("\n", $results));
+
+			$results  = $dispatcher->trigger('onContentBeforeDisplay', array('com_monitor.issue', &$this->item, &$this->params, 0));
+			$this->item->event->beforeDisplayContent = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_monitor.issue', &$this->item, &$this->params, 0));
+			$this->item->event->afterDisplayContent = trim(implode("\n", $results));
+
+			if ($this->comments)
+			{
+				foreach ($this->comments as $comment)
+				{
+					$dispatcher->trigger('onContentPrepare', array('com_monitor.comment', &$comment, &$this->params, 0));
+				}
+			}
 		}
 
 		return parent::render();

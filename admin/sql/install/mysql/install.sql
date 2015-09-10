@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `#__monitor_status`(
 	`name` varchar(255) NOT NULL COMMENT 'Status name',
 	`helptext` mediumtext NOT NULL COMMENT 'Help text',
 	`open` boolean NOT NULL DEFAULT true COMMENT 'Tickets having this status are open(1) or closed(0).',
-	`default` boolean NOT NULL DEFAULT false COMMENT 'Default status?',
+	`is_default` boolean NOT NULL DEFAULT false COMMENT 'Default status?',
 	`style` varchar(255) NOT NULL COMMENT 'Optional CSS class',
 	`project_id` int(10) NOT NULL COMMENT 'Project ID',
 	PRIMARY KEY (`id`)
