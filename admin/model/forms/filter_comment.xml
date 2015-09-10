@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+				name="search"
+				type="text"
+				description="COM_MONITOR_FILTER_SEARCH_DESC"
+				size="40"
+				class="inputbox"
+				default=""
+				/>
+		<field
+			name="issue_id"
+		    type="issue"
+			hiddenLabel="true"
+			label="COM_MONITOR_FILTER_ISSUE_LABEL"
+			description="COM_MONITOR_FILTER_ISSUE_DESC"
+			onchange="this.form.submit();"
+		    >
+			<option value="">COM_MONITOR_FILTER_ISSUE</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+				name="limit"
+				type="limitbox"
+				class="input-mini"
+				default="20"
+				label="COM_CONTENT_LIST_LIMIT"
+				description="COM_CONTENT_LIST_LIMIT_DESC"
+				onchange="this.form.submit();"
+				/><!-- TODO: Broken strings? -->
+	</fields>
+</form>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_MONITOR_VIEW_ISSUE_EDIT_TITLE">
+		<message>COM_MONITOR_VIEW_ISSUE_EDIT_DESC</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request" addfieldpath="/administrator/components/com_monitor/model/fields">
+			<field name="id"
+				   type="issue"
+				   label="COM_MONITOR_SELECT_ISSUE_LABEL"
+				   description="COM_MONITOR_SELECT_ISSUE_DESC"
+					>
+				<option value="">COM_MONITOR_ISSUE_CREATE_NEW</option>
+			</field>
+			<field name="project_id"
+				   type="project"
+				   label="COM_MONITOR_SELECT_PROJECT_LABEL"
+				   description="COM_MONITOR_SELECT_PROJECT_DESC"
+				   required="required"
+					/>
+		</fieldset>
+	</fields>
+	<fields name="params">
+		<fieldset name="basic">
+			<field
+					name="issue_create_show_description"
+					type="radio"
+					class="btn-group"
+					label="COM_MONITOR_PARAM_ISSUE_CREATE_SHOW_DESCRIPTION"
+					description="COM_MONITOR_PARAM_ISSUE_CREATE_SHOW_DESCRIPTION_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

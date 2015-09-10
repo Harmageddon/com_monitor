@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<access component="com_monitor">
+	<section name="component">
+		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+		<action name="project.create" title="COM_MONITOR_ACCESS_PROJECT_CREATE" description="COM_MONITOR_ACCESS_PROJECT_CREATE_DESC" />
+		<action name="project.delete" title="COM_MONITOR_ACCESS_PROJECT_DELETE" description="COM_MONITOR_ACCESS_PROJECT_DELETE_DESC" />
+		<action name="project.edit" title="COM_MONITOR_ACCESS_PROJECT_EDIT" description="COM_MONITOR_ACCESS_PROJECT_EDIT_DESC" />
+		<action name="issue.create" title="COM_MONITOR_ACCESS_ISSUE_CREATE" description="COM_MONITOR_ACCESS_ISSUE_CREATE_DESC" />
+		<action name="issue.delete" title="COM_MONITOR_ACCESS_ISSUE_DELETE" description="COM_MONITOR_ACCESS_ISSUE_DELETE_DESC" />
+		<action name="issue.edit" title="COM_MONITOR_ACCESS_ISSUE_EDIT" description="COM_MONITOR_ACCESS_ISSUE_EDIT_DESC" />
+		<action name="issue.edit.own" title="COM_MONITOR_ACCESS_ISSUE_EDIT_OWN" description="COM_MONITOR_ACCESS_ISSUE_EDIT_OWN_DESC" />
+		<action name="comment.create" title="COM_MONITOR_ACCESS_COMMENT_CREATE" description="COM_MONITOR_ACCESS_COMMENT_CREATE_DESC" />
+		<action name="comment.delete" title="COM_MONITOR_ACCESS_COMMENT_DELETE" description="COM_MONITOR_ACCESS_COMMENT_DELETE_DESC" />
+		<action name="comment.edit" title="COM_MONITOR_ACCESS_COMMENT_EDIT" description="COM_MONITOR_ACCESS_COMMENT_EDIT_DESC" />
+		<action name="comment.edit.own" title="COM_MONITOR_ACCESS_COMMENT_EDIT_OWN" description="COM_MONITOR_ACCESS_COMMENT_EDIT_OWN_DESC" />
+		<action name="comment.edit.status" title="COM_MONITOR_ACCESS_COMMENT_EDIT_STATUS" description="COM_MONITOR_ACCESS_COMMENT_EDIT_STATUS_DESC" />
+		<action name="status.create" title="COM_MONITOR_ACCESS_STATUS_CREATE" description="COM_MONITOR_ACCESS_STATUS_CREATE_DESC" />
+		<action name="status.delete" title="COM_MONITOR_ACCESS_STATUS_DELETE" description="COM_MONITOR_ACCESS_STATUS_DELETE_DESC" />
+		<action name="status.edit" title="COM_MONITOR_ACCESS_STATUS_EDIT" description="COM_MONITOR_ACCESS_STATUS_EDIT_DESC" />
+		<action name="classification.create" title="COM_MONITOR_ACCESS_CLASSIFICATION_CREATE" description="COM_MONITOR_ACCESS_CLASSIFICATION_CREATE_DESC" />
+		<action name="classification.delete" title="COM_MONITOR_ACCESS_CLASSIFICATION_DELETE" description="COM_MONITOR_ACCESS_CLASSIFICATION_DELETE_DESC" />
+		<action name="classification.edit" title="COM_MONITOR_ACCESS_CLASSIFICATION_EDIT" description="COM_MONITOR_ACCESS_CLASSIFICATION_EDIT_DESC" />
+	</section>
+</access>

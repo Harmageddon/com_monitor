@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+				name="search"
+				type="text"
+				description="COM_MONITOR_FILTER_SEARCH_DESC"
+				size="40"
+				class="inputbox search-query"
+				default=""
+				/>
+		<field
+				name="issue_status"
+				type="sql"
+				query="SELECT id, name AS issue_status FROM #__monitor_status"
+				key_field="id"
+				label="COM_MONITOR_FILTER_STATUS_LABEL"
+				hiddenLabel="true"
+				description="COM_MONITOR_FILTER_STATUS_DESC"
+				onchange="this.form.submit();"
+				>
+			<option value="">COM_MONITOR_FILTER_STATUS</option>
+			<option value="open">COM_MONITOR_FILTER_STATUS_ALL_OPEN</option>
+			<option value="closed">COM_MONITOR_FILTER_STATUS_ALL_CLOSED</option>
+		</field>
+		<field
+				name="classification"
+				type="classification"
+				label="COM_MONITOR_FILTER_CLASSIFICATION_LABEL"
+				description="COM_MONITOR_FILTER_CLASSIFICATION_DESC"
+				onchange="this.form.submit();"
+				>
+			<option value="">COM_MONITOR_FILTER_CLASSIFICATION</option>
+		</field>
+		<field
+			name="project_id"
+		    type="project"
+			hiddenLabel="true"
+			label="COM_MONITOR_FILTER_PROJECT_LABEL"
+			description="COM_MONITOR_FILTER_PROJECT_DESC"
+			onchange="this.form.submit();"
+		    >
+			<option value="">COM_MONITOR_FILTER_PROJECT</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+				name="limit"
+				type="limitbox"
+				class="input-mini"
+				default="20"
+				label="COM_CONTENT_LIST_LIMIT"
+				description="COM_CONTENT_LIST_LIMIT_DESC"
+				onchange="this.form.submit();"
+				/><!-- TODO: Broken strings? -->
+	</fields>
+</form>

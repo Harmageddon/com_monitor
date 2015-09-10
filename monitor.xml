@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.4" method="upgrade">
+	<name>COM_MONITOR</name>
+	<author>Constantin Romankiewicz</author>
+	<creationDate>2015</creationDate>
+	<license>Apache License 2.0 (see LICENSE)</license>
+	<authorEmail>constantin@zweiiconkram.de</authorEmail>
+	<authorUrl>www.zweiiconkram.de</authorUrl>
+	<version>0.0.6</version>
+	<description>COM_MONITOR_XML_DESCRIPTION</description>
+	<install> <!-- Runs on install -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/install/mysql/install.sql</file>
+		</sql>
+	</install>
+	<uninstall> <!-- Runs on uninstall -->
+		<sql>
+			<file driver="mysql" charset="utf8">sql/uninstall/mysql/uninstall.sql</file>
+		</sql>
+	</uninstall>
+	<update>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+	<administration>
+		<menu img="class:monitor">COM_MONITOR_MENU</menu>
+		<submenu>
+			<menu link="option=com_monitor&amp;view=projects">COM_MONITOR_MENU_PROJECTS</menu>
+			<menu link="option=com_monitor&amp;view=issues">COM_MONITOR_MENU_ISSUES</menu>
+			<menu link="option=com_monitor&amp;view=comments">COM_MONITOR_MENU_COMMENTS</menu>
+			<menu link="option=com_monitor&amp;view=status">COM_MONITOR_MENU_STATUS</menu>
+			<menu link="option=com_monitor&amp;view=classifications">COM_MONITOR_MENU_CLASSIFICATIONS</menu>
+		</submenu>
+		<files folder="admin">
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>monitor.php</filename>
+			<folder>controller</folder>
+			<folder>helper</folder>
+			<folder>language</folder>
+			<folder>model</folder>
+			<folder>sql</folder>
+			<folder>view</folder>
+		</files>
+	</administration>
+	<files folder="site">
+		<filename>monitor.php</filename>
+		<folder>controller</folder>
+		<folder>language</folder>
+		<folder>view</folder>
+	</files>
+</extension>

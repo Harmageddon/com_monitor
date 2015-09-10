@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+		<field
+				name="rules"
+				type="rules"
+				label="JCONFIG_PERMISSIONS_LABEL"
+				class="inputbox"
+				validate="rules"
+				filter="rules"
+				component="com_monitor"
+				section="component"
+				/>
+	</fieldset>
+	<fieldset name="issues" label="COM_MONITOR_ISSUES" description="COM_MONITOR_CONFIG_ISSUES_DESC">
+		<field name="list_date_format"
+			   type="text"
+			   label="COM_MONITOR_DATE_FORMAT_LABEL"
+			   description="COM_MONITOR_DATE_FORMAT_DESC"
+				/>
+		<field
+				name="list_show_filters"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_LIST_SHOW_FILTERS"
+				description="COM_MONITOR_PARAM_LIST_SHOW_FILTERS_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_show_filter_search"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_SEARCH"
+				description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_SEARCH_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_filter_search_content"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_LIST_FILTER_SEARCH_CONTENT"
+				description="COM_MONITOR_PARAM_LIST_FILTER_SEARCH_CONTENT_DESC"
+				default="title">
+			<option value="title">COM_MONITOR_PARAM_LIST_FILTER_SEARCH_TITLE</option>
+			<option value="content">COM_MONITOR_PARAM_LIST_FILTER_SEARCH_TITLE_CONTENT</option>
+		</field>
+		<field
+				name="list_show_filter_status"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_STATUS"
+				description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_STATUS_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_show_filter_project"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_PROJECT"
+				description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_PROJECT_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_show_status"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_LIST_SHOW_STATUS"
+				description="COM_MONITOR_PARAM_LIST_SHOW_STATUS_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_show_status_help"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_LIST_SHOW_STATUS_HELP"
+				description="COM_MONITOR_PARAM_LIST_SHOW_STATUS_HELP_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_show_classification"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_LIST_SHOW_CLASSIFICATION"
+				description="COM_MONITOR_PARAM_LIST_SHOW_CLASSIFICATION_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_show_author"
+				type="radio"
+				class="btn-group"
+				label="JGLOBAL_SHOW_AUTHOR_LABEL"
+				description="JGLOBAL_SHOW_AUTHOR_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_link_author"
+				type="radio"
+				class="btn-group"
+				label="JGLOBAL_LINK_AUTHOR_LABEL"
+				description="JGLOBAL_LINK_AUTHOR_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_show_date_created"
+				type="radio"
+				class="btn-group"
+				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
+				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_show_date_modified"
+				type="radio"
+				class="btn-group"
+				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
+				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_show_project"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_LIST_SHOW_PROJECT"
+				description="COM_MONITOR_PARAM_LIST_SHOW_PROJECT_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="list_show_version"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_LIST_SHOW_VERSION"
+				description="COM_MONITOR_PARAM_LIST_SHOW_VERSION_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+	</fieldset>
+	<fieldset name="issue" label="COM_MONITOR_ISSUE" description="COM_MONITOR_CONFIG_ISSUE_DESC">
+		<field
+				name="issue_create_show_description"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_ISSUE_CREATE_SHOW_DESCRIPTION"
+				description="COM_MONITOR_PARAM_ISSUE_CREATE_SHOW_DESCRIPTION_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="issue_show_status"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_ISSUE_SHOW_STATUS"
+				description="COM_MONITOR_PARAM_ISSUE_SHOW_STATUS_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="issue_show_status_help"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_ISSUE_SHOW_STATUS_HELP"
+				description="COM_MONITOR_PARAM_ISSUE_SHOW_STATUS_HELP_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="issue_show_author"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_ISSUE_SHOW_AUTHOR"
+				description="COM_MONITOR_PARAM_ISSUE_SHOW_AUTHOR_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="issue_show_date_created"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_ISSUE_SHOW_DATE_CREATED"
+				description="COM_MONITOR_PARAM_ISSUE_SHOW_DATE_CREATED_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="issue_show_project"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_ISSUE_SHOW_PROJECT"
+				description="COM_MONITOR_PARAM_ISSUE_SHOW_PROJECT_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="issue_show_version"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_ISSUE_SHOW_VERSION"
+				description="COM_MONITOR_PARAM_ISSUE_SHOW_VERSION_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="comment_show_status"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_COMMENT_SHOW_STATUS"
+				description="COM_MONITOR_PARAM_COMMENT_SHOW_STATUS_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="comment_show_status_help"
+				type="radio"
+				class="btn-group"
+				label="COM_MONITOR_PARAM_COMMENT_SHOW_STATUS_HELP"
+				description="COM_MONITOR_PARAM_COMMENT_SHOW_STATUS_HELP_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="comment_show_author"
+				type="radio"
+				class="btn-group"
+				label="JGLOBAL_SHOW_AUTHOR_LABEL"
+				description="JGLOBAL_SHOW_AUTHOR_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+				name="comment_show_date_created"
+				type="radio"
+				class="btn-group"
+				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
+				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
+				default="1">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+	</fieldset>
+</config>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_MONITOR_VIEW_PROJECT_TITLE">
+		<message>COM_MONITOR_VIEW_PROJECT_DESC</message>
+	</layout>
+	<fields name="request">
+		<fieldset name="request" addfieldpath="/administrator/components/com_monitor/model/fields">
+			<field name="id"
+				type="project"
+				label="COM_MONITOR_SELECT_PROJECT_LABEL"
+				description="COM_MONITOR_SELECT_PROJECT_DESC"
+				required="required"
+			/>
+		</fieldset>
+	</fields>
+</metadata>

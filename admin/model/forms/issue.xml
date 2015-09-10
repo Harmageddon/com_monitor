@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+				name="id"
+				type="hidden"
+				/>
+		<field
+				name="title"
+				type="text"
+				label="COM_MONITOR_ISSUE_TITLE_LABEL"
+				description="COM_MONITOR_ISSUE_TITLE_DESC"
+				size="40"
+				class="inputbox"
+				default=""
+		        required="required"
+				/>
+		<field
+				name="text"
+				type="editor"
+				label="COM_MONITOR_ISSUE_TEXT_LABEL"
+				description="COM_MONITOR_ISSUE_TEXT_DESC"
+				buttons="false"
+				default=""
+		        required="required"
+				/>
+		<field
+			name="version"
+		    type="text"
+		    label="COM_MONITOR_ISSUE_VERSION_LABEL"
+		    description="COM_MONITOR_ISSUE_VERSION_DESC"
+		    class="inputbox"
+		    />
+		<field
+			name="project_id"
+		    type="project"
+			label="COM_MONITOR_ISSUE_PROJECT_LABEL"
+			description="COM_MONITOR_ISSUE_PROJECT_DESC"
+		    required="required"
+		    />
+		<field
+				name="classification"
+				type="sql"
+				query="SELECT id, title AS classification FROM #__monitor_issue_classifications"
+				key_field="id"
+				label="COM_MONITOR_ISSUE_CLASSIFICATION_LABEL"
+				description="COM_MONITOR_ISSUE_CLASSIFICATION_DESC"
+		        required="required"
+				>
+		</field>
+	</fieldset>
+</form>
