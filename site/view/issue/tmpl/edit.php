@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('behavior.formvalidator');
+
 $app   = JFactory::getApplication();
 $input = $app->input;
 $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
@@ -17,7 +19,18 @@ $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
 <div class="monitor issue-edit">
 
 	<?php if ($this->params->get('show_page_heading', 1)) : ?>
-	<h2><?php echo JText::sprintf('COM_MONITOR_EDIT_ISSUE', $this->item->title); ?></h2>
+	<h2>
+		<?php
+		if ($this->item)
+		{
+			echo JText::sprintf('COM_MONITOR_EDIT_ISSUE', $this->item->title);
+		}
+		else
+		{
+			echo JText::_('COM_MONITOR_CREATE_ISSUE');
+		}
+		?>
+	</h2>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('issue_create_show_description', 0) && $this->item === null): ?>
