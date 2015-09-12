@@ -7,7 +7,7 @@
  * @license     Apache License 2.0; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * View to display a list of status entries.
