@@ -33,7 +33,7 @@ class JFormFieldProject extends JFormFieldList
 
 		JLoader::register('MonitorModelAbstract', JPATH_ROOT . '/administrator/components/com_monitor/model/abstract.php');
 		JLoader::register('MonitorModelProject', JPATH_ROOT . '/administrator/components/com_monitor/model/project.php');
-		$model = new MonitorModelProject;
+		$model = new MonitorModelProject(false);
 		$projects = $model->getProjects();
 
 		foreach ($projects as $project)

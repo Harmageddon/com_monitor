@@ -67,6 +67,9 @@ if ($projectId != 0)
 				<?php echo JText::_('JSEARCH_FILTER_CLEAR');?>
 			</button>
 	<?php endif; ?>
+	<div class="pull-right">
+		<?php echo $this->pagination->getLimitBox(); ?>
+	</div>
 </form>
 
 <?php if (empty($this->items)) : ?>

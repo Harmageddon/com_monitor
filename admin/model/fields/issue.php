@@ -33,7 +33,7 @@ class JFormFieldIssue extends JFormFieldList
 
 		JLoader::register('MonitorModelAbstract', JPATH_ROOT . '/administrator/components/com_monitor/model/abstract.php');
 		JLoader::register('MonitorModelIssue', JPATH_ROOT . '/administrator/components/com_monitor/model/issue.php');
-		$model = new MonitorModelIssue;
+		$model = new MonitorModelIssue(false);
 		$issues = $model->getIssues();
 
 		foreach ($issues as $issue)

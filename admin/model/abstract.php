@@ -47,35 +47,48 @@ abstract class MonitorModelAbstract extends JModelDatabase
 
 	/**
 	 * MonitorModelAbstract constructor.
+	 *
+	 * @param   boolean  $loadFilters  If set to true, filters and list options will be loaded from the page request.
 	 */
-	public function __construct()
+	public function __construct($loadFilters = true)
 	{
 		parent::__construct();
 
-		$app = JFactory::getApplication();
-
-		// Receive & set filters
-		if ($this->filters = $app->getUserStateFromRequest('filter', 'filter', array(), 'array'))
+		if ($loadFilters)
 		{
-			foreach ($this->filters as $filter => $value)
-			{
-				$this->getState()->set('filter.' . $filter, $value);
-			}
-		}
+			$app = JFactory::getApplication();
 
-		// Receive & set list options
-		if ($this->list = $app->getUserStateFromRequest('list', 'list', array(), 'array'))
-		{
-			if ($this->list['fullordering'])
+			// Receive & set filters
+			if ($this->filters = $app->getUserStateFromRequest('filter', 'filter', array(), 'array'))
 			{
-				$fullOrdering = explode(' ', $this->list['fullordering']);
-				$this->list['ordering'] = $fullOrdering[0];
-				$this->list['direction'] = $fullOrdering[1];
+				foreach ($this->filters as $filter => $value)
+				{
+					$this->getState()->set('filter.' . $filter, $value);
+				}
 			}
 
-			foreach ($this->list as $key => $value)
+			// Receive & set list options
+			if ($this->list = $app->getUserStateFromRequest('list', 'list', array(), 'array'))
 			{
-				$this->getState()->set('list.' . $key, $value);
+				if (isset($this->list['fullordering']) && $this->list['fullordering'])
+				{
+					$fullOrdering            = explode(' ', $this->list['fullordering']);
+					$this->list['ordering']  = $fullOrdering[0];
+					$this->list['direction'] = $fullOrdering[1];
+				}
+
+				foreach ($this->list as $key => $value)
+				{
+					$this->getState()->set('list.' . $key, $value);
+				}
+			}
+
+			if (($limit = $app->input->getUserStateFromRequest('limit', 'limit', null)) !== null)
+			{
+				$this->list['limit'] = $limit;
+				$this->getState()->set('list.limit', $limit);
+
+				var_dump($limit);
 			}
 		}
 	}
