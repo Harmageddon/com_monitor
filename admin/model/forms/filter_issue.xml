@@ -44,7 +44,7 @@
 		</field>
 		<field
 			name="author"
-			type="author"
+			type="AuthorIssue"
 			hiddenLabel="true"
 			label="COM_MONITOR_FILTER_ISSUE_AUTHOR_LABEL"
 			description="COM_MONITOR_FILTER_ISSUE_AUTHOR_DESC"

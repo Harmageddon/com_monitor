@@ -72,11 +72,49 @@ abstract class MonitorViewList extends MonitorViewAbstract
 	 */
 	public function render()
 	{
+		// Add sidebar
+		$this->addSidebar();
+		$this->sidebar = JHtmlSidebar::render();
+
 		if ($this->model)
 		{
 			$this->filterForm = $this->model->getFilterForm();
 		}
 
 		return parent::render();
+	}
+
+	/**
+	 * Adds a sidebar with links to the admin menu items.
+	 *
+	 * @return null
+	 */
+	public function addSidebar()
+	{
+		JHtmlSidebar::addEntry(
+			JText::_('COM_MONITOR_MENU_PROJECTS'),
+			'?option=com_monitor&amp;view=projects',
+			$this->name == 'project'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_MONITOR_MENU_ISSUES'),
+			'?option=com_monitor&amp;view=issues',
+			$this->name == 'issue'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_MONITOR_MENU_COMMENTS'),
+			'?option=com_monitor&amp;view=comments',
+			$this->name == 'comment'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_MONITOR_MENU_STATUS'),
+			'?option=com_monitor&amp;view=status',
+			$this->name == 'status'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_MONITOR_MENU_CLASSIFICATIONS'),
+			'?option=com_monitor&amp;view=classifications',
+			$this->name == 'classification'
+		);
 	}
 }

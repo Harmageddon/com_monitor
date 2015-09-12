@@ -19,8 +19,49 @@
 		>
 			<option value="">COM_MONITOR_FILTER_ISSUE</option>
 		</field>
+		<field
+				name="author"
+				type="AuthorComment"
+				hiddenLabel="true"
+				label="COM_MONITOR_FILTER_COMMENT_AUTHOR_LABEL"
+				description="COM_MONITOR_FILTER_COMMENT_AUTHOR_DESC"
+				onchange="this.form.submit();"
+				>
+			<option value="">JOPTION_SELECT_AUTHOR</option>
+		</field>
+		<field
+				name="status"
+				type="sql"
+				query="SELECT id, name AS status FROM #__monitor_status"
+				key_field="id"
+				label="COM_MONITOR_FILTER_STATUS_LABEL"
+				hiddenLabel="true"
+				description="COM_MONITOR_FILTER_COMMENT_STATUS_DESC"
+				onchange="this.form.submit();"
+				>
+			<option value="">COM_MONITOR_FILTER_STATUS</option>
+			<option value="no-change">COM_MONITOR_STATUS_NO_CHANGE</option>
+		</field>
 	</fields>
 	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="COM_CONTENT_LIST_FULL_ORDERING"
+			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
+			onchange="this.form.submit();"
+			default="id ASC"
+		>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="c.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="c.id DESC">JGRID_HEADING_ID_DESC</option>
+			<option value="i.title ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="i.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="u.name ASC">JAUTHOR_ASC</option>
+			<option value="u.name DESC">JAUTHOR_DESC</option>
+			<option value="c.created ASC">JDATE_ASC</option>
+			<option value="c.created DESC">JDATE_DESC</option>
+		</field>
 		<field
 			name="limit"
 			type="limitbox"

@@ -32,6 +32,20 @@ class MonitorModelComment extends MonitorModelAbstract
 	private $commentId;
 
 	/**
+	 * @var array All valid ordering options.
+	 */
+	private $orderOptions = array(
+		"c.id ASC",
+		"c.id DESC",
+		"i.title ASC",
+		"i.title DESC",
+		"u.name ASC",
+		"u.name DESC",
+		"c.created ASC",
+		"c.created DESC",
+	);
+
+	/**
 	 * Retrieves a comment with all relevant information from the database
 	 *
 	 * @return object|null Returns null, if $commentId is null or the comment doesn't exist.
@@ -74,7 +88,50 @@ class MonitorModelComment extends MonitorModelAbstract
 			->leftJoin('#__monitor_issues AS i ON c.issue_id = i.id')
 			->leftJoin('#__monitor_projects AS p ON i.project_id = p.id');
 
+		$app = JFactory::getApplication();
+
+		// Filters (admin only)
+		if ($app->isAdmin() && $this->filters !== null)
+		{
+			// Filter by author
+			if (isset($this->filters['author']) && (int) $this->filters['author'] !== 0)
+			{
+				$query->where('c.author_id = ' . (int) $this->filters['author']);
+			}
+
+			// Filter by status
+			if (isset($this->filters['status']))
+			{
+				if ($this->filters['status'] === "no-change")
+				{
+					$query->where('c.status = 0');
+				}
+				elseif ((int) $this->filters['status'] !== 0)
+				{
+					$query->where('c.status = ' . (int) $this->filters['status']);
+				}
+			}
+
+			// Filter by issue
+			if (isset($this->filters['issue_id']) && (int) $this->filters['issue_id'] !== 0)
+			{
+				$query->where('c.issue_id = ' . (int) $this->filters['issue_id']);
+			}
+
+			// Filter by text
+			if (isset($this->filters['search']))
+			{
+				$query->where('c.text LIKE "%' . $this->filters['search'] . '%"');
+			}
+		}
+
 		$this->countItems($query);
+
+		// Ordering
+		if ($app->isAdmin() && $this->list !== null && isset($this->list['fullordering']) && in_array($this->list['fullordering'], $this->orderOptions))
+		{
+			$query->order($this->list['fullordering']);
+		}
 
 		$this->db->setQuery($query);
 
