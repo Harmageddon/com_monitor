@@ -6,7 +6,7 @@
 			type="text"
 			description="COM_MONITOR_FILTER_SEARCH_DESC"
 			size="40"
-			class="inputbox search-query"
+			class="inputbox"
 			default=""
 		/>
 		<field
