@@ -42,6 +42,16 @@
 		    >
 			<option value="">COM_MONITOR_FILTER_PROJECT</option>
 		</field>
+		<field
+			name="author"
+		    type="author"
+		    hiddenLabel="true"
+			label="COM_MONITOR_FILTER_ISSUE_AUTHOR_LABEL"
+			description="COM_MONITOR_FILTER_ISSUE_AUTHOR_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_AUTHOR</option>
+		</field>
 	</fields>
 	<fields name="list">
 		<field
@@ -57,6 +67,8 @@
 			<option value="i.id DESC">JGRID_HEADING_ID_DESC</option>
 			<option value="i.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="i.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="u.name ASC">JAUTHOR_ASC</option>
+			<option value="u.name DESC">JAUTHOR_DESC</option>
 			<option value="p.name ASC">COM_MONITOR_SORT_PROJECT_ASC</option>
 			<option value="p.name DESC">COM_MONITOR_SORT_PROJECT_DESC</option>
 		</field>

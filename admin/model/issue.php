@@ -36,6 +36,8 @@ class MonitorModelIssue extends MonitorModelAbstract
 		"i.id DESC",
 		"i.title ASC",
 		"i.title DESC",
+		"u.name ASC",
+		"u.name DESC",
 		"p.name ASC",
 		"p.name DESC",
 	);
@@ -88,6 +90,12 @@ class MonitorModelIssue extends MonitorModelAbstract
 		if ($this->filters !== null && isset($this->filters['classification']) && (int) $this->filters['classification'] !== 0)
 		{
 			$query->where('i.classification = ' . (int) $this->filters['classification']);
+		}
+
+		// Filter by author
+		if ($this->filters !== null && isset($this->filters['author']) && (int) $this->filters['author'] !== 0)
+		{
+			$query->where('i.author_id = ' . (int) $this->filters['author']);
 		}
 
 		// Filter by status

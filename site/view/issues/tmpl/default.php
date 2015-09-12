@@ -45,16 +45,21 @@ if ($projectId != 0)
 		<?php if ($this->params->get('list_show_filter_status', 1)) : ?>
 		<?php echo $filters["filter_issue_status"]->label; ?>
 		<?php echo $filters["filter_issue_status"]->input; ?>
-	<?php endif; ?>
+		<?php endif; ?>
 
 		<?php if ($this->params->get('list_show_filter_classification', 1)) : ?>
 		<?php echo $filters["filter_classification"]->label; ?>
 		<?php echo $filters["filter_classification"]->input; ?>
-	<?php endif; ?>
+		<?php endif; ?>
 
 		<?php if ($this->params->get('list_show_filter_project', 1)) : ?>
 		<?php echo $filters["filter_project_id"]->label; ?>
 		<?php echo $filters["filter_project_id"]->input; ?>
+	<?php endif; ?>
+
+		<?php if ($this->params->get('list_show_filter_author', 1)) : ?>
+		<?php echo $filters["filter_author"]->label; ?>
+		<?php echo $filters["filter_author"]->input; ?>
 		<?php endif; ?>
 
 			<button type="button" class="btn hasTooltip js-stools-btn-clear" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"

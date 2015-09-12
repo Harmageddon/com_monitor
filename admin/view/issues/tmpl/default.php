@@ -42,6 +42,9 @@ JHtml::_('behavior.multiselect');
 					<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'i.title', $this->listDir, $this->listOrder); ?>
 				</th>
 				<th>
+					<?php echo JHtml::_('searchtools.sort', 'COM_MONITOR_ISSUE_AUTHOR', 'u.name', $this->listDir, $this->listOrder); ?>
+				</th>
+				<th>
 					<?php echo JHtml::_('searchtools.sort', 'COM_MONITOR_PROJECT_NAME', 'p.name', $this->listDir, $this->listOrder); ?>
 				</th>
 				<th>
@@ -72,6 +75,11 @@ JHtml::_('behavior.multiselect');
 						<?php else : ?>
 								<?php echo $this->escape($item->title); ?>
 						<?php endif; ?>
+					</td>
+					<td>
+						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->author_id); ?>"
+							title="<?php echo JText::_('COM_MONITOR_EDIT_USER'); ?>">
+							<?php echo $this->escape($item->author_name); ?></a>
 					</td>
 					<td class="center">
 						<?php echo $this->escape($item->project_name); ?>
