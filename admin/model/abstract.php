@@ -87,8 +87,6 @@ abstract class MonitorModelAbstract extends JModelDatabase
 			{
 				$this->list['limit'] = $limit;
 				$this->getState()->set('list.limit', $limit);
-
-				var_dump($limit);
 			}
 		}
 	}

@@ -38,22 +38,22 @@ JHtml::_('behavior.multiselect');
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				<th width="1%">
-					<?php echo JText::_('JGRID_HEADING_ID'); ?>
+					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'c.id', $this->listDir, $this->listOrder); ?>
 				</th>
 				<th>
 					<?php echo JText::_('COM_MONITOR_PROJECT_NAME'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('COM_MONITOR_ISSUE_TITLE'); ?>
+					<?php echo JHtml::_('searchtools.sort', 'COM_MONITOR_ISSUE_TITLE', 'i.title', $this->listDir, $this->listOrder); ?>
 				</th>
 				<th>
-					<?php echo JText::_('COM_MONITOR_COMMENT_AUTHOR'); ?>
+					<?php echo JHtml::_('searchtools.sort', 'COM_MONITOR_COMMENT_AUTHOR', 'u.name', $this->listDir, $this->listOrder); ?>
 				</th>
 				<th>
 					<?php echo JText::_('COM_MONITOR_COMMENT_TEXT'); ?>
 				</th>
 				<th>
-					<?php echo JText::_('JDATE'); ?>
+					<?php echo JHtml::_('searchtools.sort', 'JDATE', 'c.created', $this->listDir, $this->listOrder); ?>
 				</th>
 				<th>
 					<?php echo JText::_('COM_MONITOR_COMMENT_STATUS'); ?>
@@ -108,7 +108,16 @@ JHtml::_('behavior.multiselect');
 						<?php echo $this->escape($item->created); ?>
 					</td>
 					<td class="center">
-						<?php echo $this->escape($item->status_name); ?>
+						<?php
+						if ($item->status_id)
+						{
+							echo $this->escape($item->status_name);
+						}
+						else
+						{
+							echo "<em>" . JText::_('COM_MONITOR_STATUS_NO_CHANGE') . "</em>";
+						}
+						?>
 					</td>
 				</tr>
 			<?php endforeach; ?>
