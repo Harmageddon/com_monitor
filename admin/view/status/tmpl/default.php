@@ -7,7 +7,8 @@
  * @license     Apache License 2.0; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 $user = JFactory::getUser();
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');

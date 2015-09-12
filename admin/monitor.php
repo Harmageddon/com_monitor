@@ -9,7 +9,6 @@
  * @license     Apache License 2.0; see LICENSE
  */
 
-
 // No direct access
 defined('_JEXEC') or die;
 
