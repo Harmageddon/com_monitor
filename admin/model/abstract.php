@@ -66,7 +66,7 @@ abstract class MonitorModelAbstract extends JModelDatabase
 		// Receive & set list options
 		if ($this->list = $app->getUserStateFromRequest('list', 'list', array(), 'array'))
 		{
-			if (isset($this->list['fullordering']))
+			if ($this->list['fullordering'])
 			{
 				$fullOrdering = explode(' ', $this->list['fullordering']);
 				$this->list['ordering'] = $fullOrdering[0];

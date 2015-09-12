@@ -23,7 +23,14 @@ JHtml::_('behavior.multiselect');
 	<?php endif; ?>
 	<?php
 	// Search tools bar
-	echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+	echo JLayoutHelper::render('joomla.searchtools.default',
+		array(
+			'view' => $this,
+			'options' => array(
+				'filterButton' => false,
+			),
+		)
+	);
 	?>
 	<?php if (empty($this->items)) : ?>
 		<div class="alert alert-no-items">
