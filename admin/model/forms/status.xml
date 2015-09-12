@@ -18,7 +18,7 @@
 		<field
 			name="open"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			label="COM_MONITOR_STATUS_OPEN_LABEL"
 			description="COM_MONITOR_STATUS_OPEN_DESC"
 			default="1"
