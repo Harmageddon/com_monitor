@@ -83,7 +83,7 @@ abstract class MonitorModelAbstract extends JModelDatabase
 				}
 			}
 
-			if (($limit = $app->input->getUserStateFromRequest('limit', 'limit', null)) !== null)
+			if (!isset($this->list['limit']) && ($limit = $app->input->getUserStateFromRequest('limit', 'limit', null)) !== null)
 			{
 				$this->list['limit'] = $limit;
 				$this->getState()->set('list.limit', $limit);
