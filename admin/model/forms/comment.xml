@@ -2,34 +2,34 @@
 <form>
 	<fieldset addfieldpath="/administrator/components/com_monitor/models/fields/issue.php">
 		<field
-				name="id"
-				type="hidden"
-				/>
+			name="id"
+			type="hidden"
+		/>
 		<field
-				name="text"
-				type="editor"
-				label="COM_MONITOR_COMMENT_TEXT_LABEL"
-				description="COM_MONITOR_COMMENT_TEXT_DESC"
-				buttons="false"
-				default=""
-		        required="required"
+			name="text"
+			type="editor"
+			label="COM_MONITOR_COMMENT_TEXT_LABEL"
+			description="COM_MONITOR_COMMENT_TEXT_DESC"
+			buttons="false"
+			default=""
+			required="required"
 				/>
 		<field
 			name="issue_status"
-		    type="sql"
-		    query="SELECT id, name AS issue_status FROM #__monitor_status"
-		    key_field="id"
-		    label="COM_MONITOR_COMMENT_STATUS_LABEL"
-		    description="COM_MONITOR_COMMENT_STATUS_DESC"
-		    >
+			type="sql"
+			query="SELECT id, name AS issue_status FROM #__monitor_status"
+			key_field="id"
+			label="COM_MONITOR_COMMENT_STATUS_LABEL"
+			description="COM_MONITOR_COMMENT_STATUS_DESC"
+		>
 			<option value="">COM_MONITOR_STATUS_NO_CHANGE</option>
 		</field>
 		<field
-				name="issue_id"
-				type="issue"
-				label="COM_MONITOR_COMMENT_ISSUE_LABEL"
-				description="COM_MONITOR_COMMENT_ISSUE_DESC"
-				required="required"
-				/>
+			name="issue_id"
+			type="issue"
+			label="COM_MONITOR_COMMENT_ISSUE_LABEL"
+			description="COM_MONITOR_COMMENT_ISSUE_DESC"
+			required="required"
+		/>
 	</fieldset>
 </form>

@@ -2,53 +2,53 @@
 <form>
 	<fieldset addfieldpath="/administrator/components/com_monitor/models/fields/issue.php">
 		<field
-				name="id"
-				type="hidden"
-				/>
+			name="id"
+			type="hidden"
+		/>
 		<field
-				name="name"
-				type="text"
-				label="COM_MONITOR_STATUS_NAME_LABEL"
-				description="COM_MONITOR_STATUS_NAME_DESC"
-				size="40"
-				class="inputbox"
-				default=""
-				required="required"
-				/>
+			name="name"
+			type="text"
+			label="COM_MONITOR_STATUS_NAME_LABEL"
+			description="COM_MONITOR_STATUS_NAME_DESC"
+			size="40"
+			class="inputbox"
+			default=""
+			required="required"
+		/>
 		<field
-				name="open"
-				type="radio"
-				class="btn-group"
-				label="COM_MONITOR_STATUS_OPEN_LABEL"
-				description="COM_MONITOR_STATUS_OPEN_DESC"
-		        default="1"
-		        required="required"
-				>
+			name="open"
+			type="radio"
+			class="btn-group"
+			label="COM_MONITOR_STATUS_OPEN_LABEL"
+			description="COM_MONITOR_STATUS_OPEN_DESC"
+			default="1"
+			required="required"
+		>
 			<option value="1">COM_MONITOR_STATUS_OPEN</option>
 			<option value="0">COM_MONITOR_STATUS_CLOSED</option>
 		</field>
 		<field
-				name="helptext"
-				type="editor"
-				label="COM_MONITOR_STATUS_HELP_LABEL"
-				description="COM_MONITOR_STATUS_HELP_DESC"
-				buttons="false"
-				default=""
-				/>
+			name="helptext"
+			type="editor"
+			label="COM_MONITOR_STATUS_HELP_LABEL"
+			description="COM_MONITOR_STATUS_HELP_DESC"
+			buttons="false"
+			default=""
+		/>
 		<field
-				name="style"
-				type="text"
-				label="COM_MONITOR_STATUS_STYLE_LABEL"
-				description="COM_MONITOR_STATUS_STYLE_DESC"
-				size="60"
-				class="inputbox"
-				/>
+			name="style"
+			type="text"
+			label="COM_MONITOR_STATUS_STYLE_LABEL"
+			description="COM_MONITOR_STATUS_STYLE_DESC"
+			size="60"
+			class="inputbox"
+		/>
 		<field
-				name="project_id"
-				type="project"
-				label="COM_MONITOR_ISSUE_PROJECT_LABEL"
-				description="COM_MONITOR_ISSUE_PROJECT_DESC"
-				required="required"
-				/>
+			name="project_id"
+			type="project"
+			label="COM_MONITOR_ISSUE_PROJECT_LABEL"
+			description="COM_MONITOR_ISSUE_PROJECT_DESC"
+			required="required"
+		/>
 	</fieldset>
 </form>

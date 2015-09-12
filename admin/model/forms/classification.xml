@@ -2,35 +2,36 @@
 <form>
 	<fieldset>
 		<field
-				name="id"
-				type="hidden"
-				/>
+			name="id"
+			type="hidden"
+		/>
 		<field
-				name="title"
-				type="text"
-				label="COM_MONITOR_CLASSIFICATION_TITLE_LABEL"
-				description="COM_MONITOR_CLASSIFICATION_TITLE_DESC"
-				size="40"
-				class="inputbox"
-				default=""
-		        required="required"
-				/>
+			name="title"
+			type="text"
+			label="COM_MONITOR_CLASSIFICATION_TITLE_LABEL"
+			description="COM_MONITOR_CLASSIFICATION_TITLE_DESC"
+			size="40"
+			class="inputbox"
+			default=""
+			required="required"
+		/>
 		<field
-				name="project_id"
-				type="project"
-				label="COM_MONITOR_ISSUE_PROJECT_LABEL"
-				description="COM_MONITOR_ISSUE_PROJECT_DESC"
-				required="required"
-				filter="integer"
-				/>
+			name="project_id"
+			type="project"
+			label="COM_MONITOR_ISSUE_PROJECT_LABEL"
+			description="COM_MONITOR_ISSUE_PROJECT_DESC"
+			required="required"
+			filter="integer"
+		/>
 		<field
-				name="access"
-				type="accesslevel"
-				id="access"
-				label="JFIELD_ACCESS_LABEL"
-				description="JFIELD_ACCESS_DESC"
-				default="1"
-				required="required"
-				filter="integer"/>
+			name="access"
+			type="accesslevel"
+			id="access"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
+			default="1"
+			required="required"
+			filter="integer"
+		/>
 	</fieldset>
 </form>
