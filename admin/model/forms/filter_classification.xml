@@ -2,33 +2,33 @@
 <form>
 	<fields name="filter">
 		<field
-				name="search"
-				type="text"
-				description="COM_MONITOR_FILTER_SEARCH_DESC"
-				size="40"
-				class="inputbox"
-				default=""
-				/>
+			name="search"
+			type="text"
+			description="COM_MONITOR_FILTER_SEARCH_DESC"
+			size="40"
+			class="inputbox"
+			default=""
+		/>
 		<field
 			name="project_id"
-		    type="project"
+			type="project"
 			hiddenLabel="true"
 			label="COM_MONITOR_FILTER_PROJECT_LABEL"
 			description="COM_MONITOR_FILTER_PROJECT_DESC"
 			onchange="this.form.submit();"
-		    >
+		>
 			<option value="">COM_MONITOR_FILTER_PROJECT</option>
 		</field>
 	</fields>
 	<fields name="list">
 		<field
-				name="limit"
-				type="limitbox"
-				class="input-mini"
-				default="20"
-				label="COM_CONTENT_LIST_LIMIT"
-				description="COM_CONTENT_LIST_LIMIT_DESC"
-				onchange="this.form.submit();"
-				/><!-- TODO: Broken strings? -->
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="20"
+			label="COM_CONTENT_LIST_LIMIT"
+			description="COM_CONTENT_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+			/><!-- TODO: Broken strings? -->
 	</fields>
 </form>

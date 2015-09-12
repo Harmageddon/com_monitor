@@ -2,26 +2,26 @@
 <form>
 	<fieldset>
 		<field
-				name="id"
-				type="hidden"
-				/>
+			name="id"
+			type="hidden"
+		/>
 		<field
-				name="name"
-				type="text"
-				label="COM_MONITOR_PROJECT_NAME_LABEL"
-				description="COM_MONITOR_PROJECT_NAME_DESC"
-				size="40"
-				class="inputbox"
-				default=""
-		        required="required"
-				/>
+			name="name"
+			type="text"
+			label="COM_MONITOR_PROJECT_NAME_LABEL"
+			description="COM_MONITOR_PROJECT_NAME_DESC"
+			size="40"
+			class="inputbox"
+			default=""
+			required="required"
+		/>
 		<field
-				name="description"
-				type="textarea"
-				label="COM_MONITOR_PROJECT_DESCRIPTION_LABEL"
-				description="COM_MONITOR_PROJECT_DESCRIPTION_DESC"
-				class="inputbox"
-				default=""
-				/>
+			name="description"
+			type="textarea"
+			label="COM_MONITOR_PROJECT_DESCRIPTION_LABEL"
+			description="COM_MONITOR_PROJECT_DESCRIPTION_DESC"
+			class="inputbox"
+			default=""
+		/>
 	</fieldset>
 </form>

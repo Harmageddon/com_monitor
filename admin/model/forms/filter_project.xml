@@ -2,23 +2,23 @@
 <form>
 	<fields name="filter">
 		<field
-				name="search"
-				type="text"
-				description="COM_MONITOR_FILTER_SEARCH_DESC"
-				size="40"
-				class="inputbox"
-				default=""
-				/>
+			name="search"
+			type="text"
+			description="COM_MONITOR_FILTER_SEARCH_DESC"
+			size="40"
+			class="inputbox"
+			default=""
+		/>
 	</fields>
 	<fields name="list">
 		<field
-				name="fullordering"
-				type="list"
-				label="COM_CONTENT_LIST_FULL_ORDERING"
-				description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
-				onchange="this.form.submit();"
-				default="id ASC"
-				>
+			name="fullordering"
+			type="list"
+			label="COM_CONTENT_LIST_FULL_ORDERING"
+			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
+			onchange="this.form.submit();"
+			default="id ASC"
+		>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="id DESC">JGRID_HEADING_ID_DESC</option>
@@ -26,13 +26,13 @@
 			<option value="name DESC">JGLOBAL_TITLE_DESC</option>
 		</field>
 		<field
-				name="limit"
-				type="limitbox"
-				class="input-mini"
-				default="20"
-				label="COM_CONTENT_LIST_LIMIT"
-				description="COM_CONTENT_LIST_LIMIT_DESC"
-				onchange="this.form.submit();"
-				/><!-- TODO: Broken strings? -->
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="20"
+			label="COM_CONTENT_LIST_LIMIT"
+			description="COM_CONTENT_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/><!-- TODO: Broken strings? -->
 	</fields>
 </form>
