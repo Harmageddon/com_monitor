@@ -5,157 +5,173 @@
 	</layout>
 	<fields name="request">
 		<fieldset name="request" addfieldpath="/administrator/components/com_monitor/model/fields">
-			<field name="project_id"
-				   type="project"
-				   label="COM_MONITOR_SELECT_PROJECT_LABEL"
-				   description="COM_MONITOR_SELECT_PROJECT_DESC"
-				   required="required"
-					/>
+			<field
+				name="project_id"
+				type="project"
+				label="COM_MONITOR_SELECT_PROJECT_LABEL"
+				description="COM_MONITOR_SELECT_PROJECT_DESC"
+				required="required"
+			/>
 		</fieldset>
 	</fields>
 	<fields name="params">
 		<fieldset name="basic">
-			<field name="list_date_format"
-				   type="text"
-				   label="COM_MONITOR_DATE_FORMAT_LABEL"
-				   description="COM_MONITOR_DATE_FORMAT_DESC"
-					/>
+			<field 
+				name="list_date_format"
+				type="text"
+				label="COM_MONITOR_DATE_FORMAT_LABEL"
+				description="COM_MONITOR_DATE_FORMAT_DESC"
+			/>
 			<field
-					name="list_show_filters"
-					type="radio"
-					class="btn-group"
-					label="COM_MONITOR_PARAM_LIST_SHOW_FILTERS"
-					description="COM_MONITOR_PARAM_LIST_SHOW_FILTERS_DESC">
+				name="list_show_filters"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MONITOR_PARAM_LIST_SHOW_FILTERS"
+				description="COM_MONITOR_PARAM_LIST_SHOW_FILTERS_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_show_filter_search"
-					type="radio"
-					class="btn-group"
-					label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_SEARCH"
-					description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_SEARCH_DESC">
+				name="list_show_filter_search"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_SEARCH"
+				description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_SEARCH_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_filter_search_content"
-					type="radio"
-					class="btn-group"
-					label="COM_MONITOR_PARAM_LIST_FILTER_SEARCH_CONTENT"
-					description="COM_MONITOR_PARAM_LIST_FILTER_SEARCH_CONTENT_DESC">
+				name="list_filter_search_content"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MONITOR_PARAM_LIST_FILTER_SEARCH_CONTENT"
+				description="COM_MONITOR_PARAM_LIST_FILTER_SEARCH_CONTENT_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="title">COM_MONITOR_PARAM_LIST_FILTER_SEARCH_TITLE</option>
 				<option value="content">COM_MONITOR_PARAM_LIST_FILTER_SEARCH_TITLE_CONTENT</option>
 			</field>
 			<field
-					name="list_show_filter_status"
-					type="radio"
-					class="btn-group"
-					label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_STATUS"
-					description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_STATUS_DESC">
+				name="list_show_filter_status"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_STATUS"
+				description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_STATUS_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_show_filter_project"
-					type="radio"
-					class="btn-group"
-					label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_PROJECT"
-					description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_PROJECT_DESC">
+				name="list_show_filter_project"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_PROJECT"
+				description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_PROJECT_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_show_filter_author"
-					type="radio"
-					class="btn-group"
-					label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_AUTHOR"
-					description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_AUTHOR_DESC">
+				name="list_show_filter_author"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MONITOR_PARAM_LIST_SHOW_FILTER_AUTHOR"
+				description="COM_MONITOR_PARAM_LIST_SHOW_FILTER_AUTHOR_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_show_status"
-					type="radio"
-					class="btn-group"
-					label="COM_MONITOR_PARAM_LIST_SHOW_STATUS"
-					description="COM_MONITOR_PARAM_LIST_SHOW_STATUS_DESC">
+				name="list_show_status"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MONITOR_PARAM_LIST_SHOW_STATUS"
+				description="COM_MONITOR_PARAM_LIST_SHOW_STATUS_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_show_status_help"
-					type="radio"
-					class="btn-group"
-					label="COM_MONITOR_PARAM_LIST_SHOW_STATUS_HELP"
-					description="COM_MONITOR_PARAM_LIST_SHOW_STATUS_HELP_DESC">
+				name="list_show_status_help"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MONITOR_PARAM_LIST_SHOW_STATUS_HELP"
+				description="COM_MONITOR_PARAM_LIST_SHOW_STATUS_HELP_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_show_author"
-					type="radio"
-					class="btn-group"
-					label="JGLOBAL_SHOW_AUTHOR_LABEL"
-					description="JGLOBAL_SHOW_AUTHOR_DESC">
+				name="list_show_author"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="JGLOBAL_SHOW_AUTHOR_LABEL"
+				description="JGLOBAL_SHOW_AUTHOR_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_link_author"
-					type="radio"
-					class="btn-group"
-					label="JGLOBAL_LINK_AUTHOR_LABEL"
-					description="JGLOBAL_LINK_AUTHOR_DESC">
+				name="list_link_author"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="JGLOBAL_LINK_AUTHOR_LABEL"
+				description="JGLOBAL_LINK_AUTHOR_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_show_date_created"
-					type="radio"
-					class="btn-group"
-					label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-					description="JGLOBAL_SHOW_CREATE_DATE_DESC">
+				name="list_show_date_created"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
+				description="JGLOBAL_SHOW_CREATE_DATE_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_show_date_modified"
-					type="radio"
-					class="btn-group"
-					label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
-					description="JGLOBAL_SHOW_MODIFY_DATE_DESC">
+				name="list_show_date_modified"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
+				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_show_project"
-					type="radio"
-					class="btn-group"
-					label="COM_MONITOR_PARAM_LIST_SHOW_PROJECT"
-					description="COM_MONITOR_PARAM_LIST_SHOW_PROJECT_DESC">
+				name="list_show_project"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MONITOR_PARAM_LIST_SHOW_PROJECT"
+				description="COM_MONITOR_PARAM_LIST_SHOW_PROJECT_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-					name="list_show_version"
-					type="radio"
-					class="btn-group"
-					label="COM_MONITOR_PARAM_LIST_SHOW_VERSION"
-					description="COM_MONITOR_PARAM_LIST_SHOW_VERSION_DESC">
+				name="list_show_version"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				label="COM_MONITOR_PARAM_LIST_SHOW_VERSION"
+				description="COM_MONITOR_PARAM_LIST_SHOW_VERSION_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
