@@ -5,7 +5,8 @@
 	</layout>
 	<fields name="request">
 		<fieldset name="request" addfieldpath="/administrator/components/com_monitor/model/fields">
-			<field name="id"
+			<field
+				name="id"
 				type="project"
 				label="COM_MONITOR_SELECT_PROJECT_LABEL"
 				description="COM_MONITOR_SELECT_PROJECT_DESC"
