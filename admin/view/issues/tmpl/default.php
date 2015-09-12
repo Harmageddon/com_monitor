@@ -8,9 +8,11 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
+
 $user = JFactory::getUser();
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
+JHtml::_('formbehavior.chosen', 'select');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_monitor&view=issues'); ?>" method="post" name="adminForm" id="adminForm">
 

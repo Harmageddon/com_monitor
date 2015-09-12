@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidator');
+JHtml::_('formbehavior.chosen', 'select');
 
 $app   = JFactory::getApplication();
 $input = $app->input;
