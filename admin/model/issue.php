@@ -43,6 +43,11 @@ class MonitorModelIssue extends MonitorModelAbstract
 	);
 
 	/**
+	 * @var stdClass The default status.
+	 */
+	private $defaultStatus = null;
+
+	/**
 	 * Retrieves an issue from the database.
 	 *
 	 * @return stdClass Object containing all relevant information about the issue, if it exists;
@@ -228,6 +233,11 @@ class MonitorModelIssue extends MonitorModelAbstract
 	 */
 	public function getDefaultStatus()
 	{
+		if ($this->defaultStatus )
+		{
+			return $this->defaultStatus;
+		}
+
 		$query = $this->db->getQuery(true);
 		$query->select('name, id, style, open')
 			->from('#__monitor_status')
@@ -235,7 +245,9 @@ class MonitorModelIssue extends MonitorModelAbstract
 
 		$this->db->setQuery($query);
 
-		return $this->db->loadObject();
+		$this->defaultStatus = $this->db->loadObject();
+
+		return $this->defaultStatus;
 	}
 
 	/**
