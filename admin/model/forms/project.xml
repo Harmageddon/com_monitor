@@ -14,10 +14,20 @@
 			class="inputbox"
 			default=""
 			required="required"
-		/>
+			/>
+		<field
+			name="alias"
+			type="alias"
+			label="COM_MONITOR_PROJECT_ALIAS_LABEL"
+			description="COM_MONITOR_PROJECT_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
+			size="40"
+			class="inputbox"
+			default=""
+			/>
 		<field
 			name="description"
-			type="textarea"
+			type="editor"
 			label="COM_MONITOR_PROJECT_DESCRIPTION_LABEL"
 			description="COM_MONITOR_PROJECT_DESCRIPTION_DESC"
 			class="inputbox"

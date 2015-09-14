@@ -27,6 +27,22 @@ $id = ($this->item) ? '&id=' . (int) $this->item->id : '';
 				<?php echo $this->form->getInput('name'); ?>
 			</div>
 		</div>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('alias'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('alias'); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('description'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('description'); ?>
+			</div>
+		</div>
 	</div>
 
 	<input type="hidden" name="task" value="" />

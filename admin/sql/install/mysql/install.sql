@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS `#__monitor_projects`(
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Project ID, primary key',
 	`name` varchar(255) NOT NULL COMMENT 'Name of the project',
+	`alias` varchar(255) NOT NULL COMMENT 'Unique alias',
 	`description` mediumtext NOT NULL,
 	`url` varchar(255) NOT NULL COMMENT 'Link to the project homepage',
 	PRIMARY KEY (`id`)

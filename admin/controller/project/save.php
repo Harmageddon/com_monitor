@@ -37,9 +37,16 @@ class MonitorControllerProjectSave extends JControllerBase
 
 		$app = JFactory::getApplication();
 		$model = new MonitorModelProject;
-		$model->save($app->input);
-		$app->enqueueMessage(JText::_('COM_MONITOR_PROJECT_SAVED'));
-		$app->redirect(JRoute::_('index.php?option=com_monitor&view=projects', false));
+
+		if ($model->save($app->input) == false)
+		{
+			$app->redirect(JRoute::_('index.php?option=com_monitor&task=project.edit&id=' . $app->input->getInt('id'), false));
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_MONITOR_PROJECT_SAVED'));
+			$app->redirect(JRoute::_('index.php?option=com_monitor&view=projects', false));
+		}
 
 		return true;
 	}
