@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('formbehavior.chosen', 'select');
+
 $app   = JFactory::getApplication();
 $input = $app->input;
 $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
-
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_monitor&task=comment.edit' . $id); ?>" method="post"
