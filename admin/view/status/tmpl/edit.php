@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('formbehavior.chosen', 'select');
+
 $app = JFactory::getApplication();
 $input = $app->input;
 $id = ($this->item) ? '&id=' . (int) $this->item->id : '';
@@ -16,7 +18,6 @@ $id = ($this->item) ? '&id=' . (int) $this->item->id : '';
 
 <form action="<?php echo JRoute::_('index.php?option=com_monitor&task=project.edit' . $id); ?>" method="post"
 	name="adminForm" id="adminForm" class="form-validate">
-
 
 	<div class="form-horizontal">
 		<div class="control-group">
