@@ -16,13 +16,44 @@
 class MonitorRouter implements JComponentRouterInterface
 {
 	/**
-	 * MonitorRouter constructor.
+	 * @var JApplicationCms
 	 */
-	public function __construct()
+	protected $app;
+
+	/**
+	 * @var JMenu
+	 */
+	protected $menu;
+
+	/**
+	 * MonitorRouter constructor.
+	 *
+	 * @param   JApplicationCms  $app   Application object that the router should use
+	 * @param   JMenu            $menu  Menu object that the router should use
+	 */
+	public function __construct($app = null, $menu = null)
 	{
 		JLoader::register('MonitorModelAbstract', JPATH_ROOT . '/administrator/components/com_monitor/model/abstract.php');
 		JLoader::register('MonitorModelProject', JPATH_ROOT . '/administrator/components/com_monitor/model/project.php');
 		JLoader::register('MonitorModelIssue', JPATH_ROOT . '/administrator/components/com_monitor/model/issue.php');
+
+		if ($app)
+		{
+			$this->app = $app;
+		}
+		else
+		{
+			$this->app = JFactory::getApplication();
+		}
+
+		if ($menu)
+		{
+			$this->menu = $menu;
+		}
+		else
+		{
+			$this->menu = $this->app->getMenu();
+		}
 	}
 
 	/**
@@ -85,15 +116,13 @@ class MonitorRouter implements JComponentRouterInterface
 			return $url;
 		}
 
-		$menu = JFactory::getApplication()->getMenu();
-
 		if (empty($query['Itemid']))
 		{
-			$menuItem = $menu->getActive();
+			$menuItem = $this->menu->getActive();
 		}
 		else
 		{
-			$menuItem = $menu->getItem($query['Itemid']);
+			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
 		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
@@ -255,15 +284,13 @@ class MonitorRouter implements JComponentRouterInterface
 
 		$query = array();
 
-		$menu = JFactory::getApplication()->getMenu();
-
 		if (empty($query['Itemid']))
 		{
-			$menuItem = $menu->getActive();
+			$menuItem = $this->menu->getActive();
 		}
 		else
 		{
-			$menuItem = $menu->getItem($query['Itemid']);
+			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
 		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
