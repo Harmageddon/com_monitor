@@ -45,7 +45,7 @@ class MonitorModelIssue extends MonitorModelAbstract
 	/**
 	 * @var stdClass The default status.
 	 */
-	private $defaultStatus = null;
+	private static $defaultStatus = null;
 
 	/**
 	 * Retrieves an issue from the database.
@@ -235,23 +235,25 @@ class MonitorModelIssue extends MonitorModelAbstract
 	 *
 	 * @return mixed Object for the default status, if set; null, if no default status is set.
 	 */
-	public function getDefaultStatus()
+	public static function getDefaultStatus()
 	{
-		if ($this->defaultStatus )
+		if (self::$defaultStatus )
 		{
-			return $this->defaultStatus;
+			return self::$defaultStatus;
 		}
 
-		$query = $this->db->getQuery(true);
+		$db = JFactory::getDbo();
+
+		$query = $db->getQuery(true);
 		$query->select('name, id, style, open')
 			->from('#__monitor_status')
 			->where('`is_default` = 1');
 
-		$this->db->setQuery($query);
+		$db->setQuery($query);
 
-		$this->defaultStatus = $this->db->loadObject();
+		self::$defaultStatus = $db->loadObject();
 
-		return $this->defaultStatus;
+		return self::$defaultStatus;
 	}
 
 	/**

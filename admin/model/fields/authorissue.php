@@ -41,7 +41,7 @@ class JFormFieldAuthorIssue extends JFormFieldList
 			->order('u.name');
 
 		// Setup the query
-		$db->setQuery($query)->execute();
+		$db->setQuery($query);
 
 		$users = $db->loadObjectList();
 
