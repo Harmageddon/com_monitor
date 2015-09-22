@@ -41,17 +41,7 @@ class MonitorViewIssuesList extends MonitorViewAbstract
 	 */
 	public function render()
 	{
-		$issues = $this->model->getIssues();
-
-		$this->items = array_filter(
-			$issues,
-			function ($issue)
-			{
-				$user = JFactory::getUser();
-
-				return in_array($issue->access, $user->getAuthorisedViewLevels());
-			}
-		);
+		$this->items = $this->model->getIssues();
 
 		$this->filterForm = $this->model->getFilterForm();
 

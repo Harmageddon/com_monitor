@@ -81,6 +81,10 @@ class MonitorModelIssue extends MonitorModelAbstract
 	{
 		$query = $this->buildQuery();
 
+		// Filter by ACL
+		$user = JFactory::getUser();
+		$query->where('cl.access IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
+
 		// Filter by project: Filter from form takes precedence over ID given by constructor.
 		if ($this->filters !== null && isset($this->filters['project_id']) && (int) $this->filters['project_id'] !== 0)
 		{
