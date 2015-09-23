@@ -36,7 +36,7 @@ class MonitorControllerStatusOrderdown extends JControllerBase
 
 		$app = JFactory::getApplication();
 
-		$model = new MonitorModelStatus;
+		$model = new MonitorModelStatus($app);
 		$cid = $this->input->get('cid', array(), 'array');
 		$id = $cid ? $cid[0] : $this->input->getInt('id');
 		$model->order($id, false);

@@ -244,6 +244,8 @@ class MonitorRouter implements JComponentRouterInterface
 
 			$project = $modelProject->getProject();
 
+			var_dump($modelProject->getProjects());
+
 			if ($project)
 			{
 				$url[0] = $project->alias;

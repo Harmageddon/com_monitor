@@ -36,7 +36,7 @@ class MonitorControllerProjectSave extends JControllerBase
 		}
 
 		$app = JFactory::getApplication();
-		$model = new MonitorModelProject;
+		$model = new MonitorModelProject($app);
 
 		if ($model->save($app->input) == false)
 		{

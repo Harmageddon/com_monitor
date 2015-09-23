@@ -156,13 +156,15 @@ class MonitorRouterTest extends TestCaseDatabase
 			{
 				$url = implode('/', $router->build($sample['query']));
 
+				$description = "Active Item: " . $menu->getActive()->link . "\n";
+
 				if (isset($sample['exceptions'][$i]))
 				{
-					$this->assertEquals($sample['exceptions'][$i], $url);
+					$this->assertEquals($sample['exceptions'][$i], $url, $description);
 				}
 				else
 				{
-					$this->assertEquals($sample['expected'], $url);
+					$this->assertEquals($sample['expected'], $url, $description);
 				}
 			}
 		}

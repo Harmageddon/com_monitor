@@ -29,15 +29,16 @@ class MonitorControllerIssueSave extends JControllerBase
 	 */
 	public function execute()
 	{
+		$app = JFactory::getApplication();
+
 		$id = $this->input->getInt('id');
-		$model = new MonitorModelIssue;
+		$model = new MonitorModelIssue($app);
 
 		if (!$model->canEdit(JFactory::getUser(), $id))
 		{
 			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		$app = JFactory::getApplication();
 		$issue_id = $model->save($this->input);
 		$app->enqueueMessage(\JText::_('COM_MONITOR_ISSUE_SAVED'));
 

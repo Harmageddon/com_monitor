@@ -24,8 +24,6 @@ class MonitorControllerIssueDisplay extends JControllerBase
 	 */
 	public function execute()
 	{
-		$user = JFactory::getUser();
-
 		$model = new MonitorModelIssue;
 		$model->setIssueId($this->input->getInt('id'));
 		$view = new MonitorViewIssueHtml($model);
