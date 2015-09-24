@@ -57,7 +57,10 @@ class MonitorTestMockMenu
 			false
 		);
 
-		self::createMenuSampleData();
+		if (count(self::$data) == 0)
+		{
+			self::createMenuSampleData();
+		}
 
 		$mockObject->expects($test->any())
 			->method('getItem')
@@ -79,7 +82,7 @@ class MonitorTestMockMenu
 	 *
 	 * @return null
 	 */
-	protected static function createMenuSampleData()
+	public static function createMenuSampleData()
 	{
 		self::createMenuItem(
 			array(

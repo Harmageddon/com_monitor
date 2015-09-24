@@ -20,7 +20,7 @@ class MonitorRouterTest extends TestCase
 	 */
 	private $samples = array(
 		array(
-			'query'    => '',
+			'query'    => array(),
 			'expected' => null,
 		),
 		array(
@@ -119,7 +119,7 @@ class MonitorRouterTest extends TestCase
 				'task' => 'comment.edit',
 				'id'   => '1',
 			),
-			'expected' => 'projects',
+			'expected' => 'comment/edit/1',
 			'exceptions' => array(),
 		),
 		array(
@@ -127,7 +127,7 @@ class MonitorRouterTest extends TestCase
 				'task'     => 'comment.new',
 				'issue_id' => '1',
 			),
-			'expected' => 'projects',
+			'expected' => 'comment/new/1',
 			'exceptions' => array(),
 		),
 	);
@@ -144,21 +144,26 @@ class MonitorRouterTest extends TestCase
 
 		class_exists('MonitorTestMockMenu');
 
-		$menu = MonitorTestMockMenu::create($this);
 		$modelProject = MonitorTestMockModelProject::create($this);
 		$modelIssue = MonitorTestMockModelIssue::create($this);
 
-		$router = new MonitorRouter($this->getMockCmsApp(), $menu, $modelProject, $modelIssue);
+		MonitorTestMockMenu::createMenuSampleData();
 
 		for ($i = 0; $i < MonitorTestMockMenu::getItemCount(); $i++)
 		{
 			MonitorTestMockMenu::setActiveIndex($i);
+			$menu = MonitorTestMockMenu::create($this);
+
+			$router = new MonitorRouter($this->getMockCmsApp(), $menu, $modelProject, $modelIssue);
 
 			foreach ($this->samples as $sample)
 			{
+				$description = "Active Item: ($i) " . $menu->getActive()->link . "\n"
+					. "Query: " . http_build_query($sample['query']);
+
 				$url = implode('/', $router->build($sample['query']));
 
-				$description = "Active Item: " . $menu->getActive()->link . "\n";
+				// TODO: Test query rest
 
 				if (isset($sample['exceptions'][$i]))
 				{
