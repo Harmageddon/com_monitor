@@ -80,7 +80,8 @@ class MonitorTestMockModelIssue
 	 */
 	private static function createSampleData()
 	{
-		self::createSampleObject(0, "Issue", "test-issue");
+		self::createSampleObject(0, "Issue 0", 0);
+		self::createSampleObject(1, "Issue 1", 0);
 	}
 
 	/**
