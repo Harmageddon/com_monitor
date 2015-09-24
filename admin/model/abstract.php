@@ -60,7 +60,7 @@ abstract class MonitorModelAbstract extends JModelDatabase
 	 *
 	 * @throws Exception
 	 */
-	public function __construct($application, $loadFilters = true)
+	public function __construct($application = null, $loadFilters = true)
 	{
 		parent::__construct();
 
@@ -106,7 +106,7 @@ abstract class MonitorModelAbstract extends JModelDatabase
 				$this->getState()->set('list.limit', $limit);
 			}
 		}
-		$this->application = $application;}
+	}
 
 	/**
 	 * Counts the number of items resulting from a given database query.
@@ -130,7 +130,7 @@ abstract class MonitorModelAbstract extends JModelDatabase
 		$defaultLimit = $this->app->get('list_limit');
 		$limit = $this->getState()->get('list.limit', $defaultLimit);
 
-		$this->pagination = new JPagination($count, $offset, $limit);
+		$this->pagination = new JPagination($count, $offset, $limit, '', $this->app);
 
 		if ($query instanceof JDatabaseQueryLimitable)
 		{

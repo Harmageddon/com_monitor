@@ -167,7 +167,7 @@ class MonitorRouter implements JComponentRouterInterface
 		}
 		elseif ($query['view'] === 'issues' || $query['view'] === 'issue')
 		{
-			$modelProject = new MonitorModelProject(false);
+			$modelProject = new MonitorModelProject($this->app, false);
 
 			if ($query['view'] === 'issues')
 			{
@@ -190,7 +190,7 @@ class MonitorRouter implements JComponentRouterInterface
 				{
 					if (!$menuViewSameIssue || $menuEditing)
 					{
-						$modelIssue = new MonitorModelIssue(false);
+						$modelIssue = new MonitorModelIssue($this->app, false);
 						$modelIssue->setIssueId($query['id']);
 						$issue = $modelIssue->getIssue();
 
@@ -239,7 +239,7 @@ class MonitorRouter implements JComponentRouterInterface
 		// {project}
 		else
 		{
-			$modelProject = new MonitorModelProject(false);
+			$modelProject = new MonitorModelProject($this->app, false);
 			$modelProject->setProjectId($query['id']);
 
 			$project = $modelProject->getProject();
@@ -320,7 +320,8 @@ class MonitorRouter implements JComponentRouterInterface
 			// {project}
 			if (!isset($segments[1]))
 			{
-				$model = new MonitorModelProject(false);
+				$model = new MonitorModelProject($this->app, false);
+				print_r($model->getProjects());
 				$id    = $model->resolveAlias($segments[0]);
 
 				$query['view'] = 'project';
@@ -331,7 +332,7 @@ class MonitorRouter implements JComponentRouterInterface
 				// {project}/issues
 				if ($segments[1] == 'issues')
 				{
-					$model = new MonitorModelProject(false);
+					$model = new MonitorModelProject($this->app, false);
 					$id    = $model->resolveAlias($segments[0]);
 
 					$query['view'] = 'issues';

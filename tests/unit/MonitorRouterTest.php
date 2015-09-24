@@ -146,7 +146,7 @@ class MonitorRouterTest extends TestCaseDatabase
 
 		$menu = MonitorTestMockMenu::create($this);
 
-		$router = new MonitorRouter($this->getMockApplication(), $menu);
+		$router = new MonitorRouter($this->getMockCmsApp(), $menu);
 
 		for ($i = 0; $i < MonitorTestMockMenu::getItemCount(); $i++)
 		{
@@ -181,18 +181,6 @@ class MonitorRouterTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Returns the database operation executed in test setup.
-	 *
-	 * @return  PHPUnit_Extensions_Database_Operation_IDatabaseOperation
-	 *
-	 * @since   12.1
-	 */
-	protected function getSetUpOperation()
-	{
-		return PHPUnit_Extensions_Database_Operation_Factory::NONE();
-	}
-
-	/**
 	 * This method is called before the first test of this test class is run.
 	 *
 	 * @return  void
@@ -203,7 +191,14 @@ class MonitorRouterTest extends TestCaseDatabase
 	{
 		parent::setUpBeforeClass();
 
-		self::$driver->setQuery(file_get_contents(JPATH_SITE . '/components/com_monitor/tests/unit/stubs/database/tables.sql'));
-		self::$driver->execute();
+		$queries = self::$driver->splitSql(file_get_contents(JPATH_SITE . '/components/com_monitor/tests/unit/stubs/database/tables.sql'));
+
+		foreach ($queries as $query)
+		{
+			if (!empty(trim($query)))
+			{
+				self::$driver->setQuery($query)->execute();
+			}
+		}
 	}
 }

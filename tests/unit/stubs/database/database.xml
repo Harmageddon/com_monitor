@@ -2,7 +2,7 @@
 <dataset>
 	<table name="jos_monitor_projects">
 		<column>id</column>
-		<column>project</column>
+		<column>name</column>
 		<column>alias</column>
 		<column>description</column>
 		<column>url</column>
@@ -60,7 +60,7 @@
 			<value>500</value>
 			<value>Test text 1 2 3.</value>
 			<value>2015-09-22 05:00:00</value>
-			<null />
+			<value>0</value>
 		</row>
 	</table>
 	<table name="jos_monitor_status">
