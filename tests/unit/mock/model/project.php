@@ -15,7 +15,7 @@
  */
 class MonitorTestMockModelProject
 {
-	private static $projectId = 0;
+	private static $projectId = 1;
 
 	private static $data = array();
 	/**
@@ -82,7 +82,7 @@ class MonitorTestMockModelProject
 	 */
 	private static function createSampleData()
 	{
-		self::createSampleObject(0, "Project", "test-project");
+		self::createSampleObject(1, "Project", "test-project");
 	}
 
 	/**

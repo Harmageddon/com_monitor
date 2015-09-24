@@ -132,8 +132,6 @@ class MonitorRouter implements JComponentRouterInterface
 		 * comment/edit/{comment}
 		*/
 
-		$url = array();
-
 		// Convert task to view/layout format.
 		if (isset($query['task']))
 		{
@@ -145,9 +143,10 @@ class MonitorRouter implements JComponentRouterInterface
 
 		if (!isset($query['view']))
 		{
-			return $url;
+			return array();
 		}
 
+		// Get the active menu item
 		if (empty($query['Itemid']))
 		{
 			$menuItem = $this->menu->getActive();
@@ -157,128 +156,20 @@ class MonitorRouter implements JComponentRouterInterface
 			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
-		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
-
-		if ($query['view'] === 'projects')
+		switch ($query['view'])
 		{
-			if ($menuView !== 'projects')
-			{
-				$url[0] = 'projects';
-			}
-
-			unset($query['view']);
-		}
-		elseif ($query['view'] === 'comment')
-		{
-			if ($menuView !== 'comment')
-			{
-				$url[0] = 'comment';
-			}
-
-			if (isset($query['id']))
-			{
-				$url[1] = 'edit';
-				$url[2] = $query['id'];
-
-				unset($query['id']);
-			}
-			elseif (isset($query['issue_id']))
-			{
-				$url[1] = 'new';
-				$url[2] = $query['issue_id'];
-
-				unset($query['issue_id']);
-			}
-
-			if (isset($query['layout']))
-			{
-				unset($query['layout']);
-			}
-
-			unset($query['view']);
-		}
-		elseif ($query['view'] === 'issues' || $query['view'] === 'issue')
-		{
-			if ($query['view'] === 'issues')
-			{
-				$this->modelProject->setProjectId($query['project_id']);
-				unset($query['project_id']);
-
-				if (!($menuView === 'issues' && $this->modelProject->getProjectId() === $menuItem->query['project_id']))
-				{
-					$url[1] = 'issues';
-				}
-			}
-			else
-			{
-				$hasId = isset($query['id']);
-				$menuViewSameIssue = $hasId && isset($menuItem->query['id']) && $menuView === 'issue' && $query['id'] === $menuItem->query['id'];
-				$editing = isset($query['layout']) && $query['layout'] == 'edit';
-				$menuEditing = isset($menuItem->query['layout']) && $menuItem->query['layout'] == 'edit';
-
-				if ($hasId)
-				{
-					if (!$menuViewSameIssue || $menuEditing)
-					{
-						$this->modelIssue->setIssueId($query['id']);
-						$issue = $this->modelIssue->getIssue();
-
-						if ($issue)
-						{
-							$this->modelProject->setProjectId($issue->project_id);
-
-							$url[1] = $query['id'];
-						}
-					}
-
-					unset($query['id']);
-				}
-
-				if (isset($query['layout']) && $query['layout'] === 'edit')
-				{
-					if (!isset($url[1]) && !isset($query['id']) && isset($query['project_id']))
-					{
-						$this->modelProject->setProjectId($query['project_id']);
-						unset($query['project_id']);
-
-						$url[1] = 'new';
-					}
-					else
-					{
-						$url[2] = 'edit';
-					}
-
-					unset($query['layout']);
-				}
-			}
-
-			if (!(($menuView === 'issues' && $this->modelProject->getProjectId() === $menuItem->query['project_id'])
-				|| ($menuView === 'project' && $this->modelProject->getProjectId() === $menuItem->query['id'])))
-			{
-				$project = $this->modelProject->getProject();
-
-				if ($project)
-				{
-					$url[0] = $project->alias;
-				}
-			}
-
-			unset($query['view']);
-		}
-		// {project}
-		else
-		{
-			$this->modelProject->setProjectId($query['id']);
-
-			$project = $this->modelProject->getProject();
-
-			if ($project)
-			{
-				$url[0] = $project->alias;
-				unset($query['id']);
-			}
-
-			unset($query['view']);
+			case 'projects':
+				$url = $this->buildProjects($query, $menuItem);
+				break;
+			case 'comment':
+				$url = $this->buildComment($query, $menuItem);
+				break;
+			case 'issues':
+			case 'issue':
+				$url = $this->buildIssue($query, $menuItem);
+				break;
+			default:
+				$url = $this->buildProject($query, $menuItem);
 		}
 
 		ksort($url);
@@ -379,5 +270,191 @@ class MonitorRouter implements JComponentRouterInterface
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Builds an URL for the "projects" view.
+	 *
+	 * @param   array     &$query    An array of URL arguments.
+	 * @param   stdClass  $menuItem  The active menu item.
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 */
+	private function buildProjects(&$query, $menuItem)
+	{
+		$url = array();
+
+		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : '';
+
+		if ($menuView !== 'projects')
+		{
+			$url[0] = 'projects';
+		}
+
+		unset($query['view']);
+
+		return $url;
+	}
+
+	/**
+	 * Builds an URL for the "comment" view.
+	 *
+	 * @param   array     &$query    An array of URL arguments.
+	 * @param   stdClass  $menuItem  The active menu item.
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 */
+	private function buildComment(&$query, $menuItem)
+	{
+		$url = array();
+
+		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
+
+		if ($menuView !== 'comment')
+		{
+			$url[0] = 'comment';
+		}
+
+		if (isset($query['id']))
+		{
+			$url[1] = 'edit';
+			$url[2] = $query['id'];
+
+			unset($query['id']);
+		}
+		elseif (isset($query['issue_id']))
+		{
+			$url[1] = 'new';
+			$url[2] = $query['issue_id'];
+
+			unset($query['issue_id']);
+		}
+
+		if (isset($query['layout']))
+		{
+			unset($query['layout']);
+		}
+
+		unset($query['view']);
+
+		return $url;
+	}
+
+	/**
+	 * Builds an URL for the "issue" and "issues" views.
+	 *
+	 * @param   array     &$query    An array of URL arguments.
+	 * @param   stdClass  $menuItem  The active menu item.
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 */
+	private function buildIssue(&$query, $menuItem)
+	{
+		$url = array();
+
+		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
+
+		$menuViewSameProjectIssues = $menuView === 'issues' && $this->modelProject->getProjectId() === (int) $menuItem->query['project_id'];
+		$menuViewSameProject       = $menuView === 'project' && $this->modelProject->getProjectId() === (int) $menuItem->query['id'];
+
+		if ($query['view'] === 'issues')
+		{
+			$this->modelProject->setProjectId($query['project_id']);
+			unset($query['project_id']);
+
+			if (!($menuViewSameProjectIssues))
+			{
+				$url[1] = 'issues';
+			}
+		}
+		else
+		{
+			$hasId             = isset($query['id']);
+			$menuViewSameIssue = $hasId && isset($menuItem->query['id']) && $menuView === 'issue' && $query['id'] === $menuItem->query['id'];
+			$editing           = isset($query['layout']) && $query['layout'] == 'edit';
+			$menuEditing       = isset($menuItem->query['layout']) && $menuItem->query['layout'] === 'edit';
+
+			if ($hasId)
+			{
+				if (!$menuViewSameIssue || $menuEditing)
+				{
+					$this->modelIssue->setIssueId($query['id']);
+					$issue = $this->modelIssue->getIssue();
+
+					if ($issue)
+					{
+						$this->modelProject->setProjectId($issue->project_id);
+
+						$url[1] = $query['id'];
+					}
+				}
+
+				unset($query['id']);
+			}
+
+			if ($editing)
+			{
+				if (!isset($url[1]) && !isset($query['id']) && isset($query['project_id']))
+				{
+					$this->modelProject->setProjectId($query['project_id']);
+					unset($query['project_id']);
+
+					$url[1] = 'new';
+				}
+				else
+				{
+					$url[2] = 'edit';
+				}
+
+				unset($query['layout']);
+			}
+		}
+
+		if (!($menuViewSameProjectIssues || $menuViewSameProject || (isset($menuViewSameIssue) && $menuViewSameIssue)))
+		{
+			$project = $this->modelProject->getProject();
+
+			if ($project)
+			{
+				$url[0] = $project->alias;
+			}
+		}
+
+		unset($query['view']);
+
+		return $url;
+	}
+
+	/**
+	 * Builds an URL for the "project" view.
+	 *
+	 * @param   array     &$query    An array of URL arguments.
+	 * @param   stdClass  $menuItem  The active menu item.
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 */
+	private function buildProject(&$query, $menuItem)
+	{
+		$url = array();
+
+		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
+
+		$this->modelProject->setProjectId($query['id']);
+
+		$project = $this->modelProject->getProject();
+
+		if ($project)
+		{
+			if (!($menuView === 'project' && $query['id'] === $menuItem->query['id']))
+			{
+				$url[0] = $project->alias;
+			}
+
+			unset($query['id']);
+		}
+
+		unset($query['view']);
+
+		return $url;
 	}
 }

@@ -111,6 +111,7 @@ class MonitorRouterTest extends TestCase
 			'expected' => 'test-project/new',
 			'exceptions' => array(
 				1 => 'new',
+				2 => 'new',
 				7 => '',
 			),
 		),
