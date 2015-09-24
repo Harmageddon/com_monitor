@@ -132,6 +132,8 @@ class MonitorRouter implements JComponentRouterInterface
 		 * comment/edit/{comment}
 		*/
 
+		// TODO: What about the option?
+
 		// Convert task to view/layout format.
 		if (isset($query['task']))
 		{
@@ -238,7 +240,6 @@ class MonitorRouter implements JComponentRouterInterface
 			if (!isset($segments[1]))
 			{
 				$model = new MonitorModelProject($this->app, false);
-				print_r($model->getProjects());
 				$id    = $model->resolveAlias($segments[0]);
 
 				$query['view'] = 'project';
@@ -286,6 +287,7 @@ class MonitorRouter implements JComponentRouterInterface
 
 		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : '';
 
+		// If the menu item already points to "projects", return an empty subsequent URL.
 		if ($menuView !== 'projects')
 		{
 			$url[0] = 'projects';
@@ -354,13 +356,13 @@ class MonitorRouter implements JComponentRouterInterface
 
 		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
 
-		$menuViewSameProjectIssues = $menuView === 'issues' && $this->modelProject->getProjectId() === (int) $menuItem->query['project_id'];
-		$menuViewSameProject       = $menuView === 'project' && $this->modelProject->getProjectId() === (int) $menuItem->query['id'];
-
 		if ($query['view'] === 'issues')
 		{
 			$this->modelProject->setProjectId($query['project_id']);
 			unset($query['project_id']);
+
+			// Does the menu item point to the "issues" view for the same project?
+			$menuViewSameProjectIssues = $menuView === 'issues' && $this->modelProject->getProjectId() === (int) $menuItem->query['project_id'];
 
 			if (!($menuViewSameProjectIssues))
 			{
@@ -410,7 +412,12 @@ class MonitorRouter implements JComponentRouterInterface
 			}
 		}
 
-		if (!($menuViewSameProjectIssues || $menuViewSameProject || (isset($menuViewSameIssue) && $menuViewSameIssue)))
+		// Does the menu item point to the "project" view for the same project?
+		$menuViewSameProject       = $menuView === 'project' && $this->modelProject->getProjectId() === (int) $menuItem->query['id'];
+		$menuViewSameProjectIssues = $menuView === 'issues' && $this->modelProject->getProjectId() === (int) $menuItem->query['project_id'];
+		$menuViewSameIssue         = isset($menuViewSameIssue) && $menuViewSameIssue;
+
+		if (!($menuViewSameProjectIssues || $menuViewSameProject || $menuViewSameIssue))
 		{
 			$project = $this->modelProject->getProject();
 

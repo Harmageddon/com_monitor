@@ -16,135 +16,36 @@
 class MonitorRouterTest extends TestCase
 {
 	/**
-	 * @var array Sample menu queries to test the build and parse functions.
-	 */
-	private $samples = array(
-		array(
-			'query'    => array(),
-			'expected' => null,
-		),
-		array(
-			'query' => array(
-				'view' => 'projects',
-			),
-			'expected' => 'projects',
-			'exceptions' => array(
-				0 => '',
-			),
-		),
-		array(
-			'query' => array(
-				'view' => 'project',
-				'id'   => '1',
-			),
-			'expected' => 'test-project',
-			'exceptions' => array(
-				1 => '',
-			),
-		),
-		array(
-			'query' => array(
-				'view'       => 'issues',
-				'project_id' => '1',
-			),
-			'expected' => 'test-project/issues',
-			'exceptions' => array(
-				1 => 'issues',
-				2 => '',
-			),
-		),
-		array(
-			'query' => array(
-				'view' => 'issue',
-				'id'   => '1',
-			),
-			'expected' => 'test-project/1',
-			'exceptions' => array(
-				3 => '',
-				1 => '1',
-				2 => '1',
-			),
-		),
-		array(
-			'query' => array(
-				'task' => 'issue.edit',
-				'id'   => '1',
-			),
-			'expected' => 'test-project/1/edit',
-			'exceptions' => array(
-				3 => 'edit',
-				4 => '',
-				1 => '1/edit',
-				2 => '1/edit',
-			),
-		),
-		array(
-			'query' => array(
-				'view' => 'issue',
-				'id'   => '2',
-			),
-			'expected' => 'test-project/2',
-			'exceptions' => array(
-				5 => '',
-				1 => '2',
-				2 => '2',
-			),
-		),
-		array(
-			'query' => array(
-				'task' => 'issue.edit',
-				'id'   => '2',
-			),
-			'expected' => 'test-project/2/edit',
-			'exceptions' => array(
-				5 => 'edit',
-				6 => '',
-				1 => '2/edit',
-				2 => '2/edit',
-			),
-		),
-		array(
-			'query' => array(
-				'task'       => 'issue.edit',
-				'project_id' => '1',
-			),
-			'expected' => 'test-project/new',
-			'exceptions' => array(
-				1 => 'new',
-				2 => 'new',
-				7 => '',
-			),
-		),
-		array(
-			'query' => array(
-				'task' => 'comment.edit',
-				'id'   => '1',
-			),
-			'expected' => 'comment/edit/1',
-			'exceptions' => array(),
-		),
-		array(
-			'query' => array(
-				'task'     => 'comment.new',
-				'issue_id' => '1',
-			),
-			'expected' => 'comment/new/1',
-			'exceptions' => array(),
-		),
-	);
-
-	/**
-	 * Test of the build function.
+	 * MonitorRouterTest constructor.
 	 *
-	 * @return null
+	 * @param   string  $name      Name of the test.
+	 * @param   array   $data      Data
+	 * @param   string  $dataName  Data name
 	 */
-	public function testBuild()
+	public function __construct($name = null, array $data = array(), $dataName = '')
 	{
 		JLoader::register('MonitorRouter', JPATH_ROOT . '/components/com_monitor/router.php');
 		JLoader::registerPrefix('MonitorTest', JPATH_ROOT . '/components/com_monitor/tests/unit', false, true);
 
 		class_exists('MonitorTestMockMenu');
+		class_exists('MonitorTestMockModelProject');
+		class_exists('MonitorTestMockModelIssue');
 
+		parent::__construct($name, $data, $dataName);
+	}
+
+	/**
+	 * Test of the build function.
+	 *
+	 * @param   array   $query       A sample query to test with.
+	 * @param   string  $expected    The expected built URL.
+	 * @param   array   $exceptions  Array of exceptional menu items, where the expected value should be different.
+	 *
+	 * @dataProvider buildProvider
+	 * @return null
+	 */
+	public function testBuild($query, $expected, $exceptions)
+	{
 		$modelProject = MonitorTestMockModelProject::create($this);
 		$modelIssue = MonitorTestMockModelIssue::create($this);
 
@@ -157,24 +58,141 @@ class MonitorRouterTest extends TestCase
 
 			$router = new MonitorRouter($this->getMockCmsApp(), $menu, $modelProject, $modelIssue);
 
-			foreach ($this->samples as $sample)
+			$description = "Active Item: ($i) " . $menu->getActive()->link . "\n"
+				. "Query: " . http_build_query($query);
+
+			$queryCopy = $query;
+			$url = implode('/', $router->build($queryCopy));
+
+			// TODO: Test query rest
+
+			if (isset($exceptions[$i]))
 			{
-				$description = "Active Item: ($i) " . $menu->getActive()->link . "\n"
-					. "Query: " . http_build_query($sample['query']);
-
-				$url = implode('/', $router->build($sample['query']));
-
-				// TODO: Test query rest
-
-				if (isset($sample['exceptions'][$i]))
-				{
-					$this->assertEquals($sample['exceptions'][$i], $url, $description);
-				}
-				else
-				{
-					$this->assertEquals($sample['expected'], $url, $description);
-				}
+				$this->assertEquals($exceptions[$i], $url, $description);
+			}
+			else
+			{
+				$this->assertEquals($expected, $url, $description);
 			}
 		}
+	}
+
+	/**
+	 * Provides sample data for the router to test the build and parse functions.
+	 *
+	 * @return   array  Sample menu queries.
+	 */
+	public function buildProvider()
+	{
+		return array(
+			array(
+				'query'      => array(
+					'view' => 'projects',
+				),
+				'expected'   => 'projects',
+				'exceptions' => array(
+					0 => '',
+				),
+			),
+			array(
+				'query'      => array(
+					'view' => 'project',
+					'id'   => '1',
+				),
+				'expected'   => 'test-project',
+				'exceptions' => array(
+					1 => '',
+				),
+			),
+			array(
+				'query'      => array(
+					'view'       => 'issues',
+					'project_id' => '1',
+				),
+				'expected'   => 'test-project/issues',
+				'exceptions' => array(
+					1 => 'issues',
+					2 => '',
+				),
+			),
+			array(
+				'query'      => array(
+					'view' => 'issue',
+					'id'   => '1',
+				),
+				'expected'   => 'test-project/1',
+				'exceptions' => array(
+					3 => '',
+					1 => '1',
+					2 => '1',
+				),
+			),
+			array(
+				'query'      => array(
+					'task' => 'issue.edit',
+					'id'   => '1',
+				),
+				'expected'   => 'test-project/1/edit',
+				'exceptions' => array(
+					3 => 'edit',
+					4 => '',
+					1 => '1/edit',
+					2 => '1/edit',
+				),
+			),
+			array(
+				'query'      => array(
+					'view' => 'issue',
+					'id'   => '2',
+				),
+				'expected'   => 'test-project/2',
+				'exceptions' => array(
+					5 => '',
+					1 => '2',
+					2 => '2',
+				),
+			),
+			array(
+				'query'      => array(
+					'task' => 'issue.edit',
+					'id'   => '2',
+				),
+				'expected'   => 'test-project/2/edit',
+				'exceptions' => array(
+					5 => 'edit',
+					6 => '',
+					1 => '2/edit',
+					2 => '2/edit',
+				),
+			),
+			array(
+				'query'      => array(
+					'task'       => 'issue.edit',
+					'project_id' => '1',
+				),
+				'expected'   => 'test-project/new',
+				'exceptions' => array(
+					1 => 'new',
+					2 => 'new',
+					7 => '',
+				),
+			),
+			array(
+				'query'      => array(
+					'task' => 'comment.edit',
+					'id'   => '1',
+				),
+				'expected'   => 'comment/edit/1',
+				'exceptions' => array(),
+			),
+			array(
+				'query'      => array(
+					'task'     => 'comment.new',
+					'issue_id' => '1',
+				),
+				'expected'   => 'comment/new/1',
+				'exceptions' => array(),
+			),
+		);
 	}
 }
