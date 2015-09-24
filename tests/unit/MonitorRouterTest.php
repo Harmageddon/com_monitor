@@ -13,7 +13,7 @@
  * @author  Constantin Romankiewicz  <constantin@zweiiconkram.de>
  * @since   1.0
  */
-class MonitorRouterTest extends TestCaseDatabase
+class MonitorRouterTest extends TestCase
 {
 	/**
 	 * @var array Sample menu queries to test the build and parse functions.
@@ -145,8 +145,10 @@ class MonitorRouterTest extends TestCaseDatabase
 		class_exists('MonitorTestMockMenu');
 
 		$menu = MonitorTestMockMenu::create($this);
+		$modelProject = MonitorTestMockModelProject::create($this);
+		$modelIssue = MonitorTestMockModelIssue::create($this);
 
-		$router = new MonitorRouter($this->getMockCmsApp(), $menu);
+		$router = new MonitorRouter($this->getMockCmsApp(), $menu, $modelProject, $modelIssue);
 
 		for ($i = 0; $i < MonitorTestMockMenu::getItemCount(); $i++)
 		{
@@ -166,38 +168,6 @@ class MonitorRouterTest extends TestCaseDatabase
 				{
 					$this->assertEquals($sample['expected'], $url, $description);
 				}
-			}
-		}
-	}
-
-	/**
-	 * Gets the data set to be loaded into the database during setup
-	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
-	 */
-	protected function getDataSet()
-	{
-		return $this->createXMLDataSet(JPATH_ROOT . '/components/com_monitor/tests/unit/stubs/database/database.xml');
-	}
-
-	/**
-	 * This method is called before the first test of this test class is run.
-	 *
-	 * @return  void
-	 *
-	 * @see TestCaseDatabase::setUpBeforeClass
-	 */
-	public static function setUpBeforeClass()
-	{
-		parent::setUpBeforeClass();
-
-		$queries = self::$driver->splitSql(file_get_contents(JPATH_SITE . '/components/com_monitor/tests/unit/stubs/database/tables.sql'));
-
-		foreach ($queries as $query)
-		{
-			if (!empty(trim($query)))
-			{
-				self::$driver->setQuery($query)->execute();
 			}
 		}
 	}

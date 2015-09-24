@@ -26,12 +26,26 @@ class MonitorRouter implements JComponentRouterInterface
 	protected $menu;
 
 	/**
+	 * @var MonitorModelProject
+	 */
+	private $modelProject;
+
+	/**
+	 * @var MonitorModelIssue
+	 */
+	private $modelIssue;
+
+	/**
 	 * MonitorRouter constructor.
 	 *
-	 * @param   JApplicationCms  $app   Application object that the router should use
-	 * @param   JMenu            $menu  Menu object that the router should use
+	 * @param   JApplicationCms      $app           Application object that the router should use
+	 * @param   JMenu                $menu          Menu object that the router should use
+	 * @param   MonitorModelProject  $modelProject  Project model to use in the router.
+	 * @param   MonitorModelIssue    $modelIssue    Issue model to use in the router.
+	 *
+	 * @throws Exception
 	 */
-	public function __construct($app = null, $menu = null)
+	public function __construct($app = null, $menu = null, $modelProject = null, $modelIssue = null)
 	{
 		JLoader::register('MonitorModelAbstract', JPATH_ROOT . '/administrator/components/com_monitor/model/abstract.php');
 		JLoader::register('MonitorModelProject', JPATH_ROOT . '/administrator/components/com_monitor/model/project.php');
@@ -53,6 +67,24 @@ class MonitorRouter implements JComponentRouterInterface
 		else
 		{
 			$this->menu = $this->app->getMenu();
+		}
+
+		if ($modelProject)
+		{
+			$this->modelProject = $modelProject;
+		}
+		else
+		{
+			$this->modelProject = new MonitorModelProject($app, false);
+		}
+
+		if ($modelIssue)
+		{
+			$this->modelIssue = $modelIssue;
+		}
+		else
+		{
+			$this->modelIssue = new MonitorModelIssue($app, false);
 		}
 	}
 
@@ -167,14 +199,12 @@ class MonitorRouter implements JComponentRouterInterface
 		}
 		elseif ($query['view'] === 'issues' || $query['view'] === 'issue')
 		{
-			$modelProject = new MonitorModelProject($this->app, false);
-
 			if ($query['view'] === 'issues')
 			{
-				$modelProject->setProjectId($query['project_id']);
+				$this->modelProject->setProjectId($query['project_id']);
 				unset($query['project_id']);
 
-				if (!($menuView === 'issues' && $modelProject->getProjectId() === $menuItem->query['project_id']))
+				if (!($menuView === 'issues' && $this->modelProject->getProjectId() === $menuItem->query['project_id']))
 				{
 					$url[1] = 'issues';
 				}
@@ -190,13 +220,12 @@ class MonitorRouter implements JComponentRouterInterface
 				{
 					if (!$menuViewSameIssue || $menuEditing)
 					{
-						$modelIssue = new MonitorModelIssue($this->app, false);
-						$modelIssue->setIssueId($query['id']);
-						$issue = $modelIssue->getIssue();
+						$this->modelIssue->setIssueId($query['id']);
+						$issue = $this->modelIssue->getIssue();
 
 						if ($issue)
 						{
-							$modelProject->setProjectId($issue->project_id);
+							$this->modelProject->setProjectId($issue->project_id);
 
 							$url[1] = $query['id'];
 						}
@@ -209,7 +238,7 @@ class MonitorRouter implements JComponentRouterInterface
 				{
 					if (!isset($url[1]) && !isset($query['id']) && isset($query['project_id']))
 					{
-						$modelProject->setProjectId($query['project_id']);
+						$this->modelProject->setProjectId($query['project_id']);
 						unset($query['project_id']);
 
 						$url[1] = 'new';
@@ -223,10 +252,10 @@ class MonitorRouter implements JComponentRouterInterface
 				}
 			}
 
-			if (!(($menuView === 'issues' && $modelProject->getProjectId() === $menuItem->query['project_id'])
-				|| ($menuView === 'project' && $modelProject->getProjectId() === $menuItem->query['id'])))
+			if (!(($menuView === 'issues' && $this->modelProject->getProjectId() === $menuItem->query['project_id'])
+				|| ($menuView === 'project' && $this->modelProject->getProjectId() === $menuItem->query['id'])))
 			{
-				$project = $modelProject->getProject();
+				$project = $this->modelProject->getProject();
 
 				if ($project)
 				{
@@ -239,12 +268,9 @@ class MonitorRouter implements JComponentRouterInterface
 		// {project}
 		else
 		{
-			$modelProject = new MonitorModelProject($this->app, false);
-			$modelProject->setProjectId($query['id']);
+			$this->modelProject->setProjectId($query['id']);
 
-			$project = $modelProject->getProject();
-
-			var_dump($modelProject->getProjects());
+			$project = $this->modelProject->getProject();
 
 			if ($project)
 			{
