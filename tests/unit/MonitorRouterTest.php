@@ -101,21 +101,25 @@ class MonitorRouterTest extends TestCase
 
 			$router = new MonitorRouter($this->getMockCmsApp(), $menu, $modelProject, $modelIssue);
 
-			$description = "Active Item: ($i) " . $menu->getActive()->link . "\n"
-				. "URL: " . $url;
+			$description = "Active Item: ($i) " . $menu->getActive()->link . "\n";
 
 			// TODO: Test query rest
 
 			if (isset($exceptions[$i]))
 			{
 				$segments = explode('/', $exceptions[$i]);
+				$description .= "URL: " . $exceptions[$i];
 			}
 			else
 			{
 				$segments = explode('/', $url);
+				$description .= "URL: " . $url;
 			}
 
 			$query = $router->parse($segments);
+			MonitorRouter::convertTaskToView($query);
+			MonitorRouter::convertTaskToView($queryExpected);
+
 			$this->assertEquals($queryExpected, $query, $description);
 		}
 	}
@@ -130,7 +134,8 @@ class MonitorRouterTest extends TestCase
 		return array(
 			array(
 				'query'      => array(
-					'view' => 'projects',
+					'option' => 'com_monitor',
+					'view'   => 'projects',
 				),
 				'expected'   => 'projects',
 				'exceptions' => array(
@@ -139,8 +144,9 @@ class MonitorRouterTest extends TestCase
 			),
 			array(
 				'query'      => array(
-					'view' => 'project',
-					'id'   => '1',
+					'option' => 'com_monitor',
+					'view'   => 'project',
+					'id'     => '1',
 				),
 				'expected'   => 'test-project',
 				'exceptions' => array(
@@ -149,6 +155,7 @@ class MonitorRouterTest extends TestCase
 			),
 			array(
 				'query'      => array(
+					'option'     => 'com_monitor',
 					'view'       => 'issues',
 					'project_id' => '1',
 				),
@@ -160,8 +167,9 @@ class MonitorRouterTest extends TestCase
 			),
 			array(
 				'query'      => array(
-					'view' => 'issue',
-					'id'   => '1',
+					'option' => 'com_monitor',
+					'view'   => 'issue',
+					'id'     => '1',
 				),
 				'expected'   => 'test-project/1',
 				'exceptions' => array(
@@ -172,8 +180,9 @@ class MonitorRouterTest extends TestCase
 			),
 			array(
 				'query'      => array(
-					'task' => 'issue.edit',
-					'id'   => '1',
+					'option' => 'com_monitor',
+					'task'   => 'issue.edit',
+					'id'     => '1',
 				),
 				'expected'   => 'test-project/1/edit',
 				'exceptions' => array(
@@ -185,8 +194,9 @@ class MonitorRouterTest extends TestCase
 			),
 			array(
 				'query'      => array(
-					'view' => 'issue',
-					'id'   => '2',
+					'option' => 'com_monitor',
+					'view'   => 'issue',
+					'id'     => '2',
 				),
 				'expected'   => 'test-project/2',
 				'exceptions' => array(
@@ -197,8 +207,9 @@ class MonitorRouterTest extends TestCase
 			),
 			array(
 				'query'      => array(
-					'task' => 'issue.edit',
-					'id'   => '2',
+					'option' => 'com_monitor',
+					'task'   => 'issue.edit',
+					'id'     => '2',
 				),
 				'expected'   => 'test-project/2/edit',
 				'exceptions' => array(
@@ -210,6 +221,7 @@ class MonitorRouterTest extends TestCase
 			),
 			array(
 				'query'      => array(
+					'option'     => 'com_monitor',
 					'task'       => 'issue.edit',
 					'project_id' => '1',
 				),
@@ -222,8 +234,9 @@ class MonitorRouterTest extends TestCase
 			),
 			array(
 				'query'      => array(
-					'task' => 'comment.edit',
-					'id'   => '1',
+					'option' => 'com_monitor',
+					'task'   => 'comment.edit',
+					'id'     => '1',
 				),
 				'expected'   => 'comment/edit/1',
 				'exceptions' => array(
@@ -233,7 +246,8 @@ class MonitorRouterTest extends TestCase
 			),
 			array(
 				'query'      => array(
-					'task'     => 'comment.new',
+					'option'   => 'com_monitor',
+					'task'     => 'comment.edit',
 					'issue_id' => '1',
 				),
 				'expected'   => 'comment/new/1',

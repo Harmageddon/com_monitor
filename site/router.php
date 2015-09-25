@@ -15,6 +15,8 @@
  */
 class MonitorRouter implements JComponentRouterInterface
 {
+	const COMPONENT = 'com_monitor';
+
 	/**
 	 * @var JApplicationCms
 	 */
@@ -38,10 +40,10 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * MonitorRouter constructor.
 	 *
-	 * @param   JApplicationCms      $app           Application object that the router should use
-	 * @param   JMenu                $menu          Menu object that the router should use
-	 * @param   MonitorModelProject  $modelProject  Project model to use in the router.
-	 * @param   MonitorModelIssue    $modelIssue    Issue model to use in the router.
+	 * @param   JApplicationCms     $app          Application object that the router should use
+	 * @param   JMenu               $menu         Menu object that the router should use
+	 * @param   MonitorModelProject $modelProject Project model to use in the router.
+	 * @param   MonitorModelIssue   $modelIssue   Issue model to use in the router.
 	 *
 	 * @throws Exception
 	 */
@@ -95,7 +97,7 @@ class MonitorRouter implements JComponentRouterInterface
 	 * This method is executed on each URL, regardless of SEF mode switched
 	 * on or not.
 	 *
-	 * @param   array  $query  An associative array of URL arguments
+	 * @param   array $query An associative array of URL arguments
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 *
@@ -113,7 +115,7 @@ class MonitorRouter implements JComponentRouterInterface
 	 * This method is meant to transform the query parameters into a more human
 	 * readable form. It is only executed when SEF mode is switched on.
 	 *
-	 * @param   array  &$query  An array of URL arguments
+	 * @param   array &$query An array of URL arguments
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 *
@@ -135,7 +137,7 @@ class MonitorRouter implements JComponentRouterInterface
 		// TODO: What about the option?
 
 		// Convert task to view/layout format.
-		$this->convertTaskToView($query);
+		self::convertTaskToView($query);
 
 		if (!isset($query['view']))
 		{
@@ -153,7 +155,7 @@ class MonitorRouter implements JComponentRouterInterface
 		}
 
 		$menuQuery = $menuItem->query;
-		$this->convertTaskToView($menuQuery);
+		self::convertTaskToView($menuQuery);
 
 		switch ($query['view'])
 		{
@@ -177,102 +179,10 @@ class MonitorRouter implements JComponentRouterInterface
 	}
 
 	/**
-	 * Parse method for URLs
-	 * This method is meant to transform the human readable URL back into
-	 * query parameters. It is only executed when SEF mode is switched on.
-	 *
-	 * @param   array  &$segments  The segments of the URL to parse.
-	 *
-	 * @return  array  The URL attributes to be used by the application.
-	 *
-	 * @since   3.3
-	 */
-	public function parse(&$segments)
-	{
-		/*
-		 * Available urls:
-		 *
-		 * projects
-		 * {project}
-		 * {project}/issues
-		 * {project}/{issue}
-		 * {project}/{issue}/edit
-		 * comment/edit/{comment}
-		*/
-
-		$query = array();
-
-		if (empty($query['Itemid']))
-		{
-			$menuItem = $this->menu->getActive();
-		}
-		else
-		{
-			$menuItem = $this->menu->getItem($query['Itemid']);
-		}
-
-		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : null;
-
-		if ($segments[0] == 'projects')
-		{
-			$query['view'] = 'projects';
-		}
-		elseif ($segments[0] == 'comment')
-		{
-			$query['view']   = 'comment';
-			$query['layout'] = 'edit';
-
-			if (isset($segment[1]) && $segment[1] == 'new' && isset($segment[2]))
-			{
-				$query['issue_id'] = (int) $segment[2];
-			}
-			elseif (isset($segment[2]))
-			{
-				$query['id'] = (int) $segment[2];
-			}
-		}
-		else
-		{
-			// {project}
-			if (!isset($segments[1]))
-			{
-				$id    = $this->modelProject->resolveAlias($segments[0]);
-
-				$query['view'] = 'project';
-				$query['id']   = $id;
-			}
-			else
-			{
-				// {project}/issues
-				if ($segments[1] == 'issues')
-				{
-					$id    = $this->modelProject->resolveAlias($segments[0]);
-
-					$query['view'] = 'issues';
-					$query['id']   = $id;
-				}
-				else
-				{
-					$query['view'] = 'issue';
-					$query['id']   = $segments[1];
-
-					// {project}/{issue}/edit
-					if (isset($segments[2]) && $segments[2] == 'edit')
-					{
-						$query['layout'] = 'edit';
-					}
-				}
-			}
-		}
-
-		return $query;
-	}
-
-	/**
 	 * Builds an URL for the "projects" view.
 	 *
-	 * @param   array  &$query     An array of URL arguments.
-	 * @param   array  $menuQuery  The query for the active menu item.
+	 * @param   array &$query    An array of URL arguments.
+	 * @param   array $menuQuery The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
@@ -296,8 +206,8 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "comment" view.
 	 *
-	 * @param   array  &$query     An array of URL arguments.
-	 * @param   array  $menuQuery  The query for the active menu item.
+	 * @param   array &$query    An array of URL arguments.
+	 * @param   array $menuQuery The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
@@ -350,8 +260,8 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "issue" and "issues" views.
 	 *
-	 * @param   array  &$query     An array of URL arguments.
-	 * @param   array  $menuQuery  The query for the active menu item.
+	 * @param   array &$query    An array of URL arguments.
+	 * @param   array $menuQuery The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
@@ -452,8 +362,8 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "project" view.
 	 *
-	 * @param   array  &$query     An array of URL arguments.
-	 * @param   array  $menuQuery  The query for the active menu item.
+	 * @param   array &$query    An array of URL arguments.
+	 * @param   array $menuQuery The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
@@ -485,9 +395,11 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Converts a "task" URL parameter to the view/layout format.
 	 *
-	 * @param   array  &$query  The query to edit.
+	 * @param   array &$query The query to edit.
+	 *
+	 * @return null
 	 */
-	private function convertTaskToView(&$query)
+	public static function convertTaskToView(&$query)
 	{
 		if (isset($query['task']))
 		{
@@ -496,5 +408,181 @@ class MonitorRouter implements JComponentRouterInterface
 			$query['layout'] = $parts[1];
 			unset($query['task']);
 		}
+	}
+
+	/**
+	 * Parse method for URLs
+	 * This method is meant to transform the human readable URL back into
+	 * query parameters. It is only executed when SEF mode is switched on.
+	 *
+	 * @param   array &$segments The segments of the URL to parse.
+	 *
+	 * @return  array  The URL attributes to be used by the application.
+	 *
+	 * @since   3.3
+	 */
+	public function parse(&$segments)
+	{
+		/*
+		 * Available urls:
+		 *
+		 * projects
+		 * {project}
+		 * {project}/issues
+		 * {project}/{issue}
+		 * {project}/{issue}/edit
+		 * comment/edit/{comment}
+		*/
+
+		$query = array(
+			'option' => 'com_monitor',
+		);
+
+		if (empty($query['Itemid']))
+		{
+			$menuItem = $this->menu->getActive();
+		}
+		else
+		{
+			$menuItem = $this->menu->getItem($query['Itemid']);
+		}
+
+		if (empty(array_filter($segments)))
+		{
+			return $menuItem->query;
+		}
+
+		$menuQuery = ($menuItem->query['option'] === self::COMPONENT) ? $menuItem->query : null;
+		self::convertTaskToView($menuQuery);
+
+		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : null;
+
+		if ($segments[0] == 'projects')
+		{
+			$query['view'] = 'projects';
+		}
+		elseif ($segments[0] == 'issues' && ($menuView == 'project' && isset($menuQuery['id'])))
+		{
+			$query['view']       = 'issues';
+			$query['project_id'] = $menuQuery['id'];
+		}
+		elseif ($segments[0] == 'comment')
+		{
+			$query['view']   = 'comment';
+			$query['layout'] = 'edit';
+
+			if (isset($segments[1]) && $segments[1] == 'new' && is_numeric($segments[2]))
+			{
+				$query['issue_id'] = $segments[2];
+			}
+			elseif (is_numeric($segments[2]))
+			{
+				$query['id'] = $segments[2];
+			}
+		}
+		// {issue}
+		elseif (is_numeric($segments[0]))
+		{
+			$query['view'] = 'issue';
+			$query['id']   = $segments[0];
+
+			if (isset($segments[1]) && $segments[1] === 'edit')
+			{
+				$query['layout'] = 'edit';
+			}
+		}
+		// /edit
+		elseif ($segments[0] === 'edit' || $segments[0] === 'new')
+		{
+			$query['layout'] = 'edit';
+
+			if ($menuView === 'comment')
+			{
+				$query['view'] = 'comment';
+
+				if (is_numeric($segments[1]))
+				{
+					if ($segments[0] === 'new')
+					{
+						$query['issue_id'] = $segments[1];
+					}
+					else
+					{
+						$query['id'] = $segments[1];
+					}
+				}
+			}
+			else
+			{
+				$query['view'] = 'issue';
+
+				if ($segments[0] === 'new')
+				{
+					if (isset($menuQuery['id']))
+					{
+						$query['project_id'] = $menuQuery['id'];
+					}
+					elseif (isset($menuQuery['project_id']))
+					{
+						$query['project_id'] = $menuQuery['project_id'];
+					}
+				}
+				else
+				{
+					if (isset($menuQuery['id']))
+					{
+						$query['id'] = $menuQuery['id'];
+					}
+				}
+			}
+		}
+		else
+		{
+			// {project}
+			if (!isset($segments[1]))
+			{
+				$id = $this->modelProject->resolveAlias($segments[0]);
+
+				$query['view'] = 'project';
+				$query['id']   = $id;
+			}
+			else
+			{
+				// {project}/issues
+				if ($segments[1] === 'issues')
+				{
+					$id = $this->modelProject->resolveAlias($segments[0]);
+
+					$query['view']       = 'issues';
+					$query['project_id'] = $id;
+				}
+				else
+				{
+					$query['view'] = 'issue';
+
+					// {project}/new
+					if ($segments[1] === 'new')
+					{
+						$id = $this->modelProject->resolveAlias($segments[0]);
+
+						$query['layout']     = 'edit';
+						$query['project_id'] = $id;
+					}
+					// {project}/{issue}
+					elseif (is_numeric($segments[1]))
+					{
+						$query['id'] = $segments[1];
+
+						// {project}/{issue}/edit
+						if (isset($segments[2]) && $segments[2] == 'edit')
+						{
+							$query['layout'] = 'edit';
+						}
+					}
+				}
+			}
+		}
+
+		return $query;
 	}
 }

@@ -154,6 +154,13 @@ class MonitorTestMockMenu
 				'query'        => array('option' => 'com_monitor', 'task' => 'comment.edit', 'id' => '1'),
 			)
 		);
+		self::createMenuItem(
+			array(
+				'id' => 10,
+				'title'        => 'Other Component',
+				'query'        => array('option' => 'com_content', 'view' => 'featured'),
+			)
+		);
 	}
 
 	/**
