@@ -51,7 +51,7 @@ class MonitorTestMockModelProject
 
 		$setterCallback = function ($id)
 		{
-			self::$projectId = $id;
+			self::$projectId = (int)$id;
 
 			return $id;
 		};

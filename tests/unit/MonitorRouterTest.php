@@ -183,7 +183,10 @@ class MonitorRouterTest extends TestCase
 					'id'   => '1',
 				),
 				'expected'   => 'comment/edit/1',
-				'exceptions' => array(),
+				'exceptions' => array(
+					8 => 'edit/1',
+					9 => '',
+				),
 			),
 			array(
 				'query'      => array(
@@ -191,7 +194,10 @@ class MonitorRouterTest extends TestCase
 					'issue_id' => '1',
 				),
 				'expected'   => 'comment/new/1',
-				'exceptions' => array(),
+				'exceptions' => array(
+					8 => '',
+					9 => 'new/1',
+				),
 			),
 		);
 	}

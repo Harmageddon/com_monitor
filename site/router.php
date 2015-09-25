@@ -135,13 +135,7 @@ class MonitorRouter implements JComponentRouterInterface
 		// TODO: What about the option?
 
 		// Convert task to view/layout format.
-		if (isset($query['task']))
-		{
-			$parts           = explode('.', $query['task']);
-			$query['view']   = $parts[0];
-			$query['layout'] = $parts[1];
-			unset($query['task']);
-		}
+		$this->convertTaskToView($query);
 
 		if (!isset($query['view']))
 		{
@@ -158,20 +152,23 @@ class MonitorRouter implements JComponentRouterInterface
 			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
+		$menuQuery = $menuItem->query;
+		$this->convertTaskToView($menuQuery);
+
 		switch ($query['view'])
 		{
 			case 'projects':
-				$url = $this->buildProjects($query, $menuItem);
+				$url = $this->buildProjects($query, $menuQuery);
 				break;
 			case 'comment':
-				$url = $this->buildComment($query, $menuItem);
+				$url = $this->buildComment($query, $menuQuery);
 				break;
 			case 'issues':
 			case 'issue':
-				$url = $this->buildIssue($query, $menuItem);
+				$url = $this->buildIssue($query, $menuQuery);
 				break;
 			default:
-				$url = $this->buildProject($query, $menuItem);
+				$url = $this->buildProject($query, $menuQuery);
 		}
 
 		ksort($url);
@@ -214,7 +211,7 @@ class MonitorRouter implements JComponentRouterInterface
 			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
-		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
+		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : null;
 
 		if ($segments[0] == 'projects')
 		{
@@ -276,16 +273,16 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "projects" view.
 	 *
-	 * @param   array     &$query    An array of URL arguments.
-	 * @param   stdClass  $menuItem  The active menu item.
+	 * @param   array  &$query     An array of URL arguments.
+	 * @param   array  $menuQuery  The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
-	private function buildProjects(&$query, $menuItem)
+	private function buildProjects(&$query, $menuQuery)
 	{
 		$url = array();
 
-		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : '';
+		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : '';
 
 		// If the menu item already points to "projects", return an empty subsequent URL.
 		if ($menuView !== 'projects')
@@ -301,33 +298,43 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "comment" view.
 	 *
-	 * @param   array     &$query    An array of URL arguments.
-	 * @param   stdClass  $menuItem  The active menu item.
+	 * @param   array  &$query     An array of URL arguments.
+	 * @param   array  $menuQuery  The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
-	private function buildComment(&$query, $menuItem)
+	private function buildComment(&$query, $menuQuery)
 	{
 		$url = array();
 
-		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
+		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : null;
 
-		if ($menuView !== 'comment')
+		$sameView    = $menuView === $query['view'];
+		$sameComment = $sameView && isset($menuQuery['id']) && isset($query['id']) && $menuQuery['id'] === $query['id'];
+		$sameIssue   = $sameView && isset($menuQuery['issue_id']) && isset($query['issue_id']) && $menuQuery['issue_id'] === $query['issue_id'];
+
+		if (!$sameView)
 		{
 			$url[0] = 'comment';
 		}
 
 		if (isset($query['id']))
 		{
-			$url[1] = 'edit';
-			$url[2] = $query['id'];
+			if (!$sameComment)
+			{
+				$url[1] = 'edit';
+				$url[2] = $query['id'];
+			}
 
 			unset($query['id']);
 		}
 		elseif (isset($query['issue_id']))
 		{
-			$url[1] = 'new';
-			$url[2] = $query['issue_id'];
+			if (!$sameIssue)
+			{
+				$url[1] = 'new';
+				$url[2] = $query['issue_id'];
+			}
 
 			unset($query['issue_id']);
 		}
@@ -345,16 +352,16 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "issue" and "issues" views.
 	 *
-	 * @param   array     &$query    An array of URL arguments.
-	 * @param   stdClass  $menuItem  The active menu item.
+	 * @param   array  &$query     An array of URL arguments.
+	 * @param   array  $menuQuery  The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
-	private function buildIssue(&$query, $menuItem)
+	private function buildIssue(&$query, $menuQuery)
 	{
 		$url = array();
 
-		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
+		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : null;
 
 		if ($query['view'] === 'issues')
 		{
@@ -362,7 +369,7 @@ class MonitorRouter implements JComponentRouterInterface
 			unset($query['project_id']);
 
 			// Does the menu item point to the "issues" view for the same project?
-			$menuViewSameProjectIssues = $menuView === 'issues' && $this->modelProject->getProjectId() === (int) $menuItem->query['project_id'];
+			$menuViewSameProjectIssues = $menuView === 'issues' && $this->modelProject->getProjectId() === (int) $menuQuery['project_id'];
 
 			if (!($menuViewSameProjectIssues))
 			{
@@ -372,13 +379,13 @@ class MonitorRouter implements JComponentRouterInterface
 		else
 		{
 			$hasId             = isset($query['id']);
-			$menuViewSameIssue = $hasId && isset($menuItem->query['id']) && $menuView === 'issue' && $query['id'] === $menuItem->query['id'];
+			$menuViewSameIssue = $hasId && isset($menuQuery['id']) && $menuView === 'issue' && $query['id'] === $menuQuery['id'];
 			$editing           = isset($query['layout']) && $query['layout'] == 'edit';
-			$menuEditing       = isset($menuItem->query['layout']) && $menuItem->query['layout'] === 'edit';
+			$menuEditing       = isset($menuQuery['layout']) && $menuQuery['layout'] === 'edit';
 
 			if ($hasId)
 			{
-				if (!$menuViewSameIssue || $menuEditing)
+				if (!$menuViewSameIssue || ($menuEditing && !$editing))
 				{
 					$this->modelIssue->setIssueId($query['id']);
 					$issue = $this->modelIssue->getIssue();
@@ -396,16 +403,24 @@ class MonitorRouter implements JComponentRouterInterface
 
 			if ($editing)
 			{
-				if (!isset($url[1]) && !isset($query['id']) && isset($query['project_id']))
+				if (!isset($url[1]) && !$hasId && isset($query['project_id']))
 				{
+					$menuEditingSameProject = isset($menuQuery['project_id']) && $menuQuery['project_id'] == $query['project_id'];
+
 					$this->modelProject->setProjectId($query['project_id']);
 					unset($query['project_id']);
 
-					$url[1] = 'new';
+					if (!($menuEditing && $menuEditingSameProject))
+					{
+						$url[1] = 'new';
+					}
 				}
 				else
 				{
-					$url[2] = 'edit';
+					if (!$menuViewSameIssue || !$menuEditing)
+					{
+						$url[2] = 'edit';
+					}
 				}
 
 				unset($query['layout']);
@@ -413,11 +428,15 @@ class MonitorRouter implements JComponentRouterInterface
 		}
 
 		// Does the menu item point to the "project" view for the same project?
-		$menuViewSameProject       = $menuView === 'project' && $this->modelProject->getProjectId() === (int) $menuItem->query['id'];
-		$menuViewSameProjectIssues = $menuView === 'issues' && $this->modelProject->getProjectId() === (int) $menuItem->query['project_id'];
-		$menuViewSameIssue         = isset($menuViewSameIssue) && $menuViewSameIssue;
+		$menuViewSameProject       = $menuView === 'project' && $this->modelProject->getProjectId() === (int) $menuQuery['id'];
+		$menuViewSameProjectIssues = $menuView === 'issues' && $this->modelProject->getProjectId() === (int) $menuQuery['project_id'];
+		$menuViewSameIssue         = isset($menuViewSameIssue) && $menuViewSameIssue
+			&& isset($menuEditing) && isset($editing) && (!$menuEditing || $editing);
+		$menuViewSameIssueEditing  = isset($menuViewSameIssue) && $menuViewSameIssue
+			&& isset($menuEditing) && isset($editing) && $menuEditing && $editing;
+		$menuEditingSameProject    = isset($menuEditingSameProject) && $menuEditingSameProject;
 
-		if (!($menuViewSameProjectIssues || $menuViewSameProject || $menuViewSameIssue))
+		if (!($menuViewSameProjectIssues || $menuViewSameProject || $menuViewSameIssue || $menuViewSameIssueEditing || $menuEditingSameProject))
 		{
 			$project = $this->modelProject->getProject();
 
@@ -435,16 +454,16 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "project" view.
 	 *
-	 * @param   array     &$query    An array of URL arguments.
-	 * @param   stdClass  $menuItem  The active menu item.
+	 * @param   array  &$query     An array of URL arguments.
+	 * @param   array  $menuQuery  The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
-	private function buildProject(&$query, $menuItem)
+	private function buildProject(&$query, $menuQuery)
 	{
 		$url = array();
 
-		$menuView = (isset($menuItem->query['view'])) ? $menuItem->query['view'] : null;
+		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : null;
 
 		$this->modelProject->setProjectId($query['id']);
 
@@ -452,7 +471,7 @@ class MonitorRouter implements JComponentRouterInterface
 
 		if ($project)
 		{
-			if (!($menuView === 'project' && $query['id'] === $menuItem->query['id']))
+			if (!($menuView === 'project' && $query['id'] === $menuQuery['id']))
 			{
 				$url[0] = $project->alias;
 			}
@@ -463,5 +482,21 @@ class MonitorRouter implements JComponentRouterInterface
 		unset($query['view']);
 
 		return $url;
+	}
+
+	/**
+	 * Converts a "task" URL parameter to the view/layout format.
+	 *
+	 * @param   array  &$query  The query to edit.
+	 */
+	private function convertTaskToView(&$query)
+	{
+		if (isset($query['task']))
+		{
+			$parts           = explode('.', $query['task']);
+			$query['view']   = $parts[0];
+			$query['layout'] = $parts[1];
+			unset($query['task']);
+		}
 	}
 }
