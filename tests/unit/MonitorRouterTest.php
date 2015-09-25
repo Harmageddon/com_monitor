@@ -78,6 +78,49 @@ class MonitorRouterTest extends TestCase
 	}
 
 	/**
+	 * Test of the build function.
+	 *
+	 * @param   array   $queryExpected  The expected parsed query..
+	 * @param   string  $url            URL to be parsed.
+	 * @param   array   $exceptions     Array of exceptional menu items, where the URL is different.
+	 *
+	 * @dataProvider buildProvider
+	 * @return null
+	 */
+	public function testParse($queryExpected, $url, $exceptions)
+	{
+		$modelProject = MonitorTestMockModelProject::create($this);
+		$modelIssue = MonitorTestMockModelIssue::create($this);
+
+		MonitorTestMockMenu::createMenuSampleData();
+
+		for ($i = 0; $i < MonitorTestMockMenu::getItemCount(); $i++)
+		{
+			MonitorTestMockMenu::setActiveIndex($i);
+			$menu = MonitorTestMockMenu::create($this);
+
+			$router = new MonitorRouter($this->getMockCmsApp(), $menu, $modelProject, $modelIssue);
+
+			$description = "Active Item: ($i) " . $menu->getActive()->link . "\n"
+				. "URL: " . $url;
+
+			// TODO: Test query rest
+
+			if (isset($exceptions[$i]))
+			{
+				$segments = explode('/', $exceptions[$i]);
+			}
+			else
+			{
+				$segments = explode('/', $url);
+			}
+
+			$query = $router->parse($segments);
+			$this->assertEquals($queryExpected, $query, $description);
+		}
+	}
+
+	/**
 	 * Provides sample data for the router to test the build and parse functions.
 	 *
 	 * @return   array  Sample menu queries.

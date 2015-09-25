@@ -157,7 +157,7 @@ class MonitorModelProject extends MonitorModelAbstract
 	 *
 	 * @param   String  $alias  The alias to check.
 	 *
-	 * @return bool
+	 * @return   int  ID of the project, if present.
 	 */
 	public function resolveAlias($alias)
 	{
@@ -167,7 +167,7 @@ class MonitorModelProject extends MonitorModelAbstract
 			->from('#__monitor_projects')
 			->where('alias = "' . $alias . '"');
 
-		$this->db->setQuery($query)->execute();
+		$this->db->setQuery($query);
 
 		return $this->db->loadResult();
 	}

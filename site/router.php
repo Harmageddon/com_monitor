@@ -236,8 +236,7 @@ class MonitorRouter implements JComponentRouterInterface
 			// {project}
 			if (!isset($segments[1]))
 			{
-				$model = new MonitorModelProject($this->app, false);
-				$id    = $model->resolveAlias($segments[0]);
+				$id    = $this->modelProject->resolveAlias($segments[0]);
 
 				$query['view'] = 'project';
 				$query['id']   = $id;
@@ -247,8 +246,7 @@ class MonitorRouter implements JComponentRouterInterface
 				// {project}/issues
 				if ($segments[1] == 'issues')
 				{
-					$model = new MonitorModelProject($this->app, false);
-					$id    = $model->resolveAlias($segments[0]);
+					$id    = $this->modelProject->resolveAlias($segments[0]);
 
 					$query['view'] = 'issues';
 					$query['id']   = $id;

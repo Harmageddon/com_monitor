@@ -33,6 +33,7 @@ class MonitorTestMockModelProject
 			'setProjectId',
 			'getProject',
 			'getProjects',
+			'resolveAlias',
 		);
 
 		// Create the mock.
@@ -51,7 +52,7 @@ class MonitorTestMockModelProject
 
 		$setterCallback = function ($id)
 		{
-			self::$projectId = (int)$id;
+			self::$projectId = (int) $id;
 
 			return $id;
 		};
@@ -71,6 +72,10 @@ class MonitorTestMockModelProject
 		$mockObject->expects($test->any())
 			->method('getProjects')
 			->will($test->returnValue(self::$data));
+
+		$mockObject->expects($test->any())
+			->method('resolveAlias')
+			->will($test->returnValue(1));
 
 		return $mockObject;
 	}
