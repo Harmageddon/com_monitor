@@ -35,7 +35,7 @@ class MonitorControllerClassificationDelete extends JControllerBase
 		}
 
 		$app = JFactory::getApplication();
-		$model = new MonitorModelClassification;
+		$model = new MonitorModelClassification($app);
 		$model->delete($app->input->get('cid', array(), 'array'));
 
 		$app->enqueueMessage(JText::_('COM_MONITOR_CLASSIFICATION_DELETED'));

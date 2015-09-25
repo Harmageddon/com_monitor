@@ -35,7 +35,7 @@ class MonitorControllerStatusDelete extends JControllerBase
 		}
 
 		$app = JFactory::getApplication();
-		$model = new MonitorModelStatus;
+		$model = new MonitorModelStatus($app);
 		$model->delete($app->input->get('cid', array(), 'array'));
 
 		$app->enqueueMessage(JText::_('COM_MONITOR_STATUS_DELETED'));

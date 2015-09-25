@@ -7,6 +7,8 @@
  * @license     Apache License 2.0; see LICENSE
  */
 
+use Joomla\Input\Input;
+
 defined('_JEXEC') or die;
 
 /**
@@ -45,7 +47,7 @@ class MonitorModelProject extends MonitorModelAbstract
 		}
 
 		$query = $this->db->getQuery(true);
-		$query->select('id, name, description')
+		$query->select('id, name, alias, description')
 			->from('#__monitor_projects')
 		->where("id = " . $query->q($this->projectId));
 
@@ -62,7 +64,7 @@ class MonitorModelProject extends MonitorModelAbstract
 	public function getProjects()
 	{
 		$query = $this->db->getQuery(true);
-		$query->select('id, name')
+		$query->select('id, name, alias')
 			->from('#__monitor_projects');
 
 		$this->countItems($query);
@@ -96,9 +98,9 @@ class MonitorModelProject extends MonitorModelAbstract
 	/**
 	 * Saves a project entity.
 	 *
-	 * @param   JInput  $input  Holds the data to be saved.
+	 * @param   Input  $input  Holds the data to be saved.
 	 *
-	 * @return  int   ID of the inserted / saved object.
+	 * @return  mixed   A database cursor resource on success, boolean false on failure.
 	 *
 	 * @throws Exception
 	 */
@@ -106,7 +108,9 @@ class MonitorModelProject extends MonitorModelAbstract
 	{
 		$query = $this->db->getQuery(true);
 		$values = array (
-			"name" => $input->getString('name')
+			"name" => $input->getString('name'),
+			"alias" => $input->getString('alias'),
+			"description" => $input->getString('description'),
 		);
 		$id = $input->getInt('id');
 
@@ -120,11 +124,52 @@ class MonitorModelProject extends MonitorModelAbstract
 			$query->insert('#__monitor_projects');
 		}
 
+		if ($values['alias'] == null)
+		{
+			if (JFactory::getConfig()->get('unicodeslugs') == 1)
+			{
+				$values['alias'] = JFilterOutput::stringURLUnicodeSlug($values['name']);
+			}
+			else
+			{
+				$values['alias'] = JFilterOutput::stringURLSafe($values['name']);
+			}
+		}
+
+		$twin = $this->resolveAlias($values['alias']);
+
+		if ($twin && $twin != $id)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_MONITOR_ERROR_DUPLICATE_PROJECT_ALIAS'), 'error');
+
+			return false;
+		}
+
 		$query->set(MonitorHelper::sqlValues($values, $query));
 
 		$this->db->setQuery($query);
 
 		return $this->db->execute();
+	}
+
+	/**
+	 * Checks if a desired alias is already taken.
+	 *
+	 * @param   String  $alias  The alias to check.
+	 *
+	 * @return   int  ID of the project, if present.
+	 */
+	public function resolveAlias($alias)
+	{
+		$query = $this->db->getQuery(true);
+
+		$query->select('id')
+			->from('#__monitor_projects')
+			->where('alias = "' . $alias . '"');
+
+		$this->db->setQuery($query);
+
+		return $this->db->loadResult();
 	}
 
 	/**
@@ -163,5 +208,15 @@ class MonitorModelProject extends MonitorModelAbstract
 	public function setProjectId($projectId)
 	{
 		$this->projectId = $projectId;
+	}
+
+	/**
+	 * Gets the project ID.
+	 *
+	 * @return int
+	 */
+	public function getProjectId()
+	{
+		return $this->projectId;
 	}
 }

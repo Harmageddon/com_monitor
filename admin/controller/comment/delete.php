@@ -29,7 +29,7 @@ class MonitorControllerCommentDelete extends JControllerBase
 		}
 
 		$app = JFactory::getApplication();
-		$model = new MonitorModelComment;
+		$model = new MonitorModelComment($app);
 		$ids = $app->input->get('cid', array(), 'array');
 
 		if (count($ids) <= 0)

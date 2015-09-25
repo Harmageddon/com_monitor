@@ -29,15 +29,15 @@ class MonitorControllerClassificationSave extends JControllerBase
 	 */
 	public function execute()
 	{
+		$app = JFactory::getApplication();
 		$id = $this->input->getInt('id');
-		$model = new MonitorModelClassification;
+		$model = new MonitorModelClassification($app);
 
 		if (!$model->canEdit(JFactory::getUser(), $id))
 		{
 			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		$app = JFactory::getApplication();
 		$classification_id = $model->save($this->input);
 		$app->enqueueMessage(\JText::_('COM_MONITOR_CLASSIFICATION_SAVED'));
 

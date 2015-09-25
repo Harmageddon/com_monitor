@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
 abstract class MonitorModelAbstract extends JModelDatabase
 {
 	/**
+	 * Application used in the model.
+	 *
+	 * @var JApplicationCms
+	 */
+	private $app;
+
+	/**
 	 * Pagination object for this model.
 	 *
 	 * @var JPagination
@@ -48,18 +55,28 @@ abstract class MonitorModelAbstract extends JModelDatabase
 	/**
 	 * MonitorModelAbstract constructor.
 	 *
-	 * @param   boolean  $loadFilters  If set to true, filters and list options will be loaded from the page request.
+	 * @param   JApplicationCms  $application  The Application object to use in this model.
+	 * @param   boolean          $loadFilters  If set to true, filters and list options will be loaded from the page request.
+	 *
+	 * @throws Exception
 	 */
-	public function __construct($loadFilters = true)
+	public function __construct($application = null, $loadFilters = true)
 	{
 		parent::__construct();
 
+		if ($application)
+		{
+			$this->app = $application;
+		}
+		else
+		{
+			$this->app = JFactory::getApplication();
+		}
+
 		if ($loadFilters)
 		{
-			$app = JFactory::getApplication();
-
 			// Receive & set filters
-			if ($this->filters = $app->getUserStateFromRequest('filter', 'filter', array(), 'array'))
+			if ($this->filters = $this->app->getUserStateFromRequest('filter', 'filter', array(), 'array'))
 			{
 				foreach ($this->filters as $filter => $value)
 				{
@@ -68,7 +85,7 @@ abstract class MonitorModelAbstract extends JModelDatabase
 			}
 
 			// Receive & set list options
-			if ($this->list = $app->getUserStateFromRequest('list', 'list', array(), 'array'))
+			if ($this->list = $this->app->getUserStateFromRequest('list', 'list', array(), 'array'))
 			{
 				if (isset($this->list['fullordering']) && $this->list['fullordering'])
 				{
@@ -83,7 +100,7 @@ abstract class MonitorModelAbstract extends JModelDatabase
 				}
 			}
 
-			if (!isset($this->list['limit']) && ($limit = $app->input->getUserStateFromRequest('limit', 'limit', null)) !== null)
+			if (!isset($this->list['limit']) && ($limit = $this->app->input->getUserStateFromRequest('limit', 'limit', null)) !== null)
 			{
 				$this->list['limit'] = $limit;
 				$this->getState()->set('list.limit', $limit);
@@ -101,21 +118,19 @@ abstract class MonitorModelAbstract extends JModelDatabase
 	 */
 	public function countItems($query)
 	{
-		$app = JFactory::getApplication();
-
 		$cloned = clone $query;
 		$cloned->clear('select')->select('COUNT(*)');
 		$this->db->setQuery($cloned);
 
 		$count = $this->db->loadResult();
 
-		$offset = $app->input->getInt('limitstart', $this->getState()->get('list.offset', 0));
+		$offset = $this->app->input->getInt('limitstart', $this->getState()->get('list.offset', 0));
 		$this->getState()->set('list.offset', $offset);
 
-		$defaultLimit = $app->get('list_limit');
+		$defaultLimit = $this->app->get('list_limit');
 		$limit = $this->getState()->get('list.limit', $defaultLimit);
 
-		$this->pagination = new JPagination($count, $offset, $limit);
+		$this->pagination = new JPagination($count, $offset, $limit, '', $this->app);
 
 		if ($query instanceof JDatabaseQueryLimitable)
 		{

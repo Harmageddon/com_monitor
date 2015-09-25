@@ -35,7 +35,7 @@ class MonitorControllerProjectDelete extends JControllerBase
 		}
 
 		$app = JFactory::getApplication();
-		$model = new MonitorModelProject;
+		$model = new MonitorModelProject($app);
 		$model->delete($app->input->get('cid', array(), 'array'));
 
 		$app->enqueueMessage(JText::_('COM_MONITOR_PROJECT_DELETED'));

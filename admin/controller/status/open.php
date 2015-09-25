@@ -36,7 +36,7 @@ class MonitorControllerStatusOpen extends JControllerBase
 
 		$app = JFactory::getApplication();
 
-		$model = new MonitorModelStatus;
+		$model = new MonitorModelStatus($app);
 		$cid = $this->input->get('cid', array(), 'array');
 		$model->open($cid, true);
 

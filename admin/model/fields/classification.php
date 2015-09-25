@@ -33,7 +33,7 @@ class JFormFieldClassification extends JFormFieldList
 
 		JLoader::register('MonitorModelAbstract', JPATH_ROOT . '/administrator/components/com_monitor/model/abstract.php');
 		JLoader::register('MonitorModelClassification', JPATH_ROOT . '/administrator/components/com_monitor/model/classification.php');
-		$model = new MonitorModelClassification(false);
+		$model = new MonitorModelClassification(null, false);
 		$classifications = $model->getClassifications();
 
 		$user = JFactory::getUser();
