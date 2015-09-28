@@ -40,10 +40,10 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * MonitorRouter constructor.
 	 *
-	 * @param   JApplicationCms     $app          Application object that the router should use
-	 * @param   JMenu               $menu         Menu object that the router should use
-	 * @param   MonitorModelProject $modelProject Project model to use in the router.
-	 * @param   MonitorModelIssue   $modelIssue   Issue model to use in the router.
+	 * @param   JApplicationCms      $app           Application object that the router should use
+	 * @param   JMenu                $menu          Menu object that the router should use
+	 * @param   MonitorModelProject  $modelProject  Project model to use in the router.
+	 * @param   MonitorModelIssue    $modelIssue    Issue model to use in the router.
 	 *
 	 * @throws Exception
 	 */
@@ -97,7 +97,7 @@ class MonitorRouter implements JComponentRouterInterface
 	 * This method is executed on each URL, regardless of SEF mode switched
 	 * on or not.
 	 *
-	 * @param   array $query An associative array of URL arguments
+	 * @param   array  $query  An associative array of URL arguments
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 *
@@ -115,7 +115,7 @@ class MonitorRouter implements JComponentRouterInterface
 	 * This method is meant to transform the query parameters into a more human
 	 * readable form. It is only executed when SEF mode is switched on.
 	 *
-	 * @param   array &$query An array of URL arguments
+	 * @param   array  &$query  An array of URL arguments
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 *
@@ -154,8 +154,15 @@ class MonitorRouter implements JComponentRouterInterface
 			$menuItem = $this->menu->getItem($query['Itemid']);
 		}
 
-		$menuQuery = $menuItem->query;
-		self::convertTaskToView($menuQuery);
+		if ($menuItem && isset($menuItem->query))
+		{
+			$menuQuery = $menuItem->query;
+			self::convertTaskToView($menuQuery);
+		}
+		else
+		{
+			$menuQuery = array();
+		}
 
 		switch ($query['view'])
 		{
@@ -181,8 +188,8 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "projects" view.
 	 *
-	 * @param   array &$query    An array of URL arguments.
-	 * @param   array $menuQuery The query for the active menu item.
+	 * @param   array  &$query     An array of URL arguments.
+	 * @param   array  $menuQuery  The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
@@ -206,8 +213,8 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "comment" view.
 	 *
-	 * @param   array &$query    An array of URL arguments.
-	 * @param   array $menuQuery The query for the active menu item.
+	 * @param   array  &$query     An array of URL arguments.
+	 * @param   array  $menuQuery  The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
@@ -260,8 +267,8 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "issue" and "issues" views.
 	 *
-	 * @param   array &$query    An array of URL arguments.
-	 * @param   array $menuQuery The query for the active menu item.
+	 * @param   array  &$query     An array of URL arguments.
+	 * @param   array  $menuQuery  The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
@@ -362,8 +369,8 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Builds an URL for the "project" view.
 	 *
-	 * @param   array &$query    An array of URL arguments.
-	 * @param   array $menuQuery The query for the active menu item.
+	 * @param   array  &$query     An array of URL arguments.
+	 * @param   array  $menuQuery  The query for the active menu item.
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
@@ -395,7 +402,7 @@ class MonitorRouter implements JComponentRouterInterface
 	/**
 	 * Converts a "task" URL parameter to the view/layout format.
 	 *
-	 * @param   array &$query The query to edit.
+	 * @param   array  &$query  The query to edit.
 	 *
 	 * @return null
 	 */
@@ -415,7 +422,7 @@ class MonitorRouter implements JComponentRouterInterface
 	 * This method is meant to transform the human readable URL back into
 	 * query parameters. It is only executed when SEF mode is switched on.
 	 *
-	 * @param   array &$segments The segments of the URL to parse.
+	 * @param   array  &$segments  The segments of the URL to parse.
 	 *
 	 * @return  array  The URL attributes to be used by the application.
 	 *
