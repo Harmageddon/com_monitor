@@ -32,10 +32,29 @@ class MonitorControllerCommentEdit extends JControllerBase
 		$model = new MonitorModelComment;
 		$id = $this->input->getInt('id');
 
-		// ACL: Check if user can create
-		if (!$model->canEdit(JFactory::getUser(), $id))
+		// Get the params
+		// TODO: may be removed when new MVC is implemented completely
+		$app = JFactory::getApplication();
+
+		if ($app instanceof JApplicationSite)
 		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+			$params = $app->getParams();
+		}
+
+		// ACL: Check if user can create
+		$user = JFactory::getUser();
+
+		if (!$model->canEdit($user, $id))
+		{
+			if ($user->guest && isset($params) && $params->get('redirect_login', 1))
+			{
+				$this->app->enqueueMessage(JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'), 'error');
+				$this->app->redirect(JRoute::_('index.php?option=com_users&view=login&return=' . base64_encode(JUri::getInstance()->toString()), '403'));
+			}
+			else
+			{
+				throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+			}
 		}
 
 		if ($id != 0)

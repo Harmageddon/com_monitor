@@ -17,6 +17,11 @@ defined('_JEXEC') or die;
 class MonitorControllerIssueEdit extends JControllerBase
 {
 	/**
+	 * @var    JApplicationCms
+	 */
+	protected $app;
+
+	/**
 	 * Execute the controller.
 	 *
 	 * @return  boolean  True if controller finished execution, false if the controller did not
@@ -32,9 +37,28 @@ class MonitorControllerIssueEdit extends JControllerBase
 		$model = new MonitorModelIssue;
 		$id = $this->input->getInt('id');
 
-		if (!$model->canEdit(JFactory::getUser(), $id))
+		$user = JFactory::getUser();
+
+		// Get the params
+		// TODO: may be removed when new MVC is implemented completely
+		$app = JFactory::getApplication();
+
+		if ($app instanceof JApplicationSite)
 		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+			$params = $app->getParams();
+		}
+
+		if (!$model->canEdit($user, $id))
+		{
+			if ($user->guest && isset($params) && $params->get('redirect_login', 1))
+			{
+				$this->app->enqueueMessage(JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'), 'error');
+				$this->app->redirect(JRoute::_('index.php?option=com_users&view=login&return=' . base64_encode(JUri::getInstance()->toString()), '403'));
+			}
+			else
+			{
+				throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+			}
 		}
 
 		$model->setIssueId($id);

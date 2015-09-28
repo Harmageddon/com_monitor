@@ -12,6 +12,19 @@
 			section="component"
 		/>
 	</fieldset>
+	<fieldset name="common" label="COM_MONITOR_CONFIG_COMMON" description="COM_MONITOR_CONFIG_COMMON_DESC">
+		<field
+			name="redirect_login"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_MONITOR_PARAM_REDIRECT_TO_LOGIN"
+			description="COM_MONITOR_PARAM_REDIRECT_TO_LOGIN_DESC"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
 	<fieldset name="issues" label="COM_MONITOR_ISSUES" description="COM_MONITOR_CONFIG_ISSUES_DESC">
 		<field
 			name="list_date_format"

@@ -78,12 +78,21 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 		$this->item = $this->model->getIssue();
 
 		$user = JFactory::getUser();
+		$app = JFactory::getApplication();
 
 		if ($this->item)
 		{
 			if (!in_array($this->item->access, $user->getAuthorisedViewLevels()))
 			{
-				throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+				if ($user->guest && $this->params->get('redirect_login', 1))
+				{
+					$app->enqueueMessage(JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'), 'error');
+					$app->redirect(JRoute::_('index.php?option=com_users&view=login&return=' . base64_encode(JUri::getInstance()->toString()), '403'));
+				}
+				else
+				{
+					throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+				}
 			}
 
 			$this->canEditIssue = $this->model->canEdit($user, $this->item->id);
