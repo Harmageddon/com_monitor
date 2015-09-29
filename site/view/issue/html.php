@@ -67,6 +67,27 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 	protected $model;
 
 	/**
+	 * @var MonitorModelComment
+	 */
+	protected $modelComment;
+
+	/**
+	 * Constructor for all views.
+	 *
+	 * @param   MonitorModelIssue    $modelIssue    Model providing information on issues.
+	 * @param   SplPriorityQueue     $paths         The paths queue.
+	 * @param   MonitorModelComment  $modelComment  Model providing information on comments.
+	 *
+	 * @throws Exception
+	 */
+	public function __construct(MonitorModelIssue $modelIssue, SplPriorityQueue $paths = null, MonitorModelComment $modelComment = null)
+	{
+		$this->modelComment = $modelComment;
+
+		parent::__construct($modelIssue, $paths);
+	}
+
+	/**
 	 * Method to render the view.
 	 *
 	 * @return  string  The rendered view.
@@ -116,7 +137,18 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 		$this->canEditComments = $user->authorise('comment.edit', 'com_monitor');
 		$this->canEditOwnComments = $user->authorise('comment.edit.own', 'com_monitor');
 
-		$this->comments = $this->model->getComments();
+		if ($this->modelComment)
+		{
+			$this->comments = $this->modelComment->getIssueComments($this->item->id);
+
+			// Pagination
+			$this->pagination = $this->modelComment->getPagination();
+
+			// Ordering
+			$this->listOrder	= $this->escape($this->modelComment->getState()->get('list.ordering'));
+			$this->listDir	= $this->escape($this->modelComment->getState()->get('list.direction'));
+		}
+
 		$this->status = $this->model->getStatus();
 
 		$this->defaultStatus = $this->model->getDefaultStatus();

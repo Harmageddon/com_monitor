@@ -22,7 +22,7 @@ abstract class MonitorModelAbstract extends JModelDatabase
 	 *
 	 * @var JApplicationCms
 	 */
-	private $app;
+	protected $app;
 
 	/**
 	 * Pagination object for this model.
@@ -51,6 +51,13 @@ abstract class MonitorModelAbstract extends JModelDatabase
 	 * @var array
 	 */
 	protected $list;
+
+	/**
+	 * Prefix for list option keys.
+	 *
+	 * @var string
+	 */
+	protected $prefix = '';
 
 	/**
 	 * MonitorModelAbstract constructor.
@@ -87,23 +94,25 @@ abstract class MonitorModelAbstract extends JModelDatabase
 			// Receive & set list options
 			if ($this->list = $this->app->getUserStateFromRequest('list', 'list', array(), 'array'))
 			{
-				if (isset($this->list['fullordering']) && $this->list['fullordering'])
+				if (isset($this->list[$this->prefix . 'fullordering']) && $this->list[$this->prefix . 'fullordering'])
 				{
-					$fullOrdering            = explode(' ', $this->list['fullordering']);
-					$this->list['ordering']  = $fullOrdering[0];
-					$this->list['direction'] = $fullOrdering[1];
+					$fullOrdering            = explode(' ', $this->list[$this->prefix . 'fullordering']);
+					$this->list[$this->prefix . 'ordering']  = $fullOrdering[0];
+					$this->list[$this->prefix . 'direction'] = $fullOrdering[1];
 				}
 
 				foreach ($this->list as $key => $value)
 				{
-					$this->getState()->set('list.' . $key, $value);
+					$this->getState()->set('list.' . $this->prefix . $key, $value);
 				}
 			}
 
-			if (!isset($this->list['limit']) && ($limit = $this->app->input->getUserStateFromRequest('limit', 'limit', null)) !== null)
+			$key = $this->prefix . 'limit';
+
+			if (!isset($this->list[$key]) && ($limit = $this->app->getUserStateFromRequest($key, $key, null)) !== null)
 			{
-				$this->list['limit'] = $limit;
-				$this->getState()->set('list.limit', $limit);
+				$this->list[$key] = $limit;
+				$this->getState()->set('list.' . $key, $limit);
 			}
 		}
 	}

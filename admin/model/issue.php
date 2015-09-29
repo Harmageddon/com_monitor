@@ -29,6 +29,11 @@ class MonitorModelIssue extends MonitorModelAbstract
 	private $issueId;
 
 	/**
+	 * @var MonitorModelComment
+	 */
+	private $modelComment;
+
+	/**
 	 * @var array All valid ordering options.
 	 */
 	private $orderOptions = array(
@@ -154,12 +159,10 @@ class MonitorModelIssue extends MonitorModelAbstract
 
 		// Get the params
 		// TODO: may be removed when new MVC is implemented completely
-		$app = JFactory::getApplication();
-
-		if ($app instanceof JApplicationSite)
+		if ($this->app instanceof JApplicationSite)
 		{
-			$params = $app->getParams();
-			$active = $app->getMenu()->getActive();
+			$params = $this->app->getParams();
+			$active = $this->app->getMenu()->getActive();
 
 			if ($active)
 			{
@@ -349,39 +352,9 @@ class MonitorModelIssue extends MonitorModelAbstract
 		}
 		else
 		{
-			$app  = JFactory::getApplication();
-			$data = array('project_id' => $app->input->getInt('project_id'));
+			$data = array('project_id' => $this->app->input->getInt('project_id'));
 			$this->form->bind($data);
 		}
-	}
-
-	/**
-	 * Retrieves all comments of an issue that is given by $issueId.
-	 *
-	 * @return mixed Set of comments, if the issue exists and has comments; null otherwise.
-	 */
-	public function getComments()
-	{
-		if (!$this->issueId)
-		{
-			return null;
-		}
-
-		$query = $this->db->getQuery(true);
-		$query->select('c.id, c.issue_id, c.author_id, c.text, c.created, u.name AS author_name, u.username')
-			->select('c.status AS status_id')
-			->from('#__monitor_comments AS c')
-			->leftJoin('#__users AS u ON u.id = c.author_id')
-			->leftJoin('#__monitor_status AS s ON c.status = s.id')
-			->where('c.issue_id = ' . $this->issueId)
-			->select('contact.id AS contact_id, contact.image AS contact_image')
-			->leftJoin('#__contact_details AS contact ON contact.user_id = c.author_id AND contact.published = 1');
-
-		$this->countItems($query);
-
-		$this->db->setQuery($query);
-
-		return $this->db->loadObjectList();
 	}
 
 	/**

@@ -174,11 +174,13 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 	<?php else: ?>
 		<p class="muted"><?php echo JText::_('COM_MONITOR_NO_COMMENTS'); ?></p>
 	<?php endif; ?>
+
 	<?php if ($this->canEditOwnComments): ?>
 	<div class="btn-toolbar">
-		<a class="btn btn-primary" href="<?php echo JRoute::_('index.php?option=com_monitor&task=comment.edit&issue_id='.$this->item->id); ?>"
+		<a class="btn btn-primary" href="<?php echo JRoute::_('index.php?option=com_monitor&task=comment.edit&issue_id=' . $this->item->id); ?>"
 			title="<?php echo JText::_('COM_MONITOR_CREATE_COMMENT_DESC'); ?>">
-			<?php echo JText::_('COM_MONITOR_CREATE_COMMENT'); ?></a>
+			<?php echo JText::_('COM_MONITOR_CREATE_COMMENT'); ?>
+		</a>
 	</div>
 	<?php endif; ?>
 

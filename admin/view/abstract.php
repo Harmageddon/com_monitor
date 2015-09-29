@@ -99,7 +99,7 @@ abstract class MonitorViewAbstract extends JViewHtml
 	 */
 	public function render()
 	{
-		if ($this->model)
+		if ($this->model && !$this->pagination)
 		{
 			// Pagination
 			$this->pagination = $this->model->getPagination();

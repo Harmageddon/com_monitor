@@ -32,6 +32,21 @@ class MonitorModelComment extends MonitorModelAbstract
 	private $commentId;
 
 	/**
+	 * MonitorModelAbstract constructor.
+	 *
+	 * @param   JApplicationCms  $application  The Application object to use in this model.
+	 * @param   boolean          $loadFilters  If set to true, filters and list options will be loaded from the page request.
+	 *
+	 * @throws Exception
+	 */
+	public function __construct($application = null, $loadFilters = true)
+	{
+		$this->prefix = 'comment_';
+
+		parent::__construct($application, $loadFilters);
+	}
+
+	/**
 	 * @var array All valid ordering options.
 	 */
 	private $orderOptions = array(
@@ -58,17 +73,46 @@ class MonitorModelComment extends MonitorModelAbstract
 			return null;
 		}
 
-		$query = $this->db->getQuery(true);
-		$query->select('c.id, c.issue_id, c.author_id, c.text, c.created, u.name AS author_name, username')
-			->select('c.status AS status_id, s.name AS status_name')
-			->leftJoin('#__monitor_status AS s ON c.status = s.id')
-			->from('#__monitor_comments AS c')
-			->leftJoin('#__users AS u ON u.id = c.author_id')
-		->where("c.id = " . $query->q($this->commentId));
+		$query = $this->buildQuery();
+		$query->where("c.id = " . $query->q($this->commentId));
+
+		$query
+			->where('c.issue_id = ' . $this->issueId)
+			->select('contact.id AS contact_id, contact.image AS contact_image')
+			->leftJoin('#__contact_details AS contact ON contact.user_id = c.author_id AND contact.published = 1');
 
 		$this->db->setQuery($query);
 
 		return $this->db->loadObject();
+	}
+
+	/**
+	 * Retrieves a comment with all relevant information from the database
+	 *
+	 * @param   int  $issueId  ID of the issue the comments belong to.
+	 *
+	 * @return object|null Returns null, if $issueId is null or the issue doesn't exist.
+	 *                     Otherwise, return an array of data items on success, false on failure.
+	 */
+	public function getIssueComments($issueId)
+	{
+		if ((int) $issueId === 0)
+		{
+			return null;
+		}
+
+		$query = $this->buildQuery();
+
+		$query
+			->where('c.issue_id = ' . (int) $issueId)
+			->select('contact.id AS contact_id, contact.image AS contact_image')
+			->leftJoin('#__contact_details AS contact ON contact.user_id = c.author_id AND contact.published = 1');
+
+		$this->countItems($query);
+
+		$this->db->setQuery($query);
+
+		return $this->db->loadObjectList();
 	}
 
 	/**
@@ -78,12 +122,9 @@ class MonitorModelComment extends MonitorModelAbstract
 	 */
 	public function getComments()
 	{
-		$query = $this->db->getQuery(true);
-		$query->select('c.id, c.issue_id, c.author_id, c.text, c.created, u.name AS author_name, u.username')
-			->select('c.status AS status_id, s.name AS status_name')
+		$query = $this->buildQuery();
+		$query->select('s.name AS status_name')
 			->select('i.title AS issue_title, p.name AS project_name, p.id AS project_id')
-			->from('#__monitor_comments AS c')
-			->leftJoin('#__users AS u ON u.id = c.author_id')
 			->leftJoin('#__monitor_status AS s ON c.status = s.id')
 			->leftJoin('#__monitor_issues AS i ON c.issue_id = i.id')
 			->leftJoin('#__monitor_projects AS p ON i.project_id = p.id');
@@ -348,5 +389,22 @@ class MonitorModelComment extends MonitorModelAbstract
 	public function setIssueId($issueId)
 	{
 		$this->issueId = $issueId;
+	}
+
+	/**
+	 * Prepares the part of the select query that is common to all retrieval operations.
+	 *
+	 * @return JDatabaseQuery Common part of the query.
+	 */
+	private function buildQuery()
+	{
+		$query = $this->db->getQuery(true);
+		$query->select('c.id, c.issue_id, c.author_id, c.text, c.created, u.name AS author_name, username')
+			->select('c.status AS status_id')
+			->leftJoin('#__monitor_status AS s ON c.status = s.id')
+			->from('#__monitor_comments AS c')
+			->leftJoin('#__users AS u ON u.id = c.author_id');
+
+		return $query;
 	}
 }
