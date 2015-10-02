@@ -62,6 +62,11 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 	protected $canEditOwnComments = false;
 
 	/**
+	 * @var array Contains all avatars of the authors of the issue and comments.
+	 */
+	protected $avatars = null;
+
+	/**
 	 * @var MonitorModelIssue
 	 */
 	protected $model;
@@ -118,6 +123,7 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 
 			$this->canEditIssue = $this->model->canEdit($user, $this->item->id);
 
+			// Title
 			if ($this->layout === 'edit')
 			{
 				$this->defaultTitle = JText::sprintf('COM_MONITOR_EDIT_ISSUE', $this->item->title);
@@ -125,6 +131,16 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 			else
 			{
 				$this->defaultTitle = $this->escape($this->item->title);
+			}
+
+			// Avatar
+			if (JPluginHelper::isEnabled('user', 'cmavatar'))
+			{
+				// Include the CMAvatar plugin.
+				require_once JPATH_PLUGINS . '/user/cmavatar/helper.php';
+
+				$this->avatars = array();
+				$this->avatars[$this->item->author_id] = PlgUserCMAvatarHelper::getAvatar($this->item->author_id);
 			}
 		}
 		else
@@ -137,9 +153,22 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 		$this->canEditComments = $user->authorise('comment.edit', 'com_monitor');
 		$this->canEditOwnComments = $user->authorise('comment.edit.own', 'com_monitor');
 
+		// Comments
 		if ($this->modelComment)
 		{
 			$this->comments = $this->modelComment->getIssueComments($this->item->id);
+
+			// Avatars
+			if ($this->avatars !== null)
+			{
+				foreach ($this->comments as $comment)
+				{
+					if (!isset($this->avatars[$comment->author_id]))
+					{
+						$this->avatars[$comment->author_id] = PlgUserCMAvatarHelper::getAvatar($comment->author_id);
+					}
+				}
+			}
 
 			// Pagination
 			$this->pagination = $this->modelComment->getPagination();

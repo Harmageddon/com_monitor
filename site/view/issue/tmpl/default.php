@@ -56,12 +56,27 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 			<?php if ($this->params->get('issue_show_author', 1)) : ?>
 				<dt><?php echo JText::_('COM_MONITOR_CREATED_BY'); ?></dt>
 				<dd>
-					<?php if (!empty($this->item->contact_id) && $this->params->get('link_author', 1) == true) :
+					<?php
+					// Profile avatar (using the CMAvatar plugin).
+					if ($this->params->get('issue_show_avatar', 1) && $this->avatars !== null && isset($this->avatars[$this->item->author_id]))
+					{
+						$url   = $this->avatars[$this->item->author_id];
+						$attributes = array('title' => JText::sprintf('COM_MONITOR_VIEW_PROFILE', $this->item->author_name));
+						$image = JHtml::_('image', $url, $this->item->author_name, $attributes);
+
+						echo $image;
+					}
+
+					if (!empty($this->item->contact_id) && $this->params->get('link_author', 1) == true)
+					{
 						$contact_link = JRoute::_('index.php?option=com_contact&view=contact&id=' . (int) $this->item->contact_id);
-						echo JHtml::_('link', $contact_link, $this->item->author_name, array('itemprop' => 'url')); ?>
-					<?php else : ?>
-						<?php echo $this->item->author_name; ?>
-					<?php endif; ?>
+						echo JHtml::_('link', $contact_link, $this->item->author_name, array('itemprop' => 'url'));
+					}
+					else
+					{
+						echo $this->item->author_name;
+					}
+					?>
 				</dd>
 			<?php endif; ?>
 
@@ -101,24 +116,36 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 			?>
 			<div class="comment row-fluid row-<?php echo $class; ?>">
 				<div class="comment-details span3">
-					<div class="comment-author">
-						<?php if ($this->params->get('comment_show_author', 1)) : ?>
-							<div class="comment-author">
-								<?php if (!empty($comment->contact_id) && $this->params->get('link_author', 1) == true) :
-									$contact_link = JRoute::_('index.php?option=com_contact&view=contact&id=' . (int) $comment->contact_id);
-									echo JHtml::_('link', $contact_link, $comment->author_name, array('itemprop' => 'url')); ?>
-								<?php else : ?>
-									<?php echo $comment->author_name; ?>
-								<?php endif; ?>
-							</div>
-						<?php endif; ?>
-						<?php if ($this->params->get('comment_show_date_created', 1)): ?>
-							<div class="comment-date">
-								<?php echo JHtml::_('date', $comment->created, $date_format); ?>
-							</div>
-						<?php endif; ?>
+					<?php if ($this->params->get('comment_show_author', 1)) : ?>
+						<div class="comment-author">
+							<?php
+							// Profile avatar (using the CMAvatar plugin).
+							if ($this->params->get('comment_show_avatar', 1) && $this->avatars !== null && isset($this->avatars[$comment->author_id]))
+							{
+								$url = $this->avatars[$comment->author_id];
+								$attributes = array('title' => JText::sprintf('COM_MONITOR_VIEW_PROFILE', $comment->author_name));
+								$image = JHtml::_('image', $url, $comment->author_name, $attributes);
 
-					</div>
+								echo $image;
+							}
+
+							if (!empty($comment->contact_id) && $this->params->get('link_author', 1))
+							{
+								$contact_link = JRoute::_('index.php?option=com_contact&view=contact&id=' . (int) $comment->contact_id);
+								echo JHtml::_('link', $contact_link, $comment->author_name, array('itemprop' => 'url'));
+							}
+							else
+							{
+								echo $comment->author_name;
+							}
+							?>
+						</div>
+					<?php endif; ?>
+					<?php if ($this->params->get('comment_show_date_created', 1)): ?>
+						<div class="comment-date">
+							<?php echo JHtml::_('date', $comment->created, $date_format); ?>
+						</div>
+					<?php endif; ?>
 
 				</div>
 				<div class="comment-content span9">

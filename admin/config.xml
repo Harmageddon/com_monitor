@@ -233,6 +233,17 @@
 			<option value="0">JHIDE</option>
 		</field>
 		<field
+			name="issue_show_avatar"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_MONITOR_PARAM_ISSUE_SHOW_AVATAR"
+			description="COM_MONITOR_PARAM_ISSUE_SHOW_AVATAR_DESC"
+			default="1"
+			>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
 			name="issue_show_date_created"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -291,10 +302,21 @@
 			name="comment_show_author"
 			type="radio"
 			class="btn-group btn-group-yesno"
-			label="JGLOBAL_SHOW_AUTHOR_LABEL"
-			description="JGLOBAL_SHOW_AUTHOR_DESC"
+			label="COM_MONITOR_PARAM_COMMENT_SHOW_AUTHOR"
+			description="COM_MONITOR_PARAM_COMMENT_SHOW_AUTHOR_DESC"
 			default="1"
-		>
+			>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
+		<field
+			name="comment_show_avatar"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_MONITOR_PARAM_COMMENT_SHOW_AVATAR"
+			description="COM_MONITOR_PARAM_COMMENT_SHOW_AVATAR_DESC"
+			default="1"
+			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
