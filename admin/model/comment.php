@@ -259,6 +259,13 @@ class MonitorModelComment extends MonitorModelAbstract
 			"created" => $input->getString('created'),
 		);
 
+		$values = $this->validate($values);
+
+		if (!$values)
+		{
+			return false;
+		}
+
 		if ($values["issue_id"] == 0)
 		{
 			throw new Exception(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));

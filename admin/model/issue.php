@@ -307,6 +307,14 @@ class MonitorModelIssue extends MonitorModelAbstract
 			"project_id" => $input->getInt('project_id'),
 			"classification" => $input->getInt('classification'),
 		);
+
+		$values = $this->validate($values);
+
+		if (!$values)
+		{
+			return false;
+		}
+
 		$id = $input->getInt('id');
 
 		if ($id != 0)

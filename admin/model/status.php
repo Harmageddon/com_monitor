@@ -123,6 +123,14 @@ class MonitorModelStatus extends MonitorModelAbstract
 			"style" => $input->getString('style'),
 			"project_id" => $input->getInt('project_id'),
 		);
+
+		$values = $this->validate($values);
+
+		if (!$values)
+		{
+			return false;
+		}
+
 		$id = $input->getInt('id');
 
 		if ($id != 0)

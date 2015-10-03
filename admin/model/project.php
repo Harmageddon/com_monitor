@@ -112,6 +112,14 @@ class MonitorModelProject extends MonitorModelAbstract
 			"alias" => $input->getString('alias'),
 			"description" => $input->getString('description'),
 		);
+
+		$values = $this->validate($values);
+
+		if (!$values)
+		{
+			return false;
+		}
+
 		$id = $input->getInt('id');
 
 		if ($id != 0)

@@ -23,6 +23,7 @@
 			buttons="false"
 			default=""
 			required="required"
+			filter="safehtml"
 		/>
 		<field
 			name="version"
@@ -37,6 +38,7 @@
 			label="COM_MONITOR_ISSUE_PROJECT_LABEL"
 			description="COM_MONITOR_ISSUE_PROJECT_DESC"
 			required="required"
+			filter="intval"
 		/>
 		<field
 			name="classification"
@@ -46,6 +48,7 @@
 			label="COM_MONITOR_ISSUE_CLASSIFICATION_LABEL"
 			description="COM_MONITOR_ISSUE_CLASSIFICATION_DESC"
 			required="required"
+			filter="intval"
 		>
 		</field>
 	</fieldset>

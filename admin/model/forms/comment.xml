@@ -13,7 +13,8 @@
 			buttons="false"
 			default=""
 			required="required"
-				/>
+			filter="safehtml"
+		/>
 		<field
 			name="issue_status"
 			type="sql"
@@ -21,6 +22,7 @@
 			key_field="id"
 			label="COM_MONITOR_COMMENT_STATUS_LABEL"
 			description="COM_MONITOR_COMMENT_STATUS_DESC"
+			filter="intval"
 		>
 			<option value="">COM_MONITOR_STATUS_NO_CHANGE</option>
 		</field>
@@ -30,6 +32,7 @@
 			label="COM_MONITOR_COMMENT_ISSUE_LABEL"
 			description="COM_MONITOR_COMMENT_ISSUE_DESC"
 			required="required"
+			filter="intval"
 		/>
 	</fieldset>
 </form>

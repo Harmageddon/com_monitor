@@ -198,6 +198,7 @@ abstract class MonitorModelAbstract extends JModelDatabase
 
 		// Filter and validate the form data.
 		$data   = $form->filter($data);
+
 		$return = $form->validate($data);
 
 		// Check for an error.

@@ -21,7 +21,7 @@
 			label="COM_MONITOR_ISSUE_PROJECT_LABEL"
 			description="COM_MONITOR_ISSUE_PROJECT_DESC"
 			required="required"
-			filter="integer"
+			filter="intval"
 		/>
 		<field
 			name="access"
@@ -31,7 +31,7 @@
 			description="JFIELD_ACCESS_DESC"
 			default="1"
 			required="required"
-			filter="integer"
+			filter="intval"
 		/>
 	</fieldset>
 </form>
