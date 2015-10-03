@@ -37,9 +37,16 @@ class MonitorControllerStatusSave extends JControllerBase
 
 		$app = JFactory::getApplication();
 		$model = new MonitorModelStatus($app);
-		$model->save($app->input);
-		$app->enqueueMessage(JText::_('COM_MONITOR_STATUS_SAVED'));
-		$app->redirect(JRoute::_('index.php?option=com_monitor&view=status', false));
+
+		if ($model->save($app->input) === false)
+		{
+			$app->redirect(JRoute::_('index.php?option=com_monitor&task=status.edit&id=' . $app->input->getInt('id'), false));
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_MONITOR_STATUS_SAVED'));
+			$app->redirect(JRoute::_('index.php?option=com_monitor&view=status', false));
+		}
 
 		return true;
 	}

@@ -175,6 +175,55 @@ abstract class MonitorModelAbstract extends JModelDatabase
 	}
 
 	/**
+	 * Validates data from a form.
+	 *
+	 * @param   array  $data  The data to validate.
+	 * @param   JForm  $form  The form to use for validation.
+	 *
+	 * @return  mixed|bool  Array of filtered data if valid, false otherwise.
+	 *
+	 * @see ConfigModelForm::validate
+	 */
+	public function validate($data, $form = null)
+	{
+		if (!$form)
+		{
+			if (!$this->form)
+			{
+				$this->loadForm();
+			}
+
+			$form = $this->form;
+		}
+
+		// Filter and validate the form data.
+		$data   = $form->filter($data);
+		$return = $form->validate($data);
+
+		// Check for an error.
+		if ($return instanceof Exception)
+		{
+			JFactory::getApplication()->enqueueMessage($return->getMessage(), 'error');
+
+			return false;
+		}
+
+		// Check the validation results.
+		if ($return === false)
+		{
+			// Get the validation messages from the form.
+			foreach ($form->getErrors() as $message)
+			{
+				JFactory::getApplication()->enqueueMessage($message->getMessage(), 'error');
+			}
+
+			return false;
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Prepares and binds the form.
 	 *
 	 * @return void

@@ -34,7 +34,26 @@ class MonitorControllerCommentSave extends JControllerBase
 			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		$model->save($this->input);
+		$result = $model->save($this->input);
+
+		if ($result === false)
+		{
+			$url = 'index.php?option=com_monitor&task=comment.edit';
+
+			if ($id)
+			{
+				$url .= '&id=' . $id;
+			}
+			elseif ($issue_id = $this->input->getInt('issue_id'))
+			{
+				$url .= '&issue_id=' . $issue_id;
+			}
+
+			$app->redirect(JRoute::_($url, false));
+
+			return false;
+		}
+
 		$app->enqueueMessage(JText::_('COM_MONITOR_COMMENT_SAVED'));
 
 		if ($app->isAdmin())

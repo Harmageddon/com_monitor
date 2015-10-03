@@ -40,6 +40,21 @@ class MonitorControllerIssueSave extends JControllerBase
 		}
 
 		$issue_id = $model->save($this->input);
+
+		if ($issue_id === false)
+		{
+			$url = 'index.php?option=com_monitor&task=issue.edit';
+
+			if ($id)
+			{
+				$url .= '&id=' . $id;
+			}
+
+			$app->redirect(JRoute::_($url, false));
+
+			return false;
+		}
+
 		$app->enqueueMessage(\JText::_('COM_MONITOR_ISSUE_SAVED'));
 
 		if ($app->isAdmin())

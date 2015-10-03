@@ -39,6 +39,21 @@ class MonitorControllerClassificationSave extends JControllerBase
 		}
 
 		$classification_id = $model->save($this->input);
+
+		if ($classification_id === false)
+		{
+			$url = 'index.php?option=com_monitor&task=classification.edit';
+
+			if ($id)
+			{
+				$url .= '&id=' . $id;
+			}
+
+			$app->redirect(JRoute::_($url, false));
+
+			return false;
+		}
+
 		$app->enqueueMessage(\JText::_('COM_MONITOR_CLASSIFICATION_SAVED'));
 
 		if ($app->isAdmin())

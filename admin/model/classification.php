@@ -116,6 +116,14 @@ class MonitorModelClassification extends MonitorModelAbstract
 			"access"  => $input->getString('access'),
 			"project_id" => $input->getInt('project_id'),
 		);
+
+		$values = $this->validate($values);
+
+		if (!$values)
+		{
+			return false;
+		}
+
 		$id = $input->getInt('id');
 
 		if ($id != 0)
