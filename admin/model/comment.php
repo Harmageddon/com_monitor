@@ -191,7 +191,12 @@ class MonitorModelComment extends MonitorModelAbstract
 
 		$this->form = JForm::getInstance('com_monitor.comment', 'comment');
 
-		if ($this->commentId)
+
+		if ($data = $this->app->getUserState($this->form->getName() . '.data'))
+		{
+			$this->form->bind($data);
+		}
+		elseif ($this->commentId)
 		{
 			$this->form->bind($this->getComment());
 		}

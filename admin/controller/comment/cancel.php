@@ -24,6 +24,7 @@ class MonitorControllerCommentCancel extends JControllerBase
 	public function execute()
 	{
 		$app = JFactory::getApplication();
+		$app->setUserState('com_monitor.comment.data', null);
 
 		if ($app->isAdmin())
 		{

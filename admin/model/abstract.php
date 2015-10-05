@@ -201,10 +201,13 @@ abstract class MonitorModelAbstract extends JModelDatabase
 
 		$return = $form->validate($data);
 
+		// Store data for eventual redirects.
+		$this->app->setUserState($form->getName() . '.data', $data);
+
 		// Check for an error.
 		if ($return instanceof Exception)
 		{
-			JFactory::getApplication()->enqueueMessage($return->getMessage(), 'error');
+			$this->app->enqueueMessage($return->getMessage(), 'error');
 
 			return false;
 		}
@@ -215,11 +218,13 @@ abstract class MonitorModelAbstract extends JModelDatabase
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{
-				JFactory::getApplication()->enqueueMessage($message->getMessage(), 'error');
+				$this->app->enqueueMessage($message->getMessage(), 'error');
 			}
 
 			return false;
 		}
+
+		$this->app->setUserState($form->getName() . '.data', null);
 
 		return $data;
 	}

@@ -89,7 +89,11 @@ class MonitorModelProject extends MonitorModelAbstract
 		JForm::addFormPath(__DIR__ . '/forms');
 		$this->form = JForm::getInstance('com_monitor.project', 'project');
 
-		if ($this->projectId)
+		if ($data = $this->app->getUserState($this->form->getName() . '.data'))
+		{
+			$this->form->bind($data);
+		}
+		elseif ($this->projectId)
 		{
 			$this->form->bind($this->getProject());
 		}

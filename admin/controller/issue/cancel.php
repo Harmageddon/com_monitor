@@ -30,6 +30,7 @@ class MonitorControllerIssueCancel extends JControllerBase
 	public function execute()
 	{
 		$app = JFactory::getApplication();
+		$app->setUserState('com_monitor.issue.data', null);
 		$app->redirect(JRoute::_('index.php?option=com_monitor&view=issues', false));
 	}
 }

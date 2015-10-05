@@ -30,6 +30,7 @@ class MonitorControllerClassificationCancel extends JControllerBase
 	public function execute()
 	{
 		$app = JFactory::getApplication();
+		$app->setUserState('com_monitor.classification.data', null);
 		$app->redirect(JRoute::_('index.php?option=com_monitor&view=classifications', false));
 	}
 }

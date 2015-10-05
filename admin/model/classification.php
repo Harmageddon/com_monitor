@@ -161,14 +161,18 @@ class MonitorModelClassification extends MonitorModelAbstract
 		JForm::addFieldPath(__DIR__ . '/fields');
 		$this->form = JForm::getInstance('com_monitor.classification', 'classification');
 
-		if ($this->classificationId)
+
+		if ($data = $this->app->getUserState($this->form->getName() . '.data'))
+		{
+			$this->form->bind($data);
+		}
+		elseif ($this->classificationId)
 		{
 			$this->form->bind($this->getClassification());
 		}
 		else
 		{
-			$app  = JFactory::getApplication();
-			$data = array('project_id' => $app->input->getInt('project_id'));
+			$data = array('project_id' => $this->app->input->getInt('project_id'));
 			$this->form->bind($data);
 		}
 	}

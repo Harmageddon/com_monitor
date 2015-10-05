@@ -354,7 +354,12 @@ class MonitorModelIssue extends MonitorModelAbstract
 		JForm::addFieldPath(__DIR__ . '/fields');
 		$this->form = JForm::getInstance('com_monitor.issue', 'issue');
 
-		if ($this->issueId)
+
+		if ($data = $this->app->getUserState($this->form->getName() . '.data'))
+		{
+			$this->form->bind($data);
+		}
+		elseif ($this->issueId)
 		{
 			$this->form->bind($this->getIssue());
 		}

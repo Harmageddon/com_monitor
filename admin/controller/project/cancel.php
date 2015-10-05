@@ -30,6 +30,7 @@ class MonitorControllerProjectCancel extends JControllerBase
 	public function execute()
 	{
 		$app = JFactory::getApplication();
+		$app->setUserState('com_monitor.project.data', null);
 		$app->redirect(JRoute::_('index.php?option=com_monitor&view=projects', false));
 	}
 }

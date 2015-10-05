@@ -30,6 +30,7 @@ class MonitorControllerStatusCancel extends JControllerBase
 	public function execute()
 	{
 		$app = JFactory::getApplication();
+		$app->setUserState('com_monitor.status.data', null);
 		$app->redirect(JRoute::_('index.php?option=com_monitor&view=status', false));
 	}
 }
