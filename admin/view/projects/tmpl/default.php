@@ -43,13 +43,13 @@ JHtml::_('formbehavior.chosen', 'select');
 		<table class="table table-striped" id="articleList">
 			<thead>
 			<tr>
-				<th width="1%" class="hidden-phone">
+				<th width="1%" class="center hidden-phone">
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				<th>
 					<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $this->listDir, $this->listOrder); ?>
 				</th>
-				<th width="1%" class="nowrap hidden-phone">
+				<th width="1%" class="center">
 					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $this->listDir, $this->listOrder); ?>
 				</th>
 			</tr>
@@ -74,7 +74,9 @@ JHtml::_('formbehavior.chosen', 'select');
 							</span>
 						<?php endif; ?>
 					</td>
-					<td><?php echo $item->id; ?></td>
+					<td class="center">
+						<?php echo $item->id; ?>
+					</td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

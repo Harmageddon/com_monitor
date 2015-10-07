@@ -71,13 +71,15 @@ JHtml::_('formbehavior.chosen', 'select');
 								<?php echo $this->escape($item->title); ?>
 						<?php endif; ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $this->escape($item->project_name); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $this->escape($item->viewlevel); ?>
 					</td>
-					<td><?php echo $item->id; ?></td>
+					<td class="center hidden-phone">
+						<?php echo $item->id; ?>
+					</td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

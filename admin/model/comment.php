@@ -125,7 +125,6 @@ class MonitorModelComment extends MonitorModelAbstract
 		$query = $this->buildQuery();
 		$query->select('s.name AS status_name')
 			->select('i.title AS issue_title, p.name AS project_name, p.id AS project_id')
-			->leftJoin('#__monitor_status AS s ON c.status = s.id')
 			->leftJoin('#__monitor_issues AS i ON c.issue_id = i.id')
 			->leftJoin('#__monitor_projects AS p ON i.project_id = p.id');
 

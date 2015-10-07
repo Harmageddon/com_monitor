@@ -36,13 +36,13 @@ JHtml::_('formbehavior.chosen', 'select');
 		<table class="table table-striped" id="articleList">
 			<thead>
 			<tr>
-				<th width="1%" class="hidden-phone">
+				<th width="1%" class="center hidden-phone">
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				<th width="1%">
 					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'c.id', $this->listDir, $this->listOrder); ?>
 				</th>
-				<th>
+				<th class="hidden-phone">
 					<?php echo JText::_('COM_MONITOR_PROJECT_NAME'); ?>
 				</th>
 				<th>
@@ -51,7 +51,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<th>
 					<?php echo JHtml::_('searchtools.sort', 'COM_MONITOR_COMMENT_AUTHOR', 'u.name', $this->listDir, $this->listOrder); ?>
 				</th>
-				<th>
+				<th class="hidden-phone">
 					<?php echo JText::_('COM_MONITOR_COMMENT_TEXT'); ?>
 				</th>
 				<th>
@@ -80,7 +80,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php else : ?>
 							<span><?php echo $this->escape($item->id); ?></span>
 						<?php endif; ?></td>
-					<td>
+					<td class="hidden-phone">
 						<?php if ($this->canEditProjects) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_monitor&task=project.edit&id=' . $item->project_id); ?>"
 								title="<?php echo JText::_('COM_MONITOR_EDIT_PROJECT'); ?>">
@@ -89,7 +89,7 @@ JHtml::_('formbehavior.chosen', 'select');
 							<span><?php echo $this->escape($item->project_name); ?></span>
 						<?php endif; ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php if ($this->canEditIssues) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_monitor&task=issue.edit&id=' . $item->issue_id); ?>"
 								title="<?php echo JText::_('COM_MONITOR_EDIT_ISSUE'); ?>">
@@ -98,18 +98,18 @@ JHtml::_('formbehavior.chosen', 'select');
 							<span><?php echo $this->escape($item->issue_title); ?></span>
 						<?php endif; ?>
 					</td>
-					<td class="center">
+					<td>
 						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->author_id); ?>"
 							title="<?php echo JText::_('COM_MONITOR_EDIT_USER'); ?>">
 							<?php echo $this->escape($item->author_name); ?></a>
 					</td>
-					<td class="center">
+					<td class="hidden-phone">
 						<?php echo $this->escape(MonitorHelper::cutStr($item->text, 50)); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $this->escape($item->created); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php
 						if ($item->status_id)
 						{

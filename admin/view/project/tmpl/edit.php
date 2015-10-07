@@ -39,6 +39,30 @@ $id = ($this->item) ? '&id=' . (int) $this->item->id : '';
 		</div>
 		<div class="control-group">
 			<div class="control-label">
+				<?php echo $this->form->getLabel('url'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('url'); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('logo'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('logo'); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('logo_alt'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('logo_alt'); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="control-label">
 				<?php echo $this->form->getLabel('description'); ?>
 			</div>
 			<div class="controls">

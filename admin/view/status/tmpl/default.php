@@ -36,25 +36,25 @@ JHtml::_('formbehavior.chosen', 'select');
 		<table class="table table-striped" id="articleList">
 			<thead>
 			<tr>
-				<th width="1%" class="hidden-phone">
+				<th width="1%" class="center hidden-phone">
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				<th>
 					<?php echo JText::_('JGLOBAL_TITLE'); ?>
 				</th>
-				<th>
+				<th class="center">
 					<?php echo JText::_('COM_MONITOR_STATUS_OPEN'); ?>
 				</th>
-				<th>
+				<th class="center">
 					<?php echo JText::_('COM_MONITOR_STATUS_DEFAULT'); ?>
 				</th>
-				<th>
+				<th class="center hidden-phone">
 					<?php echo JText::_('JFIELD_ORDERING_LABEL'); ?>
 				</th>
 				<th>
 					<?php echo JText::_('COM_MONITOR_PROJECT'); ?>
 				</th>
-				<th width="1%" class="nowrap hidden-phone">
+				<th width="1%" class="center nowrap hidden-phone">
 					<?php echo JText::_('JGRID_HEADING_ID'); ?>
 				</th>
 			</tr>
@@ -80,13 +80,13 @@ JHtml::_('formbehavior.chosen', 'select');
 								<?php echo $this->escape($item->name); ?>
 						<?php endif; ?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo JHtml::_('jgrid.state', $states, $item->open, $i, 'status.', $this->canEditStatus); ?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo JHtml::_('jgrid.isdefault', $item->is_default, $i, 'status.', ($this->canEditStatus && $item->is_default == 0)); ?>
 					</td>
-					<td>
+					<td class="center hidden-phone">
 						<?php echo JHtml::_('jgrid.orderup', $i, 'orderup', 'status.', 'JLIB_HTML_MOVE_UP', $this->canEditStatus); ?>
 						<?php echo JHtml::_('jgrid.orderdown', $i, 'orderdown', 'status.', 'JLIB_HTML_MOVE_DOWN', $this->canEditStatus); ?>
 					</td>
@@ -99,7 +99,9 @@ JHtml::_('formbehavior.chosen', 'select');
 							<span><?php echo $this->escape($item->project_name); ?></span>
 						<?php endif; ?>
 					</td>
-					<td><?php echo $item->id; ?></td>
+					<td class="center hidden-phone">
+						<?php echo $item->id; ?>
+					</td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

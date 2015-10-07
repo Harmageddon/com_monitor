@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS `#__monitor_projects`(
 	`alias` varchar(255) NOT NULL COMMENT 'Unique alias',
 	`description` mediumtext NOT NULL,
 	`url` varchar(255) NOT NULL COMMENT 'Link to the project homepage',
+	`logo` varchar(255) NOT NULL COMMENT 'Path to the logo image.',
+	`logo_alt` varchar(255) NOT NULL COMMENT 'Alternative text for the logo.',
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -27,6 +27,32 @@
 			validate="alias"
 			/>
 		<field
+			name="url"
+			type="url"
+			label="COM_MONITOR_PROJECT_URL_LABEL"
+			description="COM_MONITOR_PROJECT_URL_DESC"
+			size="40"
+			class="inputbox"
+			default=""
+			validate="url"
+			/>
+		<field
+			name="logo"
+			type="media"
+			label="COM_MONITOR_PROJECT_LOGO_LABEL"
+			description="COM_MONITOR_PROJECT_LOGO_DESC"
+			default=""
+			validate="url"
+			relative="true"
+			/>
+		<field
+			name="logo_alt"
+			type="text"
+			label="COM_MONITOR_PROJECT_LOGO_ALT_LABEL"
+			description="COM_MONITOR_PROJECT_LOGO_ALT_DESC"
+			default=""
+			/>
+		<field
 			name="description"
 			type="editor"
 			label="COM_MONITOR_PROJECT_DESCRIPTION_LABEL"

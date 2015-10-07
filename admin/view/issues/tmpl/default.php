@@ -37,7 +37,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		<table class="table table-striped" id="articleList">
 			<thead>
 			<tr>
-				<th width="1%" class="hidden-phone">
+				<th width="1%" class="center hidden-phone">
 					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				<th>
@@ -52,10 +52,10 @@ JHtml::_('formbehavior.chosen', 'select');
 				<th>
 					<?php echo JText::_('COM_MONITOR_ISSUE_STATUS'); ?>
 				</th>
-				<th>
+				<th class="hidden-phone">
 					<?php echo JText::_('COM_MONITOR_CLASSIFICATION'); ?>
 				</th>
-				<th width="1%">
+				<th width="1%" class="center hidden-phone">
 					<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'i.id', $this->listDir, $this->listOrder); ?>
 				</th>
 			</tr>
@@ -83,16 +83,18 @@ JHtml::_('formbehavior.chosen', 'select');
 							title="<?php echo JText::_('COM_MONITOR_EDIT_USER'); ?>">
 							<?php echo $this->escape($item->author_name); ?></a>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $this->escape($item->project_name); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $this->escape($item->status); ?>
 					</td>
-					<td class="center">
+					<td class="hidden-phone">
 						<?php echo $this->escape($item->classification_title); ?>
 					</td>
-					<td><?php echo $item->id; ?></td>
+					<td class="hidden-phone center">
+						<?php echo $item->id; ?>
+					</td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>

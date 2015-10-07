@@ -47,7 +47,7 @@ class MonitorModelProject extends MonitorModelAbstract
 		}
 
 		$query = $this->db->getQuery(true);
-		$query->select('id, name, alias, description')
+		$query->select('id, name, alias, description, url, logo, logo_alt')
 			->from('#__monitor_projects')
 		->where("id = " . $query->q($this->projectId));
 
@@ -114,6 +114,9 @@ class MonitorModelProject extends MonitorModelAbstract
 		$values = array (
 			"name" => $input->getString('name'),
 			"alias" => $input->getString('alias'),
+			"url" => $input->getString('url'),
+			"logo" => $input->getString('logo'),
+			"logo_alt" => $input->getString('logo_alt'),
 			"description" => $input->getString('description'),
 		);
 
