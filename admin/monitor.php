@@ -12,6 +12,11 @@
 // No direct access
 defined('_JEXEC') or die;
 
+if (!JFactory::getUser()->authorise('core.manage', 'com_monitor'))
+{
+	throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+}
+
 // Load classes
 JLoader::registerPrefix('Monitor', JPATH_COMPONENT);
 

@@ -53,7 +53,7 @@ class MonitorControllerCommentEdit extends JControllerBase
 			}
 			else
 			{
-				throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+				throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 			}
 		}
 

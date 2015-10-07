@@ -33,9 +33,9 @@ class MonitorControllerClassificationSave extends JControllerBase
 		$id = $this->input->getInt('id');
 		$model = new MonitorModelClassification($app);
 
-		if (!$model->canEdit(JFactory::getUser(), $id))
+		if (!JFactory::getUser()->authorise('classification.edit', 'com_monitor'))
 		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$classification_id = $model->save($this->input);

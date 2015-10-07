@@ -32,7 +32,7 @@ class MonitorControllerProjectSave extends JControllerBase
 	{
 		if (!JFactory::getUser()->authorise('project.edit', 'com_monitor'))
 		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$app = JFactory::getApplication();

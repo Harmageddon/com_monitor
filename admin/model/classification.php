@@ -161,7 +161,6 @@ class MonitorModelClassification extends MonitorModelAbstract
 		JForm::addFieldPath(__DIR__ . '/fields');
 		$this->form = JForm::getInstance('com_monitor.classification', 'classification');
 
-
 		if ($data = $this->app->getUserState($this->form->getName() . '.data'))
 		{
 			$this->form->bind($data);
@@ -175,54 +174,6 @@ class MonitorModelClassification extends MonitorModelAbstract
 			$data = array('project_id' => $this->app->input->getInt('project_id'));
 			$this->form->bind($data);
 		}
-	}
-
-	/** TODO
-	 * Checks if a user is allowed to edit a certain issue.
-	 *
-	 * @param   JUser  $user  The user whose permissions should be checked.
-	 * @param   int    $id    ID of the relevant issue. If left empty or set to 0,
-	 *                        the permission to create a new issue is checked.
-	 *
-	 * @return bool True, if the user is allowed to edit the issue, false if not.
-	 */
-	public function canEdit($user, $id = 0)
-	{
-		$id = (int) $id;
-
-		// If ID is 0, we create a new issue.
-		if ($id == 0)
-		{
-			return $user->authorise('issue.create', 'com_monitor');
-		}
-		else
-		{
-			// If user is not allowed to edit...
-			if (!$user->authorise('issue.edit', 'com_monitor'))
-			{
-				if (!$user->authorise('issue.edit.own', 'com_monitor'))
-				{
-					return false;
-				}
-				// ...but to edit own comments...
-				$authorQuery = $this->db->getQuery(true)
-					->select('author_id')
-					->from('#__monitor_issues')
-					->where('id = ' . $id);
-
-				$this->db->setQuery($authorQuery);
-				$this->db->execute();
-				$result = $this->db->loadResult();
-
-				// ...check if the comment belongs to the user.
-				if ($result != $user->id)
-				{
-					return false;
-				}
-			}
-		}
-
-		return true;
 	}
 
 	/**

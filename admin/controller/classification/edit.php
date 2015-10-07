@@ -31,7 +31,7 @@ class MonitorControllerClassificationEdit extends JControllerBase
 	{
 		if (!JFactory::getUser()->authorise('classification.edit', 'com_monitor'))
 		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$model = new MonitorModelClassification;

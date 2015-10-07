@@ -117,7 +117,7 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 				}
 				else
 				{
-					throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+					throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 				}
 			}
 

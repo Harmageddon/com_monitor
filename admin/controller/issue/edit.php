@@ -29,14 +29,15 @@ class MonitorControllerIssueEdit extends JControllerBase
 	 */
 	public function execute()
 	{
-		if (!JFactory::getUser()->authorise('issue.edit', 'com_monitor'))
-		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
-		}
-
 		$model = new MonitorModelIssue;
 		$cid = $this->input->get('cid', array(), 'array');
 		$id = $cid ? $cid[0] : $this->input->getInt('id');
+
+		if (!$model->canEdit(JFactory::getUser(), $id))
+		{
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		$model->setIssueId($id);
 		$model->loadForm();
 		$view = new MonitorViewIssueHtml($model);

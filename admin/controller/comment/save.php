@@ -31,7 +31,7 @@ class MonitorControllerCommentSave extends JControllerBase
 
 		if (!$model->canEdit(JFactory::getUser(), $id))
 		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$result = $model->save($this->input);

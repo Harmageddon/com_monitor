@@ -36,7 +36,7 @@ class MonitorControllerIssueSave extends JControllerBase
 
 		if (!$model->canEdit(JFactory::getUser(), $id))
 		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$issue_id = $model->save($this->input);

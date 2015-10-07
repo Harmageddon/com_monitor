@@ -354,7 +354,6 @@ class MonitorModelIssue extends MonitorModelAbstract
 		JForm::addFieldPath(__DIR__ . '/fields');
 		$this->form = JForm::getInstance('com_monitor.issue', 'issue');
 
-
 		if ($data = $this->app->getUserState($this->form->getName() . '.data'))
 		{
 			$this->form->bind($data);
@@ -410,30 +409,50 @@ class MonitorModelIssue extends MonitorModelAbstract
 		{
 			return $user->authorise('issue.create', 'com_monitor');
 		}
-		else
+
+		// If user is not allowed to edit...
+		if (!$user->authorise('issue.edit', 'com_monitor'))
 		{
-			// If user is not allowed to edit...
-			if (!$user->authorise('issue.edit', 'com_monitor'))
+			if (!$user->authorise('issue.edit.own', 'com_monitor'))
 			{
-				if (!$user->authorise('issue.edit.own', 'com_monitor'))
-				{
-					return false;
-				}
-				// ...but to edit own comments...
-				$authorQuery = $this->db->getQuery(true)
-					->select('author_id')
-					->from('#__monitor_issues')
-					->where('id = ' . $id);
+				return false;
+			}
+			// ...but to edit own issue...
+			$infoQuery = $this->db->getQuery(true)
+				->select('author_id, classification')
+				->from('#__monitor_issues')
+				->where('id = ' . $id);
 
-				$this->db->setQuery($authorQuery);
-				$this->db->execute();
-				$result = $this->db->loadResult();
+			$this->db->setQuery($infoQuery);
+			$this->db->execute();
+			$result = $this->db->loadObject();
 
-				// ...check if the comment belongs to the user.
-				if ($result != $user->id)
-				{
-					return false;
-				}
+			// ...check if the issue belongs to the user.
+			if ($result->author_id != $user->id)
+			{
+				return false;
+			}
+		}
+
+		// Check if the user has access to the issue according to its classification.
+		if (!isset($result))
+		{
+			$infoQuery = $this->db->getQuery(true)
+				->select('author_id, classification')
+				->from('#__monitor_issues')
+				->where('id = ' . $id);
+
+			$this->db->setQuery($infoQuery);
+			$this->db->execute();
+			$result = $this->db->loadObject();
+		}
+
+		if (!in_array($result->classification, $user->getAuthorisedViewLevels()))
+		{
+			// Users can edit their own classifications, regardless of the classification.
+			if ($result->author_id != $user->id)
+			{
+				return false;
 			}
 		}
 

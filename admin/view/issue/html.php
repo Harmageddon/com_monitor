@@ -44,7 +44,7 @@ class MonitorViewIssueHtml extends MonitorViewEdit
 		{
 			if (!in_array($this->item->access, $user->getAuthorisedViewLevels()))
 			{
-				throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+				throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 			}
 
 			$this->canEditIssue = $this->model->canEdit($user, $this->item->id);

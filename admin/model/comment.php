@@ -296,7 +296,7 @@ class MonitorModelComment extends MonitorModelAbstract
 
 		if (!$this->canEdit($user, $id))
 		{
-			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		if ($id != 0)
