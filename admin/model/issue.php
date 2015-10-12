@@ -41,6 +41,8 @@ class MonitorModelIssue extends MonitorModelAbstract
 		"i.id DESC",
 		"i.title ASC",
 		"i.title DESC",
+		"i.created ASC",
+		"i.created DESC",
 		"u.name ASC",
 		"u.name DESC",
 		"p.name ASC",
@@ -79,11 +81,24 @@ class MonitorModelIssue extends MonitorModelAbstract
 	/**
 	 * Retrieves a set of issues from the database.
 	 *
+	 * @param   array|null  $filters  Additional filters to use.
+	 * @param   array|null  $list     Additional list options to use.
+	 *
 	 * @return array All issues, if $projectId is not set or 0.
 	 *               All issues belonging to the project specified in $projectId.
 	 */
-	public function getIssues()
+	public function getIssues($filters = null, $list = null)
 	{
+		if ($filters)
+		{
+			$this->filters = $filters;
+		}
+
+		if ($list)
+		{
+			$this->list = $list;
+		}
+
 		$query = $this->buildQuery();
 
 		// Filter by ACL

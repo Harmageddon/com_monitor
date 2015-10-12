@@ -118,10 +118,23 @@ class MonitorModelComment extends MonitorModelAbstract
 	/**
 	 * Retrieves all comments from the database.
 	 *
+	 * @param   array|null  $filters  Additional filters to use.
+	 * @param   array|null  $list     Additional list options to use.
+	 *
 	 * @return mixed An array of data items on success, false on failure.
 	 */
-	public function getComments()
+	public function getComments($filters = null, $list = null)
 	{
+		if ($filters)
+		{
+			$this->filters = $filters;
+		}
+
+		if ($list)
+		{
+			$this->list = $list;
+		}
+
 		$query = $this->buildQuery();
 		$query->select('s.name AS status_name')
 			->select('i.title AS issue_title, p.name AS project_name, p.id AS project_id')
@@ -168,7 +181,10 @@ class MonitorModelComment extends MonitorModelAbstract
 		$this->countItems($query);
 
 		// Ordering
-		if ($app->isAdmin() && $this->list !== null && isset($this->list['fullordering']) && in_array($this->list['fullordering'], $this->orderOptions))
+		if (($app->isAdmin() || $list)
+			&& $this->list !== null
+			&& isset($this->list['fullordering'])
+			&& in_array($this->list['fullordering'], $this->orderOptions))
 		{
 			$query->order($this->list['fullordering']);
 		}
