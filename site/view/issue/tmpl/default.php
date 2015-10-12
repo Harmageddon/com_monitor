@@ -114,7 +114,8 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 			$class = ($i % 2 == 0) ? 'even' : 'odd';
 			$canEdit = $this->canEditComments || ($this->canEditOwnComments && $comment->author_id == JFactory::getUser()->id);
 			?>
-			<div class="comment row-fluid row-<?php echo $class; ?>">
+			<div class="comment row-fluid row-<?php echo $class; ?>"
+				id="comment-<?php echo $comment->id; ?>">
 				<div class="comment-details span3">
 					<?php if ($this->params->get('comment_show_author', 1)) : ?>
 						<div class="comment-author">
