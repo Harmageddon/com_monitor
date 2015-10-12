@@ -38,6 +38,17 @@ class MonitorRouter implements JComponentRouterInterface
 	private $modelIssue;
 
 	/**
+	 * Lookup array for relevant menu items.
+	 *
+	 * Schema: $lookup[view][id][layout] => itemId
+	 * $lookup[project][1] => 42
+	 * $lookup[issue][2][edit] => 100
+	 *
+	 * @var array
+	 */
+	private $lookup;
+
+	/**
 	 * MonitorRouter constructor.
 	 *
 	 * @param   JApplicationCms      $app           Application object that the router should use
@@ -105,7 +116,22 @@ class MonitorRouter implements JComponentRouterInterface
 	 */
 	public function preprocess($query)
 	{
-		// TODO
+		if (!isset($query['Itemid']))
+		{
+			$queryEdited = $query;
+
+			if (!isset($queryEdited['layout']))
+			{
+				$queryEdited['layout'] = 'default';
+			}
+
+			$itemId = $this->lookupQuery($queryEdited);
+
+			if ($itemId)
+			{
+				$query['Itemid'] = $itemId;
+			}
+		}
 
 		return $query;
 	}
@@ -278,17 +304,28 @@ class MonitorRouter implements JComponentRouterInterface
 
 		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : null;
 
+		$noProject = false;
+
 		if ($query['view'] === 'issues')
 		{
-			$this->modelProject->setProjectId($query['project_id']);
-			unset($query['project_id']);
-
-			// Does the menu item point to the "issues" view for the same project?
-			$menuViewSameProjectIssues = $menuView === 'issues' && $this->modelProject->getProjectId() === (int) $menuQuery['project_id'];
-
-			if (!($menuViewSameProjectIssues))
+			if (isset($query['project_id']))
 			{
-				$url[1] = 'issues';
+				$this->modelProject->setProjectId((int) $query['project_id']);
+				unset($query['project_id']);
+
+				// Does the menu item point to the "issues" view for the same project?
+				$menuViewSameProjectIssues = $menuView === 'issues' && $this->modelProject->getProjectId() === (int) $menuQuery['project_id'];
+
+				if (!($menuViewSameProjectIssues))
+				{
+					$url[1] = 'issues';
+				}
+			}
+
+			else
+			{
+				$noProject = true;
+				$url[0] = 'issues';
 			}
 		}
 		else
@@ -351,7 +388,8 @@ class MonitorRouter implements JComponentRouterInterface
 			&& isset($menuEditing) && isset($editing) && $menuEditing && $editing;
 		$menuEditingSameProject    = isset($menuEditingSameProject) && $menuEditingSameProject;
 
-		if (!($menuViewSameProjectIssues || $menuViewSameProject || $menuViewSameIssue || $menuViewSameIssueEditing || $menuEditingSameProject))
+		if (!($menuViewSameProjectIssues || $menuViewSameProject || $menuViewSameIssue
+			|| $menuViewSameIssueEditing || $menuEditingSameProject || $noProject))
 		{
 			$project = $this->modelProject->getProject();
 
@@ -380,18 +418,21 @@ class MonitorRouter implements JComponentRouterInterface
 
 		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : null;
 
-		$this->modelProject->setProjectId($query['id']);
-
-		$project = $this->modelProject->getProject();
-
-		if ($project)
+		if (isset($query['id']))
 		{
-			if (!($menuView === 'project' && $query['id'] === $menuQuery['id']))
-			{
-				$url[0] = $project->alias;
-			}
+			$this->modelProject->setProjectId($query['id']);
 
-			unset($query['id']);
+			$project = $this->modelProject->getProject();
+
+			if ($project)
+			{
+				if (!($menuView === 'project' && $query['id'] === $menuQuery['id']))
+				{
+					$url[0] = $project->alias;
+				}
+
+				unset($query['id']);
+			}
 		}
 
 		unset($query['view']);
@@ -459,7 +500,7 @@ class MonitorRouter implements JComponentRouterInterface
 			return $menuItem->query;
 		}
 
-		$menuQuery = ($menuItem->query['option'] === self::COMPONENT) ? $menuItem->query : null;
+		$menuQuery = ($menuItem !== null && $menuItem->query['option'] === self::COMPONENT) ? $menuItem->query : null;
 		self::convertTaskToView($menuQuery);
 
 		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : null;
@@ -468,10 +509,14 @@ class MonitorRouter implements JComponentRouterInterface
 		{
 			$query['view'] = 'projects';
 		}
-		elseif ($segments[0] == 'issues' && ($menuView == 'project' && isset($menuQuery['id'])))
+		elseif ($segments[0] == 'issues')
 		{
-			$query['view']       = 'issues';
-			$query['project_id'] = $menuQuery['id'];
+			$query['view'] = 'issues';
+
+			if ($menuView == 'project' && isset($menuQuery['id']))
+			{
+				$query['project_id'] = $menuQuery['id'];
+			}
 		}
 		elseif ($segments[0] == 'comment')
 		{
@@ -591,5 +636,142 @@ class MonitorRouter implements JComponentRouterInterface
 		}
 
 		return $query;
+	}
+
+	private function lookupQuery($query)
+	{
+		// Build the lookup array.
+		if (!$this->lookup)
+		{
+			$this->makeLookup();
+		}
+
+		if (isset($query['view']) && isset($this->lookup[$query['view']]))
+		{
+			if (is_array($this->lookup[$query['view']]))
+			{
+				$key = isset($query['id']) ? $query['id'] : ((isset($query['project_id'])) ? $query['project_id'] : '_');
+
+				if (isset($this->lookup[$query['view']][$key]))
+				{
+					if (is_array($this->lookup[$query['view']][$key]))
+					{
+						if (isset($query['layout']) && isset($this->lookup[$query['view']][$key][$query['layout']]))
+						{
+							return $this->lookup[$query['view']][$key][$query['layout']];
+						}
+					}
+					else
+					{
+						return $this->lookup[$query['view']][$key];
+					}
+				}
+			}
+			else
+			{
+				return $this->lookup[$query['view']];
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Fills the lookup variable.
+	 *
+	 * @return null
+	 */
+	private function makeLookup()
+	{
+		$this->lookup = array();
+
+		$component  = JComponentHelper::getComponent('com_monitor');
+
+		$attributes = array('component_id');
+		$values     = array($component->id);
+
+		$items = $this->menu->getItems($attributes, $values);
+
+		foreach ($items as $item)
+		{
+			if (isset($item->query))
+			{
+				switch ($item->query['view'])
+				{
+					case 'projects':
+						$this->addLookup((int) $item->id, 'projects');
+						break;
+					case 'project':
+						if (isset($item->query['id']))
+						{
+							$this->addLookup((int) $item->id, 'project', $item->query['id']);
+						}
+						break;
+					case 'issues':
+						$id = (isset($item->query['project_id'])) ? $item->query['project_id'] : '_';
+						$this->addLookup((int) $item->id, 'issues', $id);
+						break;
+					case 'issue':
+						$layout = (isset($item->query['layout'])) ? $item->query['layout'] : 'default';
+
+						if (isset($item->query['id']))
+						{
+							$this->addLookup((int) $item->id, 'issue', $item->query['id'], $layout);
+						}
+						elseif ($layout === 'edit' && isset($item->query['project_id']))
+						{
+							$this->addLookup((int) $item->id, 'issue', $item->query['project_id'], 'new');
+						}
+						break;
+					case 'comment':
+						if (isset($item->query['id']))
+						{
+							$this->addLookup((int) $item->id, 'comment', $item->query['id'], 'edit');
+						}
+						elseif (isset($item->query['issue_id']))
+						{
+							$this->addLookup((int) $item->id, 'comment', $item->query['id'], 'new');
+						}
+						break;
+				}
+			}
+		}
+	}
+
+	private function addLookup($value, $view, $id = null, $layout = null)
+	{
+		if (!isset($this->lookup))
+		{
+			$this->lookup = array();
+		}
+
+		if ($id !== null)
+		{
+			if (!isset($this->lookup[$view]))
+			{
+				$this->lookup[$view] = array();
+			}
+
+			if ($layout !== null)
+			{
+				if (!isset($this->lookup[$view][$id]))
+				{
+					$this->lookup[$view][$id] = array();
+				}
+
+				$this->lookup[$view][$id][$layout] = $value;
+			}
+			else
+			{
+				$this->lookup[$view][$id] = $value;
+			}
+		}
+		else
+		{
+			if (!isset($this->lookup[$view]))
+			{
+				$this->lookup[$view] = $value;
+			}
+		}
 	}
 }
