@@ -222,7 +222,7 @@ class MonitorModelProject extends MonitorModelAbstract
 	 */
 	public function setProjectId($projectId)
 	{
-		$this->projectId = $projectId;
+		$this->projectId = (int) $projectId;
 	}
 
 	/**

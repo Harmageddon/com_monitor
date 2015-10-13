@@ -79,6 +79,26 @@ class MonitorModelIssue extends MonitorModelAbstract
 	}
 
 	/**
+	 * Retrieves the project ID for a given issue.
+	 *
+	 * @param   int  $issueId  ID of the issue.
+	 *
+	 * @return  int|null  The project ID if the query was successful, null if it failed.
+	 */
+	public function getIssueProject($issueId)
+	{
+		$query = $this->db->getQuery(true);
+
+		$query->select('project_id')
+			->from('#__monitor_issues')
+			->where('id = ' . (int) $issueId);
+
+		$this->db->setQuery($query);
+
+		return $this->db->loadResult();
+	}
+
+	/**
 	 * Retrieves a set of issues from the database.
 	 *
 	 * @param   array|null  $filters  Additional filters to use.

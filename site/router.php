@@ -339,12 +339,11 @@ class MonitorRouter implements JComponentRouterInterface
 			{
 				if (!$menuViewSameIssue || ($menuEditing && !$editing))
 				{
-					$this->modelIssue->setIssueId($query['id']);
-					$issue = $this->modelIssue->getIssue();
+					$projectId = $this->modelIssue->getIssueProject($query['id']);
 
-					if ($issue)
+					if ($projectId)
 					{
-						$this->modelProject->setProjectId($issue->project_id);
+						$this->modelProject->setProjectId($projectId);
 
 						$url[1] = $query['id'];
 					}
@@ -646,19 +645,36 @@ class MonitorRouter implements JComponentRouterInterface
 			$this->makeLookup();
 		}
 
+		// View matches.
 		if (isset($query['view']) && isset($this->lookup[$query['view']]))
 		{
+			// More complex view.
 			if (is_array($this->lookup[$query['view']]))
 			{
 				$key = isset($query['id']) ? $query['id'] : ((isset($query['project_id'])) ? $query['project_id'] : '_');
 
+				// View and ID match.
 				if (isset($this->lookup[$query['view']][$key]))
 				{
 					if (is_array($this->lookup[$query['view']][$key]))
 					{
-						if (isset($query['layout']) && isset($this->lookup[$query['view']][$key][$query['layout']]))
+						if (isset($query['layout']))
 						{
-							return $this->lookup[$query['view']][$key][$query['layout']];
+							// View, ID and layout match.
+							if (isset($this->lookup[$query['view']][$key][$query['layout']]))
+							{
+								return $this->lookup[$query['view']][$key][$query['layout']];
+							}
+							// View and ID match, different layout (menu: default, link: edit).
+							elseif ($query['layout'] === 'default' && isset($this->lookup[$query['view']][$key]['edit']))
+							{
+								return $this->lookup[$query['view']][$key]['edit'];
+							}
+							// View and ID match, different layout (menu: default, link: new).
+							elseif ($query['layout'] === 'default' && isset($this->lookup[$query['view']][$key]['new']))
+							{
+								return $this->lookup[$query['view']][$key]['new'];
+							}
 						}
 					}
 					else
@@ -667,9 +683,40 @@ class MonitorRouter implements JComponentRouterInterface
 					}
 				}
 			}
+			// Simple view without more parameters.
 			else
 			{
 				return $this->lookup[$query['view']];
+			}
+		}
+		// View doesn't match.
+		// Menu: Project, URL: Issues for the same project.
+		if ($query['view'] === 'issues' && isset($query['project_id']))
+		{
+			if (isset($this->lookup['project']) && isset($this->lookup['project'][$query['project_id']]))
+			{
+				return $this->lookup['project'][$query['project_id']];
+			}
+		}
+		elseif ($query['view'] === 'issue')
+		{
+			if (isset($query['id']))
+			{
+				$projectId = $this->modelIssue->getIssueProject($query['id']);
+
+				if ($projectId)
+				{
+					// Found menu item for the same project.
+					if (isset($this->lookup['project']) && isset($this->lookup['project'][$projectId]))
+					{
+						return $this->lookup['project'][$projectId];
+					}
+					// Found menu item for the same project (issues view).
+					elseif (isset($this->lookup['issues']) && isset($this->lookup['issues'][$projectId]))
+					{
+						return $this->lookup['issues'][$projectId];
+					}
+				}
 			}
 		}
 

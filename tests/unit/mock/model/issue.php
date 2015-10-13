@@ -32,6 +32,7 @@ class MonitorTestMockModelIssue
 			'getIssueId',
 			'setIssueId',
 			'getIssue',
+			'getIssueProject',
 			'getIssues',
 		);
 
@@ -65,6 +66,10 @@ class MonitorTestMockModelIssue
 		$mockObject->expects($test->any())
 			->method('getIssue')
 			->will($test->returnValue(self::$data[self::$issueId]));
+
+		$mockObject->expects($test->any())
+			->method('getIssueProject')
+			->will($test->returnValue(1));
 
 		$mockObject->expects($test->any())
 			->method('getIssues')
