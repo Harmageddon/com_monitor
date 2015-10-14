@@ -47,7 +47,7 @@ class MonitorModelProject extends MonitorModelAbstract
 		}
 
 		$query = $this->db->getQuery(true);
-		$query->select('id, name, alias, description, url, logo, logo_alt')
+		$query->select('id, name, alias, description, url, logo, logo_alt, issue_template')
 			->from('#__monitor_projects')
 		->where("id = " . $query->q($this->projectId));
 
@@ -102,7 +102,7 @@ class MonitorModelProject extends MonitorModelAbstract
 	/**
 	 * Saves a project entity.
 	 *
-	 * @param   Input  $input  Holds the data to be saved.
+	 * @param   JInput  $input  Holds the data to be saved.
 	 *
 	 * @return  mixed   A database cursor resource on success, boolean false on failure.
 	 *
@@ -110,14 +110,15 @@ class MonitorModelProject extends MonitorModelAbstract
 	 */
 	public function save($input)
 	{
-		$query = $this->db->getQuery(true);
-		$values = array (
-			"name" => $input->getString('name'),
-			"alias" => $input->getString('alias'),
-			"url" => $input->getString('url'),
-			"logo" => $input->getString('logo'),
-			"logo_alt" => $input->getString('logo_alt'),
-			"description" => $input->getString('description'),
+		$query  = $this->db->getQuery(true);
+		$values = array(
+			"name"           => $input->getString('name'),
+			"alias"          => $input->getString('alias'),
+			"url"            => $input->getString('url'),
+			"logo"           => $input->getString('logo'),
+			"logo_alt"       => $input->getString('logo_alt'),
+			"description"    => $input->get('description', '', 'raw'),
+			"issue_template" => $input->get('issue_template', '', 'raw'),
 		);
 
 		$values = $this->validate($values);

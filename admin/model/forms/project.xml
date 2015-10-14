@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addrulepath="/administrator/components/com_monitor/model/rules">
-	<fieldset>
+	<fieldset name="project">
 		<field
 			name="id"
 			type="hidden"
-		/>
+			/>
 		<field
 			name="name"
 			type="text"
@@ -59,7 +59,18 @@
 			description="COM_MONITOR_PROJECT_DESCRIPTION_DESC"
 			class="inputbox"
 			default=""
-			filter="safehtml"
-		/>
+			filter="JComponentHelper::filterText"
+			/>
+	</fieldset>
+	<fieldset name="issues">
+		<field
+			name="issue_template"
+			type="editor"
+			label="COM_MONITOR_PROJECT_ISSUE_TEMPLATE_LABEL"
+			description="COM_MONITOR_PROJECT_ISSUE_TEMPLATE_DESC"
+			class="inputbox"
+			default=""
+			filter="JComponentHelper::filterText"
+			/>
 	</fieldset>
 </form>

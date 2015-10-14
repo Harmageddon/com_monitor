@@ -249,7 +249,7 @@ class MonitorModelIssue extends MonitorModelAbstract
 	 *
 	 * @param   stdClass  $issue  Issue object from the database.
 	 *
-	 * @return  stdClass Issue object with updated status.
+	 * @return  stdClass  Issue object with updated status.
 	 *
 	 * @throws Exception
 	 */
@@ -269,8 +269,8 @@ class MonitorModelIssue extends MonitorModelAbstract
 
 		if ($result)
 		{
-			$issue->status = $result->name;
-			$issue->status_id = $result->id;
+			$issue->status       = $result->name;
+			$issue->status_id    = $result->id;
 			$issue->status_style = $result->style;
 		}
 
@@ -284,7 +284,7 @@ class MonitorModelIssue extends MonitorModelAbstract
 	 */
 	public static function getDefaultStatus()
 	{
-		if (self::$defaultStatus )
+		if (self::$defaultStatus)
 		{
 			return self::$defaultStatus;
 		}
@@ -342,13 +342,13 @@ class MonitorModelIssue extends MonitorModelAbstract
 	public function save($input)
 	{
 		$query = $this->db->getQuery(true);
-		$user = JFactory::getUser();
+		$user  = JFactory::getUser();
 
-		$values = array (
-			"title" => $input->getString('title'),
-			"text"  => $input->getString('text'),
-			"version" => $input->getString('version'),
-			"project_id" => $input->getInt('project_id'),
+		$values = array(
+			"title"          => $input->getString('title'),
+			"text"           => $input->getString('text'),
+			"version"        => $input->getString('version'),
+			"project_id"     => $input->getInt('project_id'),
 			"classification" => $input->getInt('classification'),
 		);
 
@@ -408,7 +408,10 @@ class MonitorModelIssue extends MonitorModelAbstract
 		}
 		else
 		{
-			$data = array('project_id' => $this->app->input->getInt('project_id'));
+			$data = array(
+				'project_id' => $this->app->input->getInt('project_id'),
+				'text'       => $this->getDefaultText($this->app->input->getInt('project_id')),
+			);
 			$this->form->bind($data);
 		}
 	}
@@ -433,6 +436,25 @@ class MonitorModelIssue extends MonitorModelAbstract
 		$this->db->setQuery($query);
 
 		return $this->db->loadObjectList('id');
+	}
+
+	/**
+	 * Retrieves the issue template text.
+	 *
+	 * @param   int  $projectId  Project ID to use.
+	 *
+	 * @return   string|null  Issue template, if the project exists; null otherwise.
+	 */
+	public function getDefaultText($projectId)
+	{
+		$query = $this->db->getQuery(true);
+		$query->select('issue_template')
+			->from('#__monitor_projects')
+			->where('id = ' . $projectId);
+
+		$this->db->setQuery($query);
+
+		return $this->db->loadResult();
 	}
 
 	/**

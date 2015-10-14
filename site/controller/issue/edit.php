@@ -61,7 +61,11 @@ class MonitorControllerIssueEdit extends JControllerBase
 			}
 		}
 
-		$model->setIssueId($id);
+		if ($id)
+		{
+			$model->setIssueId($id);
+		}
+
 		$model->loadForm();
 		$view = new MonitorViewIssueHtml($model);
 		$view->setLayout('edit');

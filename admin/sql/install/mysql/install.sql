@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `#__monitor_projects`(
 	`url` varchar(255) NOT NULL COMMENT 'Link to the project homepage',
 	`logo` varchar(255) NOT NULL COMMENT 'Path to the logo image.',
 	`logo_alt` varchar(255) NOT NULL COMMENT 'Alternative text for the logo.',
+	`issue_template` varchar(255) NOT NULL COMMENT 'Default text for issues of this project.',
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
