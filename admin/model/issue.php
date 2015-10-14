@@ -29,9 +29,11 @@ class MonitorModelIssue extends MonitorModelAbstract
 	private $issueId;
 
 	/**
-	 * @var MonitorModelComment
+	 * Associative array mapping issue IDs to their respective project IDs.
+	 *
+	 * @var array
 	 */
-	private $modelComment;
+	private $projects;
 
 	/**
 	 * @var array All valid ordering options.
@@ -87,6 +89,11 @@ class MonitorModelIssue extends MonitorModelAbstract
 	 */
 	public function getIssueProject($issueId)
 	{
+		if (isset($this->projects[$issueId]))
+		{
+			return $this->projects[$issueId];
+		}
+
 		$query = $this->db->getQuery(true);
 
 		$query->select('project_id')
@@ -95,7 +102,9 @@ class MonitorModelIssue extends MonitorModelAbstract
 
 		$this->db->setQuery($query);
 
-		return $this->db->loadResult();
+		$this->projects[$issueId] = $this->db->loadResult();
+
+		return $this->projects[$issueId];
 	}
 
 	/**

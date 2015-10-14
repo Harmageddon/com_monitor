@@ -143,8 +143,8 @@ class MonitorModelComment extends MonitorModelAbstract
 
 		$app = JFactory::getApplication();
 
-		// Filters (admin only)
-		if ($app->isAdmin() && $this->filters !== null)
+		// Filters
+		if ($this->filters !== null)
 		{
 			// Filter by author
 			if (isset($this->filters['author']) && (int) $this->filters['author'] !== 0)
