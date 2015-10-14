@@ -76,11 +76,6 @@ class MonitorModelComment extends MonitorModelAbstract
 		$query = $this->buildQuery();
 		$query->where("c.id = " . $query->q($this->commentId));
 
-		$query
-			->where('c.issue_id = ' . $this->issueId)
-			->select('contact.id AS contact_id, contact.image AS contact_image')
-			->leftJoin('#__contact_details AS contact ON contact.user_id = c.author_id AND contact.published = 1');
-
 		$this->db->setQuery($query);
 
 		return $this->db->loadObject();
@@ -206,7 +201,6 @@ class MonitorModelComment extends MonitorModelAbstract
 
 		$this->form = JForm::getInstance('com_monitor.comment', 'comment');
 
-
 		if ($data = $this->app->getUserState($this->form->getName() . '.data'))
 		{
 			$this->form->bind($data);
@@ -214,6 +208,7 @@ class MonitorModelComment extends MonitorModelAbstract
 		elseif ($this->commentId)
 		{
 			$this->form->bind($this->getComment());
+			var_dump($this->form);
 		}
 	}
 

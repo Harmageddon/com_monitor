@@ -27,6 +27,21 @@ class MonitorViewCommentHtml extends MonitorViewAbstract
 	protected $form;
 
 	/**
+	 * @var MonitorModelComment
+	 */
+	protected $model;
+
+	/**
+	 * @var int
+	 */
+	protected $issue_id;
+
+	/**
+	 * @var string
+	 */
+	protected $issue_title;
+
+	/**
 	 * Method to render the view.
 	 *
 	 * @return  string  The rendered view.
@@ -42,11 +57,14 @@ class MonitorViewCommentHtml extends MonitorViewAbstract
 			$this->setLayout('edit');
 		}
 
-		$this->issue_id = $this->model->getIssueId();
-		$this->issue_title = $this->model->getIssueTitle();
+		if ($this->item)
+		{
+			$this->model->setIssueId($this->item->issue_id);
+		}
 
-		$this->form = $this->model->getForm();
-
+		$this->issue_id     = $this->model->getIssueId();
+		$this->issue_title  = $this->model->getIssueTitle();
+		$this->form         = $this->model->getForm();
 		$this->defaultTitle = JText::sprintf('COM_MONITOR_CREATE_COMMENT_TITLE', $this->issue_title);
 
 		return parent::render();
