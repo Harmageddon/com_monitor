@@ -24,9 +24,9 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 <?php endif; ?>
 
 <?php // TODO: Split in blocks when new MVC is implemented. ?>
-<div class="row-fluid issue">
+<div class="row-fluid issue" itemscope itemtype="http://schema.org/Question">
 	<?php echo $this->item->event->beforeDisplayContent; ?>
-	<div class="issue-description span9">
+	<div class="issue-description span9" itemprop="text">
 		<?php echo $this->item->text; ?>
 	</div>
 	<div class="issue-details span3">
@@ -70,7 +70,7 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 					if (!empty($this->item->contact_id) && $this->params->get('link_author', 1) == true)
 					{
 						$contact_link = JRoute::_('index.php?option=com_contact&view=contact&id=' . (int) $this->item->contact_id);
-						echo JHtml::_('link', $contact_link, $this->item->author_name, array('itemprop' => 'url'));
+						echo JHtml::_('link', $contact_link, $this->item->author_name, array('itemprop' => 'author'));
 					}
 					else
 					{
@@ -82,7 +82,7 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 
 			<?php if ($this->params->get('issue_show_date_created', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_CREATE_DATE'); ?></dt>
-				<dd>
+				<dd itemprop="dateCreated">
 					<?php echo JHtml::_('date', $this->item->created, $date_format); ?>
 				</dd>
 			<?php endif; ?>
@@ -115,7 +115,8 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 			$canEdit = $this->canEditComments || ($this->canEditOwnComments && $comment->author_id == JFactory::getUser()->id);
 			?>
 			<div class="comment row-fluid row-<?php echo $class; ?>"
-				id="comment-<?php echo $comment->id; ?>">
+				id="comment-<?php echo $comment->id; ?>"
+				 itemscope itemtype="http://schema.org/Comment">
 				<div class="comment-details span3">
 					<?php if ($this->params->get('comment_show_author', 1)) : ?>
 						<div class="comment-author">
@@ -133,7 +134,7 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 							if (!empty($comment->contact_id) && $this->params->get('link_author', 1))
 							{
 								$contact_link = JRoute::_('index.php?option=com_contact&view=contact&id=' . (int) $comment->contact_id);
-								echo JHtml::_('link', $contact_link, $comment->author_name, array('itemprop' => 'url'));
+								echo JHtml::_('link', $contact_link, $comment->author_name, array('itemprop' => 'author'));
 							}
 							else
 							{
@@ -143,7 +144,7 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 						</div>
 					<?php endif; ?>
 					<?php if ($this->params->get('comment_show_date_created', 1)): ?>
-						<div class="comment-date">
+						<div class="comment-date" itemprop="dateCreated">
 							<?php echo JHtml::_('date', $comment->created, $date_format); ?>
 						</div>
 					<?php endif; ?>
@@ -191,7 +192,7 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 						<?php
 						$oldStatus = $newStatus;
 					endif; ?>
-					<div class="comment-text">
+					<div class="comment-text" itemprop="text">
 						<?php echo $comment->text; ?>
 					</div>
 				</div>
