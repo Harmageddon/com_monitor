@@ -118,7 +118,10 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 			?>
 			<div class="comment row-fluid row-<?php echo $class; ?>"
 				id="comment-<?php echo $comment->id; ?>"
-				 itemscope itemtype="http://schema.org/Comment">
+				 itemscope itemtype="http://schema.org/Comment"
+				data-issue="<?php echo $this->item->id; ?>"
+				data-comment="<?php echo $comment->id; ?>"
+				data-author="<?php echo $comment->author_name; ?>">
 				<div class="comment-details span3">
 					<?php if ($this->params->get('comment_show_author', 1)) : ?>
 						<div class="comment-author">
