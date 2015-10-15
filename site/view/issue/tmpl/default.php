@@ -212,9 +212,9 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 		</a>
 	</div>
 	<?php endif; ?>
-
-	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>
+
+<?php echo $this->item->event->afterDisplayContent; ?>
 
 <script>
 	jQuery(document).ready(function() {
