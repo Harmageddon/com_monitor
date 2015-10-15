@@ -192,8 +192,8 @@ class MonitorRouter implements JComponentRouterInterface
 
 		switch ($query['view'])
 		{
-			case 'projects':
-				$url = $this->buildProjects($query, $menuQuery);
+			case 'project':
+				$url = $this->buildProject($query, $menuQuery);
 				break;
 			case 'comment':
 				$url = $this->buildComment($query, $menuQuery);
@@ -202,8 +202,9 @@ class MonitorRouter implements JComponentRouterInterface
 			case 'issue':
 				$url = $this->buildIssue($query, $menuQuery);
 				break;
+			case 'projects':
 			default:
-				$url = $this->buildProject($query, $menuQuery);
+				$url = $this->buildProjects($query, $menuQuery);
 		}
 
 		ksort($url);
@@ -263,7 +264,16 @@ class MonitorRouter implements JComponentRouterInterface
 		{
 			if (!$sameComment)
 			{
-				$url[1] = 'edit';
+				if (isset($query['layout']) && $query['layout'] === 'delete')
+				{
+					$url[1] = 'delete';
+					unset($query['layout']);
+				}
+				else
+				{
+					$url[1] = 'edit';
+				}
+
 				$url[2] = $query['id'];
 			}
 
@@ -520,7 +530,7 @@ class MonitorRouter implements JComponentRouterInterface
 		elseif ($segments[0] == 'comment')
 		{
 			$query['view']   = 'comment';
-			$query['layout'] = 'edit';
+			$query['layout'] = ($segments[1] === 'delete') ? 'delete' : 'edit';
 
 			if (isset($segments[1]) && $segments[1] == 'new' && is_numeric($segments[2]))
 			{

@@ -53,7 +53,16 @@ class MonitorControllerCommentDelete extends JControllerBase
 		}
 		else
 		{
-			$app->redirect(JRoute::_('index.php?option=com_monitor&view=issues', false));
+			$issue_id = $this->input->getInt('issue_id', null);
+
+			if ($issue_id)
+			{
+				$app->redirect(JRoute::_('index.php?option=com_monitor&view=issue&id=' . $issue_id, false));
+			}
+			else
+			{
+				$app->redirect(JRoute::_('index.php?option=com_monitor&view=issues', false));
+			}
 		}
 
 		return true;
