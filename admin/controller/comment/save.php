@@ -16,7 +16,6 @@ defined('_JEXEC') or die;
  */
 class MonitorControllerCommentSave extends JControllerBase
 {
-
 	/**
 	 * Execute the controller, save the values from the form and redirect to comments view.
 	 *
@@ -63,7 +62,7 @@ class MonitorControllerCommentSave extends JControllerBase
 		else
 		{
 			$issue_id = $this->input->getInt('issue_id');
-			$app->redirect(JRoute::_('index.php?option=com_monitor&view=issue&id=' . $issue_id, false));
+			$app->redirect(JRoute::_('index.php?option=com_monitor&view=issue&id=' . $issue_id . '#comment-' . $result, false));
 		}
 
 		return true;

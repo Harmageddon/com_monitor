@@ -8,6 +8,8 @@
  */
 
 $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2'));
+$urlCommentSave = JRoute::_('index.php?option=com_monitor');
+$urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issue_id=' . $this->item->id);
 ?>
 
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
@@ -152,7 +154,7 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 				</div>
 				<div class="comment-content span9">
 					<?php if ($canEdit || $this->canDeleteComments) : ?>
-					<div class="pull-right">
+					<div class="comment-icons pull-right">
 						<?php if ($canEdit): ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_monitor&task=comment.edit&id=' . $comment->id); ?>"
 							   title="<?php echo JText::_('COM_MONITOR_EDIT_COMMENT'); ?>">
@@ -160,7 +162,7 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 							</a>
 						<?php endif; ?>
 						<?php if ($this->canDeleteComments): ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_monitor&task=comment.delete&id=' . $comment->id); ?>"
+							<a href="<?php echo JRoute::_('index.php?option=com_monitor&task=comment.delete&id=' . $comment->id . '&issue_id=' . $this->item->id); ?>"
 							   title="<?php echo JText::_('COM_MONITOR_DELETE_COMMENT'); ?>">
 								<span class="icon-trash"></span>
 							</a>
@@ -205,12 +207,26 @@ $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2
 	<?php endif; ?>
 
 	<?php if ($this->canEditOwnComments): ?>
-	<div class="btn-toolbar">
-		<a class="btn btn-primary" href="<?php echo JRoute::_('index.php?option=com_monitor&task=comment.edit&issue_id=' . $this->item->id); ?>"
-			title="<?php echo JText::_('COM_MONITOR_CREATE_COMMENT_DESC'); ?>">
+		<h3>
 			<?php echo JText::_('COM_MONITOR_CREATE_COMMENT'); ?>
-		</a>
-	</div>
+		</h3>
+		<div class="comment-form-inline">
+			<form method="post" action="<?php echo $urlCommentEdit; ?>">
+				<input type="hidden" name="issue_id" value="<?php echo $this->item->id; ?>" />
+				<textarea
+					placeholder="<?php echo JText::_('COM_MONITOR_COMMENT_TEXT'); ?>"
+					name="text" id="text" class="required" required="" aria-required="true"></textarea>
+				<div class="btn-toolbar">
+					<button type="submit" name="task" value="comment.save" class="btn btn-primary"
+						formaction="<?php echo $urlCommentSave; ?>">
+						<?php echo JText::_('COM_MONITOR_CREATE_COMMENT_SEND'); ?>
+					</button>
+					<button type="submit" name="task" value="comment.edit" class="btn">
+						<?php echo JText::_('COM_MONITOR_CREATE_COMMENT_EXTENDED'); ?>
+					</button>
+				</div>
+			</form>
+		</div>
 	<?php endif; ?>
 </div>
 

@@ -174,8 +174,8 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 			$this->pagination = $this->modelComment->getPagination();
 
 			// Ordering
-			$this->listOrder	= $this->escape($this->modelComment->getState()->get('list.ordering'));
-			$this->listDir	= $this->escape($this->modelComment->getState()->get('list.direction'));
+			$this->listOrder = $this->escape($this->modelComment->getState()->get('list.ordering'));
+			$this->listDir   = $this->escape($this->modelComment->getState()->get('list.direction'));
 		}
 
 		$this->status = $this->model->getStatus();

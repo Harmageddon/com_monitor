@@ -208,7 +208,18 @@ class MonitorModelComment extends MonitorModelAbstract
 		elseif ($this->commentId)
 		{
 			$this->form->bind($this->getComment());
-			var_dump($this->form);
+		}
+		else
+		{
+			$data = array(
+				'issue_id' => $this->app->input->getInt('issue_id'),
+				'text' => $this->app->input->get('text', null, 'raw'),
+			);
+
+			if ($data['issue_id'] || $data['text'])
+			{
+				$this->form->bind($data);
+			}
 		}
 	}
 
@@ -261,7 +272,7 @@ class MonitorModelComment extends MonitorModelAbstract
 	 *
 	 * @param   JInput  $input  Holds the data to be saved.
 	 *
-	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 * @return  int|boolean  The ID of the inserted/updated comment on success, boolean false on failure.
 	 *
 	 * @throws Exception
 	 */
@@ -325,7 +336,14 @@ class MonitorModelComment extends MonitorModelAbstract
 
 		$this->db->setQuery($query);
 
-		return $this->db->execute();
+		$this->db->execute();
+
+		if ($id != 0)
+		{
+			return $id;
+		}
+
+		return $this->db->insertid();
 	}
 
 	/**

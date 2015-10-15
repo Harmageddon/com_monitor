@@ -44,7 +44,7 @@ class MonitorControllerCommentDelete extends JControllerBase
 		else
 		{
 			$model->delete($ids);
-			$app->enqueueMessage(\JText::_('COM_MONITOR_COMMENT_DELETED'));
+			$app->enqueueMessage(JText::_('COM_MONITOR_COMMENT_DELETED'));
 		}
 
 		if ($app->isAdmin())
