@@ -210,7 +210,7 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 		<h3>
 			<?php echo JText::_('COM_MONITOR_CREATE_COMMENT'); ?>
 		</h3>
-		<div class="comment-form-inline">
+		<div class="comment-form-inline" id="comment-form">
 			<form method="post" action="<?php echo $urlCommentEdit; ?>">
 				<input type="hidden" name="issue_id" value="<?php echo $this->item->id; ?>" />
 				<textarea
