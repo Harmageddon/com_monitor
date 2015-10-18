@@ -408,11 +408,14 @@ class MonitorModelIssue extends MonitorModelAbstract
 		}
 		else
 		{
-			$data = array(
-				'project_id' => $this->app->input->getInt('project_id'),
-				'text'       => $this->getDefaultText($this->app->input->getInt('project_id')),
-			);
-			$this->form->bind($data);
+			if ($projectId = $this->app->input->getInt('project_id') || $projectId = $this->projectId)
+			{
+				$data = array(
+					'project_id' => $projectId,
+					'text'       => $this->getDefaultText($projectId),
+				);
+				$this->form->bind($data);
+			}
 		}
 	}
 

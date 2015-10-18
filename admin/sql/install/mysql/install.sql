@@ -18,21 +18,9 @@ CREATE TABLE IF NOT EXISTS `#__monitor_status`(
 	`open` boolean NOT NULL DEFAULT true COMMENT 'Tickets having this status are open(1) or closed(0).',
 	`is_default` boolean NOT NULL DEFAULT false COMMENT 'Default status?',
 	`style` varchar(255) NOT NULL COMMENT 'Optional CSS class',
-	`project_id` int(10) NOT NULL COMMENT 'Project ID',
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE IF NOT EXISTS `#__monitor_issues`(
-	`id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Issue ID, primary key',
 	`project_id` int(10) unsigned NOT NULL COMMENT 'Project ID',
-	`title` varchar(255) NOT NULL COMMENT 'Issue title',
-	`text` mediumtext NOT NULL COMMENT 'Issue description',
-	`version` varchar(10) COMMENT 'Version number',
-	`author_id` int(10) unsigned NOT NULL,
-	`created` datetime NOT NULL,
-	`status` int(10) unsigned NOT NULL COMMENT 'Issue status',
-	`classification` int(10) unsigned NOT NULL COMMENT 'Issue classification',
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`project_id`) REFERENCES `#__monitor_projects`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__monitor_issue_classifications`(
@@ -40,15 +28,36 @@ CREATE TABLE IF NOT EXISTS `#__monitor_issue_classifications`(
 	`project_id` int(10) unsigned NOT NULL COMMENT 'Project ID',
 	`title` varchar(255) NOT NULL COMMENT 'Title of the type',
 	`access` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'Access level needed to view issues of this type.',
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`project_id`) REFERENCES `#__monitor_projects`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `#__monitor_issues`(
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Issue ID, primary key',
+	`project_id` int(10) unsigned COMMENT 'Project ID',
+	`title` varchar(255) NOT NULL COMMENT 'Issue title',
+	`text` mediumtext NOT NULL COMMENT 'Issue description',
+	`version` varchar(10) COMMENT 'Version number',
+	`author_id` int(11),
+	`created` datetime NOT NULL,
+	`status` int(10) unsigned DEFAULT NULL COMMENT 'Issue status',
+	`classification` int(10) unsigned COMMENT 'Issue classification',
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`project_id`) REFERENCES `#__monitor_projects`(`id`) ON DELETE SET NULL,
+	FOREIGN KEY (`status`) REFERENCES `#__monitor_status`(`id`) ON DELETE SET NULL,
+	FOREIGN KEY (`classification`) REFERENCES `#__monitor_issue_classifications`(`id`) ON DELETE SET NULL,
+	FOREIGN KEY (`author_id`) REFERENCES `#__users`(`id`) ON DELETE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `#__monitor_comments`(
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Comment ID, primary key',
 	`issue_id` int(10) unsigned NOT NULL COMMENT 'Issue ID',
-	`author_id` int(10) unsigned NOT NULL,
+	`author_id` int(11),
 	`text` mediumtext NOT NULL COMMENT 'Comment content',
 	`created` datetime NOT NULL,
-	`status` int(10) unsigned NOT NULL COMMENT 'Issue status set by this comment',
-	PRIMARY KEY (`id`)
+	`status` int(10) unsigned DEFAULT NULL COMMENT 'Issue status set by this comment',
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`issue_id`) REFERENCES `#__monitor_issues`(`id`) ON DELETE CASCADE,
+	FOREIGN KEY (`status`) REFERENCES `#__monitor_status`(`id`) ON DELETE SET NULL,
+	FOREIGN KEY (`author_id`) REFERENCES `#__users`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

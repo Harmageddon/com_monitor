@@ -282,7 +282,6 @@ class MonitorModelComment extends MonitorModelAbstract
 		$values = array (
 			"issue_id" => $input->getInt('issue_id'),
 			"text" => $input->getString('text'),
-			"created" => $input->getString('created'),
 		);
 
 		$values = $this->validate($values);
@@ -301,7 +300,7 @@ class MonitorModelComment extends MonitorModelAbstract
 		{
 			$values["status"] = $input->getInt('issue_status');
 
-			if ($values["status"] != 0)
+			if ($values["status"])
 			{
 				$query = $this->db->getQuery(true);
 				$query->update('#__monitor_issues')
@@ -309,6 +308,10 @@ class MonitorModelComment extends MonitorModelAbstract
 					->set('status = ' . $values["status"]);
 				$this->db->setQuery($query);
 				$this->db->execute();
+			}
+			else
+			{
+				unset($values["status"]);
 			}
 		}
 
@@ -332,6 +335,7 @@ class MonitorModelComment extends MonitorModelAbstract
 			$query->insert('#__monitor_comments');
 		}
 
+		$values["created"] = JDate::getInstance()->toSql();
 		$query->set(MonitorHelper::sqlValues($values, $query));
 
 		$this->db->setQuery($query);
