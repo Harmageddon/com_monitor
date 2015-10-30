@@ -32,9 +32,9 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 		<?php echo $this->item->text; ?>
 	</div>
 	<div class="issue-details span3">
-		<dl>
+		<dl class="dl-horizontal">
 			<?php if ($this->params->get('issue_show_status', 1)): ?>
-				<dt><?php echo JText::_('COM_MONITOR_STATUS'); ?></dt>
+				<dt><?php echo JText::_('COM_MONITOR_STATUS'); ?>:</dt>
 				<dd>
 					<?php
 						$statusHelp = ($this->params->get('issue_show_status_help', 1) && isset($this->item->status_help))
@@ -49,14 +49,14 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 			<?php endif; ?>
 
 			<?php if ($this->params->get('issue_show_classification', 1)): ?>
-				<dt><?php echo JText::_('COM_MONITOR_CLASSIFICATION'); ?></dt>
+				<dt><?php echo JText::_('COM_MONITOR_CLASSIFICATION'); ?>:</dt>
 				<dd>
 					<?php echo $this->item->classification_title; ?>
 				</dd>
 			<?php endif; ?>
 
 			<?php if ($this->params->get('issue_show_author', 1)) : ?>
-				<dt><?php echo JText::_('COM_MONITOR_CREATED_BY'); ?></dt>
+				<dt><?php echo JText::_('COM_MONITOR_CREATED_BY'); ?>:</dt>
 				<dd>
 					<?php
 					// Profile avatar (using the CMAvatar plugin).
@@ -83,14 +83,14 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 			<?php endif; ?>
 
 			<?php if ($this->params->get('issue_show_date_created', 1)): ?>
-				<dt><?php echo JText::_('COM_MONITOR_CREATE_DATE'); ?></dt>
+				<dt><?php echo JText::_('COM_MONITOR_CREATE_DATE'); ?>:</dt>
 				<dd itemprop="dateCreated">
 					<?php echo JHtml::_('date', $this->item->created, $date_format); ?>
 				</dd>
 			<?php endif; ?>
 
 			<?php if ($this->params->get('issue_show_project', 1)): ?>
-				<dt><?php echo JText::_('COM_MONITOR_PROJECT_NAME'); ?></dt>
+				<dt><?php echo JText::_('COM_MONITOR_PROJECT_NAME'); ?>:</dt>
 				<dd>
 					<a href="<?php echo JRoute::_('index.php?option=com_monitor&view=project&id=' . $this->item->project_id); ?>">
 						<?php echo $this->item->project_name; ?>
@@ -99,7 +99,7 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 			<?php endif; ?>
 
 			<?php if ($this->params->get('issue_show_version', 1)): ?>
-				<dt><?php echo JText::_('COM_MONITOR_VERSION'); ?></dt>
+				<dt><?php echo JText::_('COM_MONITOR_VERSION'); ?>:</dt>
 				<dd>
 					<?php echo $this->item->version; ?>
 				</dd>

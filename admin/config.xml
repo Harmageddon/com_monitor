@@ -224,6 +224,12 @@
 	</fieldset>
 	<fieldset name="issue" label="COM_MONITOR_ISSUE" description="COM_MONITOR_CONFIG_ISSUE_DESC">
 		<field
+			name="issue_date_format"
+			type="text"
+			label="COM_MONITOR_DATE_FORMAT_LABEL"
+			description="COM_MONITOR_DATE_FORMAT_DESC"
+		/>
+		<field
 			name="issue_create_show_description"
 			type="radio"
 			class="btn-group btn-group-yesno"

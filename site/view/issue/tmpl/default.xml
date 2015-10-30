@@ -17,6 +17,12 @@
 	<fields name="params">
 		<fieldset name="basic">
 			<field
+				name="issue_date_format"
+				type="text"
+				label="COM_MONITOR_DATE_FORMAT_LABEL"
+				description="COM_MONITOR_DATE_FORMAT_DESC"
+			/>
+			<field
 				name="issue_show_status"
 				type="radio"
 				class="btn-group btn-group-yesno"
