@@ -36,7 +36,7 @@ defined('_JEXEC') or die;
 				</a>
 			</td>
 			<td>
-				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_monitor&task=issue.create&project_id=' . $item->id); ?>">
+				<a class="btn" href="<?php echo JRoute::_('index.php?option=com_monitor&task=issue.edit&project_id=' . $item->id); ?>">
 					<span class="icon-new"></span>
 					<?php echo JText::_('COM_MONITOR_CREATE_ISSUE'); ?>
 				</a>
