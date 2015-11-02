@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 $date_format = $this->params->get('list_date_format', JText::_('DATE_FORMAT_LC2'));
 
-$app = JFactory::getApplication();
+$app       = JFactory::getApplication();
 $projectId = $app->input->getInt('project_id', 0);
 
 if ($projectId != 0)
@@ -20,7 +20,7 @@ if ($projectId != 0)
 ?>
 
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
-<h2><?php echo JText::_('COM_MONITOR_ISSUES'); ?></h2>
+	<h2><?php echo JText::_('COM_MONITOR_ISSUES'); ?></h2>
 <?php endif; ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_monitor&view=issues' . $projectId); ?>" method="post" id="adminForm"
@@ -29,43 +29,109 @@ if ($projectId != 0)
 	// Search tools bar
 	if ($this->params->get('list_show_filters', 1)):
 		$filters = $this->filterForm->getGroup('filter');
+		$i       = 0;
+		?>
+		<div class="row-fluid">
+		<?php
+		if ($this->params->get('list_show_filter_search', 1)) :
+			$i += 8;
+			?>
+			<div class="controls span8">
+				<label for="filter_search" class="element-invisible">
+					<?php echo JText::_('JSEARCH_FILTER'); ?>
+				</label>
 
-		if ($this->params->get('list_show_filter_search', 1)) : ?>
-			<label for="filter_search" class="element-invisible">
-				<?php echo JText::_('JSEARCH_FILTER'); ?>
-			</label>
-			<?php /*<div class="btn-wrapper input-append">*/?>
-				<?php echo $filters['filter_search']->input; ?>
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-					<i class="icon-search"></i>
-				</button>
-			<?php /*</div>*/?>
+				<div class="btn-wrapper input-append">
+					<?php echo $filters['filter_search']->input; ?>
+					<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+						<i class="icon-search"></i>
+					</button>
+				</div>
+			</div>
 		<?php endif; ?>
 
-		<?php if ($this->params->get('list_show_filter_status', 1)) : ?>
-		<?php echo $filters["filter_issue_status"]->label; ?>
-		<?php echo $filters["filter_issue_status"]->input; ?>
+		<?php
+		if ($this->params->get('list_show_filter_status', 1)) :
+			$i += 4;
+			?>
+			<div class="controls span4">
+				<?php echo $filters["filter_issue_status"]->label; ?>
+				<?php echo $filters["filter_issue_status"]->input; ?>
+			</div>
+			<?php
+		endif;
+
+		if ($i >= 12) :
+			$i = 0;
+			?>
+			</div>
+			<div class="row-fluid">
 		<?php endif; ?>
 
-		<?php if ($this->params->get('list_show_filter_classification', 1)) : ?>
-		<?php echo $filters["filter_classification"]->label; ?>
-		<?php echo $filters["filter_classification"]->input; ?>
+		<?php
+		if ($this->params->get('list_show_filter_classification', 1)) :
+			$i += 4;
+			?>
+			<div class="controls span4">
+				<?php echo $filters["filter_classification"]->label; ?>
+				<?php echo $filters["filter_classification"]->input; ?>
+			</div>
+
+			<?php
+		endif;
+
+		if ($i >= 12) :
+			$i = 0;
+			?>
+			</div>
+			<div class="row-fluid">
 		<?php endif; ?>
 
-		<?php if ($this->params->get('list_show_filter_project', 1)) : ?>
-		<?php echo $filters["filter_project_id"]->label; ?>
-		<?php echo $filters["filter_project_id"]->input; ?>
-	<?php endif; ?>
+		<?php
+		if ($this->params->get('list_show_filter_project', 1)) :
+			$i += 4;
+			?>
+			<div class="controls span4">
+				<?php echo $filters["filter_project_id"]->label; ?>
+				<?php echo $filters["filter_project_id"]->input; ?>
+			</div>
 
-		<?php if ($this->params->get('list_show_filter_author', 1)) : ?>
-		<?php echo $filters["filter_author"]->label; ?>
-		<?php echo $filters["filter_author"]->input; ?>
+			<?php
+		endif;
+
+		if ($i >= 12) :
+			$i = 0;
+			?>
+			</div>
+			<div class="row-fluid">
 		<?php endif; ?>
 
+		<?php
+		if ($this->params->get('list_show_filter_author', 1)) :
+			$i += 4;
+			?>
+			<div class="controls span4">
+				<?php echo $filters["filter_author"]->label; ?>
+				<?php echo $filters["filter_author"]->input; ?>
+			</div>
+
+			<?php
+		endif;
+
+		if ($i >= 12) :
+			$i = 0;
+			?>
+			</div>
+			<div class="row-fluid">
+		<?php endif; ?>
+
+		<div class="span-<?php echo 12 - $i; ?>">
 			<button type="button" class="btn hasTooltip js-stools-btn-clear" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
 				onclick="clearForm(this.form)">
-				<?php echo JText::_('JSEARCH_FILTER_CLEAR');?>
+				<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
 			</button>
+		</div>
+		</div>
 	<?php endif; ?>
 	<div class="pull-right">
 		<?php echo $this->pagination->getLimitBox(); ?>
@@ -120,12 +186,12 @@ if ($projectId != 0)
 				<?php if ($this->params->get('list_show_status', 1)) : ?>
 					<td>
 						<?php
-							$statusHelp = ($this->params->get('list_show_status_help', 1) && isset($item->status_help))
-								? 'data-content="' . $item->status_help . '" data-original-title="' . $item->status . '"'
-								: '';
-							?>
+						$statusHelp = ($this->params->get('list_show_status_help', 1) && isset($item->status_help))
+							? 'data-content="' . $item->status_help . '" data-original-title="' . $item->status . '"'
+							: '';
+						?>
 						<span class="<?php echo $item->status_style; ?> hasPopover"
-								<?php echo $statusHelp; ?>>
+							<?php echo $statusHelp; ?>>
 							<?php echo $item->status; ?>
 						</span>
 					</td>
@@ -158,7 +224,7 @@ if ($projectId != 0)
 					</td>
 				<?php endif; ?>
 
-				<?php if ($this->params->get('list_show_project', 1) ): ?>
+				<?php if ($this->params->get('list_show_project', 1)): ?>
 					<td>
 						<a href="<?php echo JRoute::_('index.php?option=com_monitor&view=project&id=' . $item->project_id); ?>">
 							<?php echo $item->project_name; ?>
@@ -193,7 +259,7 @@ echo $this->pagination->getListFooter();
 			console.error("jQuery is disabled.");
 		}
 	}
-	jQuery(document).ready(function() {
+	jQuery(document).ready(function () {
 		jQuery('.hasPopoverClick').popover({
 			"html"     : true,
 			"placement": "top",
