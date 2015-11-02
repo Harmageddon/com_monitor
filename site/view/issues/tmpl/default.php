@@ -51,72 +51,50 @@ if ($projectId != 0)
 		<?php endif; ?>
 
 		<?php
-		if ($this->params->get('list_show_filter_status', 1)) :
+		if ($this->params->get('list_show_filter_status', 1))
+		{
 			$i += 4;
-			?>
-			<div class="controls span4">
-				<?php echo $filters["filter_issue_status"]->label; ?>
-				<?php echo $filters["filter_issue_status"]->input; ?>
-			</div>
-			<?php
-		endif;
+			echo $this->renderFilterField('filter_issue_status');
+		}
 
 		if ($i >= 12) :
 			$i = 0;
 			?>
 			</div>
 			<div class="row-fluid">
-		<?php endif; ?>
+		<?php endif;
 
-		<?php
-		if ($this->params->get('list_show_filter_classification', 1)) :
+		if ($this->params->get('list_show_filter_classification', 1))
+		{
 			$i += 4;
-			?>
-			<div class="controls span4">
-				<?php echo $filters["filter_classification"]->label; ?>
-				<?php echo $filters["filter_classification"]->input; ?>
-			</div>
-
-			<?php
-		endif;
+			echo $this->renderFilterField('filter_classification');
+		}
 
 		if ($i >= 12) :
 			$i = 0;
 			?>
 			</div>
 			<div class="row-fluid">
-		<?php endif; ?>
+		<?php endif;
 
-		<?php
-		if ($this->params->get('list_show_filter_project', 1)) :
+		if ($this->params->get('list_show_filter_project', 1))
+		{
 			$i += 4;
-			?>
-			<div class="controls span4">
-				<?php echo $filters["filter_project_id"]->label; ?>
-				<?php echo $filters["filter_project_id"]->input; ?>
-			</div>
-
-			<?php
-		endif;
+			echo $this->renderFilterField('filter_project_id');
+		}
 
 		if ($i >= 12) :
 			$i = 0;
 			?>
 			</div>
 			<div class="row-fluid">
-		<?php endif; ?>
+		<?php endif;
 
-		<?php
-		if ($this->params->get('list_show_filter_author', 1)) :
+		if ($this->params->get('list_show_filter_author', 1))
+		{
 			$i += 4;
-			?>
-			<div class="controls span4">
-				<?php echo $filters["filter_author"]->label; ?>
-				<?php echo $filters["filter_author"]->input; ?>
-			</div>
-
-			<?php
-		endif;
+			echo $this->renderFilterField('filter_author');
+		}
 
 		if ($i >= 12) :
 			$i = 0;
