@@ -108,6 +108,7 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 	</div>
 </div>
 <div class="comments">
+	<h3><?php echo JText::_('COM_MONITOR_COMMENTS'); ?></h3>
 	<?php if ($this->comments) : ?>
 		<?php
 		$oldStatus = $this->defaultStatus;
