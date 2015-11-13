@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Monitor
- * @subpackage  admin
+ * @subpackage  site
  *
  * @copyright   Copyright (C) 2015 Constantin Romankiewicz.
  * @license     Apache License 2.0; see LICENSE
@@ -41,11 +41,11 @@ class MonitorControllerIssueEdit extends JControllerBase
 
 		// Get the params
 		// TODO: may be removed when new MVC is implemented completely
-		$app = JFactory::getApplication();
+		$this->app = JFactory::getApplication();
 
-		if ($app instanceof JApplicationSite)
+		if ($this->app instanceof JApplicationSite)
 		{
-			$params = $app->getParams();
+			$params = $this->app->getParams();
 		}
 
 		if (!$model->canEdit($user, $id))

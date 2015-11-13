@@ -77,17 +77,32 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 	protected $modelComment;
 
 	/**
+	 * @var MonitorModelSubscription
+	 */
+	protected $modelSubscription;
+
+	/**
+	 * Contains the buttons for the button toolbar on top of the issue.
+	 *
+	 * @var array
+	 */
+	protected $buttons = array();
+
+	/**
 	 * Constructor for all views.
 	 *
-	 * @param   MonitorModelIssue    $modelIssue    Model providing information on issues.
-	 * @param   SplPriorityQueue     $paths         The paths queue.
-	 * @param   MonitorModelComment  $modelComment  Model providing information on comments.
+	 * @param   MonitorModelIssue         $modelIssue         Model providing information on issues.
+	 * @param   SplPriorityQueue          $paths              The paths queue.
+	 * @param   MonitorModelComment       $modelComment       Model providing information on comments.
+	 * @param   MonitorModelSubscription  $modelSubscription  Model providing information aboutsubscriptions.
 	 *
 	 * @throws Exception
 	 */
-	public function __construct(MonitorModelIssue $modelIssue, SplPriorityQueue $paths = null, MonitorModelComment $modelComment = null)
+	public function __construct(MonitorModelIssue $modelIssue, SplPriorityQueue $paths = null, MonitorModelComment $modelComment = null,
+		MonitorModelSubscription $modelSubscription = null)
 	{
-		$this->modelComment = $modelComment;
+		$this->modelComment      = $modelComment;
+		$this->modelSubscription = $modelSubscription;
 
 		parent::__construct($modelIssue, $paths);
 	}
@@ -141,6 +156,33 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 
 				$this->avatars = array();
 				$this->avatars[$this->item->author_id] = PlgUserCMAvatarHelper::getAvatar($this->item->author_id);
+			}
+
+			// Buttons
+			if ($this->getLayout() === 'default')
+			{
+				if ($this->canEditIssue)
+				{
+					$this->buttons['edit'] = array(
+							'url'   => 'index.php?option=com_monitor&task=issue.edit&id=' . $this->item->id,
+							'text'  => 'JGLOBAL_EDIT',
+							'title' => 'JGLOBAL_EDIT',
+							'icon'  => 'icon-pencil-2',
+					);
+				}
+
+				if ($this->params->get('enable_notifications', 1) && !$user->guest)
+				{
+					$subscribed = $this->modelSubscription->isSubscriberIssue($this->item->id, $user->id);
+					$task       = $subscribed ? 'unsubscribe' : 'subscribe';
+
+					$this->buttons['subscribe'] = array(
+							'url'   => 'index.php?option=com_monitor&task=issue.' . $task . '&id=' . $this->item->id,
+							'text'  => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE' : 'COM_MONITOR_SUBSCRIBE',
+							'title' => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_DESC' : 'COM_MONITOR_SUBSCRIBE_DESC',
+							'icon'  => $subscribed ? 'icon-star' : 'icon-star-empty',
+					);
+				}
 			}
 		}
 		else

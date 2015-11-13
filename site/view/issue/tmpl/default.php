@@ -18,11 +18,22 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 
 <?php echo $this->item->event->afterDisplayTitle; ?>
 
-<?php if ($this->canEditIssue): ?>
-<a class="btn" href="<?php echo JRoute::_('index.php?option=com_monitor&task=issue.edit&id=' . $this->item->id); ?>">
-	<span class="icon-pencil-2"></span>
-	<?php echo JText::_('JGLOBAL_EDIT'); ?>
-</a>
+<?php if (!empty($this->buttons)): ?>
+<div class="btn-group">
+	<?php foreach ($this->buttons as $button): ?>
+	<a class="btn"
+		href="<?php echo JRoute::_($button['url']); ?>"
+		title="<?php echo JText::_($button['title']); ?>"
+	>
+		<?php if ($this->params->get('issue_button_layout', 'full') !== 'text'): ?>
+		<span class="<?php echo $button['icon']; ?>"></span>
+		<?php endif; ?>
+		<?php if ($this->params->get('issue_button_layout', 'full') !== 'compact'): ?>
+		<?php echo JText::_($button['text']); ?>
+		<?php endif; ?>
+	</a>
+	<?php endforeach; ?>
+</div>
 <?php endif; ?>
 
 <?php // TODO: Split in blocks when new MVC is implemented. ?>

@@ -26,8 +26,9 @@ class MonitorControllerIssueDisplay extends JControllerBase
 	{
 		$model = new MonitorModelIssue;
 		$model->setIssueId($this->input->getInt('id'));
-		$modelComment = new MonitorModelComment;
-		$view = new MonitorViewIssueHtml($model, null, $modelComment);
+		$modelComment       = new MonitorModelComment;
+		$modelSubscriptions = new MonitorModelSubscription;
+		$view               = new MonitorViewIssueHtml($model, null, $modelComment, $modelSubscriptions);
 		echo $view->render();
 	}
 }
