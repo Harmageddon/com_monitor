@@ -178,8 +178,8 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 
 					$this->buttons['subscribe'] = array(
 							'url'   => 'index.php?option=com_monitor&task=issue.' . $task . '&id=' . $this->item->id,
-							'text'  => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE' : 'COM_MONITOR_SUBSCRIBE',
-							'title' => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_DESC' : 'COM_MONITOR_SUBSCRIBE_DESC',
+							'text'  => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_ISSUE' : 'COM_MONITOR_SUBSCRIBE_ISSUE',
+							'title' => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_ISSUE_DESC' : 'COM_MONITOR_SUBSCRIBE_ISSUE_DESC',
 							'icon'  => $subscribed ? 'icon-star' : 'icon-star-empty',
 					);
 				}

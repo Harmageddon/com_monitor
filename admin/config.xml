@@ -24,6 +24,17 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+		<field
+			name="enable_notifications"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_MONITOR_PARAM_ENABLE_NOTIFICATIONS"
+			description="COM_MONITOR_PARAM_ENABLE_NOTIFICATIONS_DESC"
+			default="1"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 	</fieldset>
 	<fieldset name="project" label="COM_MONITOR_PROJECT" description="COM_MONITOR_CONFIG_PROJECT_DESC">
 		<field
@@ -229,6 +240,16 @@
 			label="COM_MONITOR_DATE_FORMAT_LABEL"
 			description="COM_MONITOR_DATE_FORMAT_DESC"
 		/>
+		<field
+			name="issue_button_layout"
+			type="list"
+			label="COM_MONITOR_PARAM_ISSUE_BUTTON_LAYOUT"
+			description="COM_MONITOR_PARAM_ISSUE_BUTTON_LAYOUT_DESC"
+		>
+			<option value="full">COM_MONITOR_PARAM_ISSUE_BUTTON_LAYOUT_FULL</option>
+			<option value="compact">COM_MONITOR_PARAM_ISSUE_BUTTON_LAYOUT_COMPACT</option>
+			<option value="text">COM_MONITOR_PARAM_ISSUE_BUTTON_LAYOUT_TEXT</option>
+		</field>
 		<field
 			name="issue_create_show_description"
 			type="radio"

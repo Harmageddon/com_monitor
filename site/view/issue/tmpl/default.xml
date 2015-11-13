@@ -23,6 +23,17 @@
 				description="COM_MONITOR_DATE_FORMAT_DESC"
 			/>
 			<field
+				name="issue_button_layout"
+				type="list"
+				label="COM_MONITOR_PARAM_ISSUE_BUTTON_LAYOUT"
+				description="COM_MONITOR_PARAM_ISSUE_BUTTON_LAYOUT_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="full">COM_MONITOR_PARAM_ISSUE_BUTTON_LAYOUT_FULL</option>
+				<option value="compact">COM_MONITOR_PARAM_ISSUE_BUTTON_LAYOUT_COMPACT</option>
+				<option value="text">COM_MONITOR_PARAM_ISSUE_BUTTON_LAYOUT_TEXT</option>
+			</field>
+			<field
 				name="issue_show_status"
 				type="radio"
 				class="btn-group btn-group-yesno"
