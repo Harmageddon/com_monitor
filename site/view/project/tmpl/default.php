@@ -49,13 +49,17 @@ defined('_JEXEC') or die;
 <div class="monitor-project-description">
 	<?php echo $this->item->description; ?>
 </div>
-<p>
-<a href="<?php echo JRoute::_('index.php?option=com_monitor&view=issues&project_id=' . $this->item->id); ?>">
-	<span class="icon-chevron-right"></span>
-	<?php echo JText::_('COM_MONITOR_GO_TO_ISSUES'); ?>
-</a>
-<a class="btn" href="<?php echo JRoute::_('index.php?option=com_monitor&task=issue.edit&project_id=' . $this->item->id); ?>">
-	<span class="icon-new"></span>
-	<?php echo JText::_('COM_MONITOR_CREATE_ISSUE'); ?>
-</a>
-</p>
+
+<?php if (!empty($this->buttons)): ?>
+	<div class="btn-group">
+		<?php foreach ($this->buttons as $button): ?>
+			<a class="btn"
+					href="<?php echo JRoute::_($button['url']); ?>"
+					title="<?php echo JText::_($button['title']); ?>"
+			>
+				<span class="<?php echo $button['icon']; ?>"></span>
+				<?php echo JText::_($button['text']); ?>
+			</a>
+		<?php endforeach; ?>
+	</div>
+<?php endif; ?>

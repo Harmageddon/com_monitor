@@ -33,8 +33,9 @@ class MonitorControllerIssueSave extends JControllerBase
 
 		$id = $this->input->getInt('id');
 		$model = new MonitorModelIssue($app);
+		$user = JFactory::getUser();
 
-		if (!$model->canEdit(JFactory::getUser(), $id))
+		if (!$model->canEdit($user, $id))
 		{
 			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -56,6 +57,14 @@ class MonitorControllerIssueSave extends JControllerBase
 		}
 
 		$app->enqueueMessage(\JText::_('COM_MONITOR_ISSUE_SAVED'));
+
+		// Send notification mails for new issues.
+		if (!$id)
+		{
+			$project_id = $this->input->get('project_id');
+			$modelSubscription = new MonitorModelSubscription;
+			$modelSubscription->notifyProject($project_id, $user, $issue_id);
+		}
 
 		if ($app->isAdmin())
 		{

@@ -48,13 +48,13 @@ class MonitorModelSubscription extends JModelDatabase
 	public function subscribeIssue($id, $user)
 	{
 		$values = array(
-			'item_id' => $id,
-			'user_id' => $user,
+				'item_id' => $id,
+				'user_id' => $user,
 		);
 		$query = $this->db->getQuery(true);
 
 		$query->insert('#__monitor_subscriptions_issues')
-			->set(MonitorHelper::sqlValues($values, $query));
+				->set(MonitorHelper::sqlValues($values, $query));
 
 		return $this->db->setQuery($query)->execute();
 	}
@@ -73,8 +73,8 @@ class MonitorModelSubscription extends JModelDatabase
 		$query = $this->db->getQuery(true);
 
 		$query->delete('#__monitor_subscriptions_issues')
-			->where('item_id = ' . (int) $id)
-			->where('user_id = ' . (int) $user);
+				->where('item_id = ' . (int) $id)
+				->where('user_id = ' . (int) $user);
 
 		return $this->db->setQuery($query)->execute();
 	}
@@ -92,9 +92,9 @@ class MonitorModelSubscription extends JModelDatabase
 		$query = $this->db->getQuery(true);
 
 		$query->select('COUNT(*)')
-			->from('#__monitor_subscriptions_issues')
-			->where('item_id = ' . (int) $id)
-			->where('user_id = ' . (int) $user);
+				->from('#__monitor_subscriptions_issues')
+				->where('item_id = ' . (int) $id)
+				->where('user_id = ' . (int) $user);
 
 		return ($this->db->setQuery($query)->loadResult() != 0);
 	}
@@ -113,9 +113,9 @@ class MonitorModelSubscription extends JModelDatabase
 		// Get subscribing users.
 		$query = $this->db->getQuery(true);
 		$query->select('u.email, u.name, u.username')
-			->from('#__monitor_subscriptions_issues AS i')
-			->leftJoin('#__users AS u ON i.user_id = u.id')
-			->where('i.user_id != ' . $commenter->get('id'));
+				->from('#__monitor_subscriptions_issues AS s')
+				->leftJoin('#__users AS u ON s.user_id = u.id')
+				->where('s.user_id != ' . $commenter->get('id'));
 		$users = $this->db->setQuery($query)->loadObjectList();
 
 		// Set values that are common for every notification mail.
@@ -134,6 +134,120 @@ class MonitorModelSubscription extends JModelDatabase
 			$subject = JText::sprintf('COM_MONITOR_MAIL_NOTIFICATION_ISSUE_HEADER', $issue->project_name, $issue->title);
 			$message = JText::sprintf('COM_MONITOR_MAIL_NOTIFICATION_ISSUE_TEXT',
 					$recipientName, $commenterName, $issue->title, $baseUrl . $commentLink, $baseUrl . $unsubscribeLink
+			);
+			$mail = JFactory::getMailer();
+
+			$mail->isHtml(false);
+			$mail->setSubject($subject);
+			$mail->setBody($message);
+			$mail->addRecipient($user->email, $recipientName);
+			$mail->Send();
+		}
+	}
+
+	/**
+	 * Adds a subscription for a given project and user.
+	 * The user will be notified for new issues for the project.
+	 *
+	 * @param   int  $id    ID of the project.
+	 * @param   int  $user  ID of the subscribing user.
+	 *
+	 * @return   mixed  A database cursor resource on success, boolean false on failure.
+	 */
+	public function subscribeProject($id, $user)
+	{
+		$values = array(
+				'item_id' => $id,
+				'user_id' => $user,
+		);
+		$query = $this->db->getQuery(true);
+
+		$query->insert('#__monitor_subscriptions_projects')
+				->set(MonitorHelper::sqlValues($values, $query));
+
+		return $this->db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Removes a subscription for a given project and user.
+	 * The user will receive no further notifications for new issues for the project.
+	 *
+	 * @param   int  $id    ID of the project.
+	 * @param   int  $user  ID of the subscribing user.
+	 *
+	 * @return   mixed  A database cursor resource on success, boolean false on failure.
+	 */
+	public function unsubscribeProject($id, $user)
+	{
+		$query = $this->db->getQuery(true);
+
+		$query->delete('#__monitor_subscriptions_projects')
+				->where('item_id = ' . (int) $id)
+				->where('user_id = ' . (int) $user);
+
+		return $this->db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Checks if a user has set a subscription for a given project.
+	 *
+	 * @param   int  $id    ID of the project.
+	 * @param   int  $user  ID of the user.
+	 *
+	 * @return   bool  True if the user has a subscription for the project.
+	 */
+	public function isSubscriberProject($id, $user)
+	{
+		$query = $this->db->getQuery(true);
+
+		$query->select('COUNT(*)')
+				->from('#__monitor_subscriptions_projects')
+				->where('item_id = ' . (int) $id)
+				->where('user_id = ' . (int) $user);
+
+		return ($this->db->setQuery($query)->loadResult() != 0);
+	}
+
+	/**
+	 * Notifies all users who have subscribed to the project.
+	 *
+	 * @param   int    $projectId  ID of the project.
+	 * @param   JUser  $author     The user who created a new issue.
+	 * @param   int    $issueId    Direct link to the newly created issue.
+	 *
+	 * @return null
+	 */
+	public function notifyProject($projectId, $author, $issueId)
+	{
+		// Get subscribing users.
+		$query = $this->db->getQuery(true);
+		$query->select('u.email, u.name, u.username')
+				->from('#__monitor_subscriptions_projects AS s')
+				->leftJoin('#__users AS u ON s.user_id = u.id')
+				->where('s.user_id != ' . $author->get('id'));
+		$users = $this->db->setQuery($query)->loadObjectList();
+
+		// Set values that are common for every notification mail.
+		$authorName = $author->get('name', $author->get('username'));
+		$issueLink = JRoute::_('index.php?option=com_monitor&view=issue&id=' . (int) $issueId, false);
+		$unsubscribeLink = JRoute::_('index.php?option=com_monitor&task=project.unsubscribe&id=' . (int) $projectId, false);
+		$baseUrl = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+
+		$modelIssue = new MonitorModelIssue($this->app, false);
+		$modelIssue->setIssueId($issueId);
+		$issue = $modelIssue->getIssue();
+
+		$modelProject = new MonitorModelProject($this->app, false);
+		$modelProject->setProjectId($projectId);
+		$project = $modelProject->getProject();
+
+		foreach ($users as $user)
+		{
+			$recipientName = empty($user->name) ? $user->username : $user->name;
+
+			$subject = JText::sprintf('COM_MONITOR_MAIL_NOTIFICATION_PROJECT_HEADER', $project->name, $issue->title);
+			$message = JText::sprintf('COM_MONITOR_MAIL_NOTIFICATION_PROJECT_TEXT',
+					$recipientName, $authorName, $issue->title, $project->name, $baseUrl . $issueLink, $baseUrl . $unsubscribeLink
 			);
 			$mail = JFactory::getMailer();
 
