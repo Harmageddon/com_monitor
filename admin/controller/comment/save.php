@@ -25,10 +25,12 @@ class MonitorControllerCommentSave extends JControllerBase
 	{
 		$app = JFactory::getApplication();
 
+		$issue_id = $this->input->getInt('issue_id');
 		$id = $this->input->getInt('id');
 		$model = new MonitorModelComment($app);
+		$user = JFactory::getUser();
 
-		if (!$model->canEdit(JFactory::getUser(), $id))
+		if (!$model->canEdit($user, $id))
 		{
 			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -43,7 +45,7 @@ class MonitorControllerCommentSave extends JControllerBase
 			{
 				$url .= '&id=' . $id;
 			}
-			elseif ($issue_id = $this->input->getInt('issue_id'))
+			elseif ($issue_id)
 			{
 				$url .= '&issue_id=' . $issue_id;
 			}
@@ -55,14 +57,19 @@ class MonitorControllerCommentSave extends JControllerBase
 
 		$app->enqueueMessage(JText::_('COM_MONITOR_COMMENT_SAVED'));
 
+		$commentLink = JRoute::_('index.php?option=com_monitor&view=issue&id=' . $issue_id . '#comment-' . $result, false);
+
+		// Send notification mails.
+		$modelSubscription = new MonitorModelSubscription;
+		$modelSubscription->notifyIssue($issue_id, $user, $commentLink);
+
 		if ($app->isAdmin())
 		{
 			$app->redirect(JRoute::_('index.php?option=com_monitor&view=comments', false));
 		}
 		else
 		{
-			$issue_id = $this->input->getInt('issue_id');
-			$app->redirect(JRoute::_('index.php?option=com_monitor&view=issue&id=' . $issue_id . '#comment-' . $result, false));
+			$app->redirect($commentLink);
 		}
 
 		return true;

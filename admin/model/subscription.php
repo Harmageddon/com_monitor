@@ -98,4 +98,50 @@ class MonitorModelSubscription extends JModelDatabase
 
 		return ($this->db->setQuery($query)->loadResult() != 0);
 	}
+
+	/**
+	 * Notifies all users who have subscribed to the commented issue.
+	 *
+	 * @param   int     $id           ID of the commented issue.
+	 * @param   JUser   $commenter    The commenting user.
+	 * @param   string  $commentLink  Direct link to the newly created comment.
+	 *
+	 * @return null
+	 */
+	public function notifyIssue($id, $commenter, $commentLink)
+	{
+		// Get subscribing users.
+		$query = $this->db->getQuery(true);
+		$query->select('u.email, u.name, u.username')
+			->from('#__monitor_subscriptions_issues AS i')
+			->leftJoin('#__users AS u ON i.user_id = u.id')
+			->where('i.user_id != ' . $commenter->get('id'));
+		$users = $this->db->setQuery($query)->loadObjectList();
+
+		// Set values that are common for every notification mail.
+		$commenterName = $commenter->get('name', $commenter->get('username'));
+		$unsubscribeLink = JRoute::_('index.php?option=com_monitor&task=issue.unsubscribe&id=' . (int) $id, false);
+		$baseUrl = JUri::getInstance()->toString(array('scheme', 'user', 'pass', 'host', 'port'));
+
+		$modelIssue = new MonitorModelIssue($this->app, false);
+		$modelIssue->setIssueId($id);
+		$issue = $modelIssue->getIssue();
+
+		foreach ($users as $user)
+		{
+			$recipientName = empty($user->name) ? $user->username : $user->name;
+
+			$subject = JText::sprintf('COM_MONITOR_MAIL_NOTIFICATION_ISSUE_HEADER', $issue->project_name, $issue->title);
+			$message = JText::sprintf('COM_MONITOR_MAIL_NOTIFICATION_ISSUE_TEXT',
+					$recipientName, $commenterName, $issue->title, $baseUrl . $commentLink, $baseUrl . $unsubscribeLink
+			);
+			$mail = JFactory::getMailer();
+
+			$mail->isHtml(false);
+			$mail->setSubject($subject);
+			$mail->setBody($message);
+			$mail->addRecipient($user->email, $recipientName);
+			$mail->Send();
+		}
+	}
 }
