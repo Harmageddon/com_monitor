@@ -59,11 +59,15 @@ class MonitorControllerCommentSave extends JControllerBase
 
 		$commentLink = JRoute::_('index.php?option=com_monitor&view=issue&id=' . $issue_id . '#comment-' . $result, false);
 
-		// Send notification mails for new comments.
 		if (!$id)
 		{
+			// Send notification mails for new comments.
 			$modelSubscription = new MonitorModelSubscription;
-			$modelSubscription->notifyIssue($issue_id, $user, $commentLink);
+			$modelSubscription->notifyIssue($issue_id, $user, $result);
+
+			// Mark issue as unread.
+			$modelNotification = new MonitorModelNotifications;
+			$modelNotification->markUnread($issue_id, $result);
 		}
 
 		if ($app->isAdmin())

@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-
 /**
  * Displays an issue along with comments.
  *
@@ -24,11 +23,21 @@ class MonitorControllerIssueDisplay extends JControllerBase
 	 */
 	public function execute()
 	{
+		$issueId = $this->input->getInt('id');
+		$user    = JFactory::getUser();
+
 		$model = new MonitorModelIssue;
-		$model->setIssueId($this->input->getInt('id'));
+		$model->setIssueId($issueId);
 		$modelComment       = new MonitorModelComment;
 		$modelSubscriptions = new MonitorModelSubscription;
-		$view               = new MonitorViewIssueHtml($model, null, $modelComment, $modelSubscriptions);
+
+		if (!$user->guest)
+		{
+			$modelNotifications = new MonitorModelNotifications;
+			$modelNotifications->markRead($issueId, $user->id);
+		}
+
+		$view = new MonitorViewIssueHtml($model, null, $modelComment, $modelSubscriptions);
 		echo $view->render();
 	}
 }

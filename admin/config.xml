@@ -394,4 +394,24 @@
 			<option value="0">JHIDE</option>
 		</field>
 	</fieldset>
+	<fieldset name="unread_issues" label="COM_MONITOR_CONFIG_UNREAD_ISSUES" description="COM_MONITOR_CONFIG_UNREAD_ISSUES_DESC">
+		<field
+			name="inactivity_period_mark"
+			type="number"
+			default="50"
+			filter="int"
+			min="0"
+			label="COM_MONITOR_PARAM_INACTIVITY_PERIOD_MARK"
+			description="COM_MONITOR_PARAM_INACTIVITY_PERIOD_MARK_DESC"
+		/>
+		<field
+			name="inactivity_period_clean"
+			type="number"
+			default="30"
+			filter="int"
+			min="0"
+			label="COM_MONITOR_PARAM_INACTIVITY_PERIOD_CLEAN"
+			description="COM_MONITOR_PARAM_INACTIVITY_PERIOD_CLEAN_DESC"
+		/>
+	</fieldset>
 </config>

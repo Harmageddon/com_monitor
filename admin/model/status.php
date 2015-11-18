@@ -98,7 +98,6 @@ class MonitorModelStatus extends MonitorModelAbstract
 		JForm::addFieldPath(__DIR__ . '/fields');
 		$this->form = JForm::getInstance('com_monitor.status', 'status');
 
-
 		if ($data = $this->app->getUserState($this->form->getName() . '.data'))
 		{
 			$this->form->bind($data);
