@@ -58,12 +58,16 @@ class MonitorControllerIssueSave extends JControllerBase
 
 		$app->enqueueMessage(\JText::_('COM_MONITOR_ISSUE_SAVED'));
 
-		// Send notification mails for new issues.
 		if (!$id)
 		{
+			// Send notification mails for new issues.
 			$project_id = $this->input->get('project_id');
 			$modelSubscription = new MonitorModelSubscription;
 			$modelSubscription->notifyProject($project_id, $user, $issue_id);
+
+			// Mark issue as unread.
+			$modelNotification = new MonitorModelNotifications;
+			$modelNotification->markUnread($issue_id);
 		}
 
 		if ($app->isAdmin())

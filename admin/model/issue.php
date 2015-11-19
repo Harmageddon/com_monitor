@@ -327,6 +327,14 @@ class MonitorModelIssue extends MonitorModelAbstract
 			->select('cl.title AS classification_title, cl.access AS access')
 			->leftJoin('#__monitor_issue_classifications AS cl ON i.classification = cl.id');
 
+		$user = JFactory::getUser();
+
+		if (!$user->guest)
+		{
+			$query->select('ui.issue_id AS unread, ui.comment_id AS unread_comment')
+				->leftJoin('#__monitor_unread_issues AS ui ON ui.issue_id = i.id AND ui.user_id = ' . (int) $user->id);
+		}
+
 		return $query;
 	}
 

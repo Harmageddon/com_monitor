@@ -31,13 +31,13 @@ class MonitorControllerIssueDisplay extends JControllerBase
 		$modelComment       = new MonitorModelComment;
 		$modelSubscriptions = new MonitorModelSubscription;
 
+		$view = new MonitorViewIssueHtml($model, null, $modelComment, $modelSubscriptions);
+		echo $view->render();
+
 		if (!$user->guest)
 		{
 			$modelNotifications = new MonitorModelNotifications;
 			$modelNotifications->markRead($issueId, $user->id);
 		}
-
-		$view = new MonitorViewIssueHtml($model, null, $modelComment, $modelSubscriptions);
-		echo $view->render();
 	}
 }

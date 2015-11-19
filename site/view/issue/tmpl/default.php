@@ -126,6 +126,12 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 
 		foreach ($this->comments as $i => $comment) :
 			$class = ($i % 2 == 0) ? 'even' : 'odd';
+
+			if (isset($this->item->unread) && $this->item->unread && $this->item->unread_comment && $comment->id >= $this->item->unread_comment)
+			{
+				$class .= ' unread';
+			}
+
 			$canEdit = $this->canEditComments || ($this->canEditOwnComments && $comment->author_id == JFactory::getUser()->id);
 			?>
 			<div class="comment row-fluid row-<?php echo $class; ?>"

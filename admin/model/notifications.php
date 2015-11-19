@@ -46,7 +46,7 @@ class MonitorModelNotifications extends JModelDatabase
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 */
-	public function markUnread($issueId, $commentId = 0, $userId = 0)
+	public function markUnread($issueId, $commentId = null, $userId = 0)
 	{
 		if (!$issueId)
 		{
@@ -69,8 +69,10 @@ class MonitorModelNotifications extends JModelDatabase
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 */
-	private function markUnreadAllUsers($issueId, $commentId)
+	private function markUnreadAllUsers($issueId, $commentId = null)
 	{
+		$commentId = $commentId ? (int) $commentId : 'NULL';
+
 		// Get the params
 		// TODO: may be removed when new MVC is implemented completely
 		if ($this->app instanceof JApplicationSite)
@@ -91,7 +93,7 @@ class MonitorModelNotifications extends JModelDatabase
 		$query = $this->db->getQuery(true);
 
 		$queryString = 'INSERT INTO `#__monitor_unread_issues`(issue_id, comment_id, timestamp, user_id) '
-				. 'SELECT ' . (int) $issueId . ', ' . (int) $commentId . ', NOW(), id AS user_id '
+				. 'SELECT ' . (int) $issueId . ', ' . $commentId . ', NOW(), id AS user_id '
 				. 'FROM `#__users` WHERE DATEDIFF(NOW(), lastvisitDate) < ' . (int) $params->get('inactivity_period_mark', 50)
 				. ' ON DUPLICATE KEY UPDATE `timestamp` = NOW();';
 
@@ -109,12 +111,12 @@ class MonitorModelNotifications extends JModelDatabase
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 */
-	private function markUnreadSingleUser($issueId, $userId, $commentId = 0)
+	private function markUnreadSingleUser($issueId, $userId, $commentId = null)
 	{
 		$values = array(
 				'issueId'   => (int) $issueId,
 				'userId'    => (int) $userId,
-				'commentId' => (int) $commentId,
+				'commentId' => $commentId ? (int) $commentId : 'NULL',
 		);
 
 		$query       = $this->db->getQuery(true);

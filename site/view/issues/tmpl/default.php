@@ -154,8 +154,18 @@ if ($projectId != 0)
 
 		<tbody>
 
-		<?php foreach ($this->items as $item) : ?>
-			<tr>
+		<?php
+		foreach ($this->items as $item) :
+			$class = '';
+
+			if (isset($item->unread) && $item->unread)
+			{
+				$class .= 'unread';
+			}
+
+			$class = $class ? ' class="' . $class . '"' : '';
+			?>
+			<tr<?php echo $class; ?>>
 				<td>
 					<a href="<?php echo JRoute::_('index.php?option=com_monitor&view=issue&id=' . $item->id); ?>">
 						<?php echo $item->title; ?>
