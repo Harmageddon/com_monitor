@@ -115,7 +115,9 @@ class MonitorModelSubscription extends JModelDatabase
 		$query->select('u.email, u.name, u.username')
 				->from('#__monitor_subscriptions_issues AS s')
 				->leftJoin('#__users AS u ON s.user_id = u.id')
-				->where('s.user_id != ' . $commenter->get('id'));
+				->where('s.user_id != ' . $commenter->get('id'))
+				->where('s.item_id = ' . (int) $id)
+				->where('(SELECT COUNT(user_id) FROM #__monitor_unread_issues AS ui WHERE ui.user_id = s.user_id AND ui.issue_id = ' . (int) $id . ') = 0');
 		$users = $this->db->setQuery($query)->loadObjectList();
 
 		// Set values that are common for every notification mail.
@@ -224,6 +226,7 @@ class MonitorModelSubscription extends JModelDatabase
 		$query->select('u.email, u.name, u.username')
 				->from('#__monitor_subscriptions_projects AS s')
 				->leftJoin('#__users AS u ON s.user_id = u.id')
+				->where('s.item_id = ' . $projectId)
 				->where('s.user_id != ' . $author->get('id'));
 		$users = $this->db->setQuery($query)->loadObjectList();
 

@@ -63,7 +63,7 @@ class MonitorControllerCommentSave extends JControllerBase
 		{
 			// Send notification mails for new comments.
 			$modelSubscription = new MonitorModelSubscription;
-			$modelSubscription->notifyIssue($issue_id, $user, $result);
+			$modelSubscription->notifyIssue($issue_id, $user, $commentLink);
 
 			// Mark issue as unread.
 			$modelNotification = new MonitorModelNotifications;
