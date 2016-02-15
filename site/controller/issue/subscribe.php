@@ -47,7 +47,7 @@ class MonitorControllerIssueSubscribe extends JControllerBase
 			if (!$model->isSubscriberIssue($id, $user->id))
 			{
 				$model->subscribeIssue($id, $user->id);
-				$this->app->enqueueMessage(JText::_('COM_MONITOR_SUBSCRIPTION_ISSUE', 'success'));
+				$this->app->enqueueMessage(JText::_('COM_MONITOR_SUBSCRIPTION_ISSUE'), 'message');
 			}
 		}
 

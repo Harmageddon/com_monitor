@@ -80,8 +80,8 @@ class MonitorViewProjectDisplay extends MonitorViewAbstract
 
 				$this->buttons['subscribe'] = array(
 						'url'   => 'index.php?option=com_monitor&task=project.' . $task . '&id=' . $this->item->id,
-						'text'  => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_ISSUE' : 'COM_MONITOR_SUBSCRIBE_ISSUE',
-						'title' => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_ISSUE_DESC' : 'COM_MONITOR_SUBSCRIBE_ISSUE_DESC',
+						'text'  => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_PROJECT' : 'COM_MONITOR_SUBSCRIBE_PROJECT',
+						'title' => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_PROJECT_DESC' : 'COM_MONITOR_SUBSCRIBE_PROJECT_DESC',
 						'icon'  => $subscribed ? 'icon-star' : 'icon-star-empty',
 				);
 			}

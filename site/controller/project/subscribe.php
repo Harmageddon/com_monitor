@@ -47,7 +47,7 @@ class MonitorControllerProjectSubscribe extends JControllerBase
 			if (!$model->isSubscriberProject($id, $user->id))
 			{
 				$model->subscribeProject($id, $user->id);
-				$this->app->enqueueMessage(JText::_('COM_MONITOR_SUBSCRIPTION_PROJECT', 'success'));
+				$this->app->enqueueMessage(JText::_('COM_MONITOR_SUBSCRIPTION_PROJECT'), 'message');
 			}
 		}
 

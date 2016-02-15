@@ -47,7 +47,7 @@ class MonitorControllerIssueUnsubscribe extends JControllerBase
 			if ($model->isSubscriberIssue($id, $user->id))
 			{
 				$model->unsubscribeIssue($id, $user->id);
-				$this->app->enqueueMessage(JText::_('COM_MONITOR_SUBSCRIPTION_ISSUE_UNSUBSCRIBED', 'success'));
+				$this->app->enqueueMessage(JText::_('COM_MONITOR_SUBSCRIPTION_ISSUE_UNSUBSCRIBED'), 'message');
 			}
 		}
 
