@@ -22,6 +22,11 @@ class MonitorViewIssuesList extends MonitorViewAbstract
 	protected $model;
 
 	/**
+	 * @var MonitorModelSubscription
+	 */
+	protected $modelSubscription;
+
+	/**
 	 * @var   mixed  Items to be displayed.
 	 */
 	protected $items;
@@ -30,6 +35,13 @@ class MonitorViewIssuesList extends MonitorViewAbstract
 	 * @var JForm The filter form.
 	 */
 	public $filterForm;
+
+	/**
+	 * Contains buttons to be rendered in the view.
+	 *
+	 * @var array
+	 */
+	protected $buttons = array();
 
 	/**
 	 * Method to render the view.
@@ -48,6 +60,35 @@ class MonitorViewIssuesList extends MonitorViewAbstract
 		$this->defaultTitle = JText::_('COM_MONITOR_ISSUES');
 
 		$this->setLayout('default');
+
+		$projectId = $this->model->getProjectId();
+
+		if ($projectId !== null)
+		{
+			$this->buttons['new-issue'] = array(
+				'url'   => 'index.php?option=com_monitor&task=issue.edit&project_id=' . $projectId,
+				'text'  => 'COM_MONITOR_CREATE_ISSUE',
+				'title' => 'COM_MONITOR_CREATE_ISSUE',
+				'icon'  => 'icon-new',
+			);
+
+			$user = JFactory::getUser();
+			$this->modelSubscription = new MonitorModelSubscription;
+
+			if ($this->params->get('enable_notifications', 1) && !$user->guest)
+			{
+				$subscribed = $this->modelSubscription->isSubscriberProject($projectId, $user->id);
+				$task       = $subscribed ? 'unsubscribe' : 'subscribe';
+
+				$this->buttons['subscribe'] = array(
+					'url'   => 'index.php?option=com_monitor&task=project.' . $task . '&id=' . $projectId .
+						'&return=' . base64_encode(JUri::getInstance()->toString()),
+					'text'  => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_PROJECT' : 'COM_MONITOR_SUBSCRIBE_PROJECT',
+					'title' => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_PROJECT_DESC' : 'COM_MONITOR_SUBSCRIBE_PROJECT_DESC',
+					'icon'  => $subscribed ? 'icon-star' : 'icon-star-empty',
+				);
+			}
+		}
 
 		return parent::render();
 	}

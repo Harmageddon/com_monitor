@@ -51,6 +51,13 @@ class MonitorControllerProjectSubscribe extends JControllerBase
 			}
 		}
 
-		$this->app->redirect(JRoute::_('index.php?option=com_monitor&view=project&id=' . $id, false));
+		$return = base64_decode($this->app->input->get('return', '', 'BASE64'));
+
+		if (!JUri::isInternal($return))
+		{
+			$return = 'index.php?option=com_monitor&view=project&id=' . $id;
+		}
+
+		$this->app->redirect(JRoute::_($return, false));
 	}
 }

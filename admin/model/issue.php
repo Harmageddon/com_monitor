@@ -561,6 +561,16 @@ class MonitorModelIssue extends MonitorModelAbstract
 	}
 
 	/**
+	 * Gets the current set project ID, if any.
+	 *
+	 * @return  int|null  The Project ID.
+	 */
+	public function getProjectId()
+	{
+		return $this->projectId;
+	}
+
+	/**
 	 * Deletes entities from the database.
 	 *
 	 * @param   int[]  $ids  IDs of the entities to be deleted.

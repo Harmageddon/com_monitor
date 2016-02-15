@@ -23,6 +23,22 @@ if ($projectId != 0)
 	<h2><?php echo JText::_('COM_MONITOR_ISSUES'); ?></h2>
 <?php endif; ?>
 
+<?php if (!empty($this->buttons)): ?>
+	<div class="btn-toolbar">
+		<div class="btn-group">
+			<?php foreach ($this->buttons as $button): ?>
+				<a class="btn"
+					href="<?php echo JRoute::_($button['url']); ?>"
+					title="<?php echo JText::_($button['title']); ?>"
+				>
+					<span class="<?php echo $button['icon']; ?>"></span>
+					<?php echo JText::_($button['text']); ?>
+				</a>
+			<?php endforeach; ?>
+		</div>
+	</div>
+<?php endif; ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_monitor&view=issues' . $projectId); ?>" method="post" id="adminForm"
 	class="search-form form-inline">
 	<?php
