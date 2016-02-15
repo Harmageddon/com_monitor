@@ -242,7 +242,7 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 						formaction="<?php echo $urlCommentSave; ?>">
 						<?php echo JText::_('COM_MONITOR_CREATE_COMMENT_SEND'); ?>
 					</button>
-					<button type="submit" name="task" value="comment.edit" class="btn">
+					<button type="submit" name="task" value="comment.edit" class="btn" formnovalidate>
 						<?php echo JText::_('COM_MONITOR_CREATE_COMMENT_EXTENDED'); ?>
 					</button>
 				</div>
