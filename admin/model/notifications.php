@@ -133,16 +133,65 @@ class MonitorModelNotifications extends JModelDatabase
 	 * Marks an issue as read for a single user.
 	 * This removes the according database entry from #__monitor_unread_issues.
 	 *
-	 * @param   int  $issueId  ID of the issue to mark as read.
-	 * @param   int  $userId   ID of the reading user.
+	 * @param   int|array  $issueId  ID of the issue or array containing IDs of several issues to mark.
+	 * @param   int        $userId   ID of the reading user.
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 */
 	public function markRead($issueId, $userId)
 	{
+		if (is_array($issueId))
+		{
+			return $this->markReadMultipleIssues($issueId, $userId);
+		}
+
 		$query = $this->db->getQuery(true);
 		$query->delete('#__monitor_unread_issues')
 			->where('issue_id = ' . (int) $issueId)
+			->where('user_id = ' . (int) $userId);
+
+		return $this->db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Marks all issues of a given project as read for a single user.
+	 * This removes the according database entries from #__monitor_unread_issues.
+	 *
+	 * @param   int  $projectId  ID of the project.
+	 * @param   int  $userId     ID of the reading user.
+	 *
+	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 */
+	public function markReadProject($projectId, $userId)
+	{
+		$query = $this->db->getQuery(true);
+		$query->delete('#__monitor_unread_issues')
+			->where('issue_id IN (SELECT `id` FROM #__monitor_issues WHERE `project_id` = ' . (int) $projectId . ')')
+			->where('user_id = ' . (int) $userId);
+
+		return $this->db->setQuery($query)->execute();
+	}
+
+	/**
+	 * Marks several issues as unread for a single user.
+	 *
+	 * @param   array(int)  $issueIds  Array containing the IDs of the issues to mark.
+	 * @param   int         $userId    ID of the user for whom to set the mark.
+	 *
+	 * @return  mixed  A database cursor resource on success, boolean false on failure.
+	 */
+	private function markReadMultipleIssues($issueIds, $userId)
+	{
+		if (!is_array($issueIds))
+		{
+			return false;
+		}
+
+		$ids = '(' . implode(',', array_filter($issueIds, 'is_numeric')) . ')';
+
+		$query = $this->db->getQuery(true);
+		$query->delete('#__monitor_unread_issues')
+			->where('issue_id IN ' . $ids)
 			->where('user_id = ' . (int) $userId);
 
 		return $this->db->setQuery($query)->execute();

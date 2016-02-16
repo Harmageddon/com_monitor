@@ -17,6 +17,10 @@ if ($projectId != 0)
 {
 	$projectId = '&project_id=' . $projectId;
 }
+else
+{
+	$projectId = '';
+}
 ?>
 
 <?php if ($this->params->get('show_page_heading', 1)) : ?>

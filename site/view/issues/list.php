@@ -27,6 +27,11 @@ class MonitorViewIssuesList extends MonitorViewAbstract
 	protected $modelSubscription;
 
 	/**
+	 * @var MonitorModelNotifications
+	 */
+	protected $modelNotifications;
+
+	/**
 	 * @var   mixed  Items to be displayed.
 	 */
 	protected $items;
@@ -73,19 +78,31 @@ class MonitorViewIssuesList extends MonitorViewAbstract
 			);
 
 			$user = JFactory::getUser();
-			$this->modelSubscription = new MonitorModelSubscription;
 
-			if ($this->params->get('enable_notifications', 1) && !$user->guest)
+			if (!$user->guest)
 			{
-				$subscribed = $this->modelSubscription->isSubscriberProject($projectId, $user->id);
-				$task       = $subscribed ? 'unsubscribe' : 'subscribe';
+				$this->modelSubscription = new MonitorModelSubscription;
+				$this->modelNotifications  = new MonitorModelNotifications;
 
-				$this->buttons['subscribe'] = array(
-					'url'   => 'index.php?option=com_monitor&task=project.' . $task . '&id=' . $projectId .
-						'&return=' . base64_encode(JUri::getInstance()->toString()),
-					'text'  => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_PROJECT' : 'COM_MONITOR_SUBSCRIBE_PROJECT',
-					'title' => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_PROJECT_DESC' : 'COM_MONITOR_SUBSCRIBE_PROJECT_DESC',
-					'icon'  => $subscribed ? 'icon-star' : 'icon-star-empty',
+				if ($this->params->get('enable_notifications', 1))
+				{
+					$subscribed = $this->modelSubscription->isSubscriberProject($projectId, $user->id);
+					$task       = $subscribed ? 'unsubscribe' : 'subscribe';
+
+					$this->buttons['subscribe'] = array(
+						'url'   => 'index.php?option=com_monitor&task=project.' . $task . '&id=' . $projectId .
+							'&return=' . base64_encode(JUri::getInstance()->toString()),
+						'text'  => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_PROJECT' : 'COM_MONITOR_SUBSCRIBE_PROJECT',
+						'title' => $subscribed ? 'COM_MONITOR_UNSUBSCRIBE_PROJECT_DESC' : 'COM_MONITOR_SUBSCRIBE_PROJECT_DESC',
+						'icon'  => $subscribed ? 'icon-star' : 'icon-star-empty',
+					);
+				}
+
+				$this->buttons['all-read'] = array(
+					'url'   => 'index.php?option=com_monitor&task=project.read&id=' . $projectId,
+					'text'  => 'COM_MONITOR_PROJECT_MARK_ALL_READ',
+					'title' => 'COM_MONITOR_PROJECT_MARK_ALL_READ_DESC',
+					'icon'  => 'icon-eye',
 				);
 			}
 		}
