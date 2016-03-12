@@ -52,5 +52,12 @@
 			filter="intval"
 		>
 		</field>
+		<field
+			name="file[]"
+			type="file"
+			multiple="true"
+			label="COM_MONITOR_ISSUE_FILE_LABEL"
+			description="COM_MONITOR_ISSUE_FILE_DESC"
+		/>
 	</fieldset>
 </form>

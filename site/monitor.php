@@ -19,6 +19,7 @@ JLoader::register('MonitorHelper', JPATH_ROOT . '/administrator/components/com_m
 JLoader::register('MonitorModelAbstract', JPATH_ROOT . '/administrator/components/com_monitor/model/abstract.php');
 JLoader::register('MonitorModelNotifications', JPATH_ROOT . '/administrator/components/com_monitor/model/notifications.php');
 JLoader::register('MonitorModelSubscription', JPATH_ROOT . '/administrator/components/com_monitor/model/subscription.php');
+JLoader::register('MonitorModelAttachments', JPATH_ROOT . '/administrator/components/com_monitor/model/attachments.php');
 JLoader::register('MonitorViewAbstract', JPATH_ROOT . '/administrator/components/com_monitor/view/abstract.php');
 
 $parts = array('project', 'issue', 'comment');

@@ -64,4 +64,35 @@ class MonitorHelper
 			return $string;
 		}
 	}
+
+	/**
+	 * Generates an unique random hash based on the user ID and current timestamp.
+	 *
+	 * @param   int  $numbers  Number of included random numbers.
+	 *
+	 * @return string Unique hash
+	 */
+	public static function genRandHash($numbers = 3)
+	{
+		$str = (string) microtime();
+
+		$user = JFactory::getUser();
+
+		if (!$user->guest)
+		{
+			$str .= $user->id;
+		}
+		else
+		{
+			$str .= '0';
+		}
+
+		for ($i = 0; $i < $numbers; $i++)
+		{
+			$rand = mt_rand(0, PHP_INT_MAX);
+			$str .= $rand;
+		}
+
+		return md5($str);
+	}
 }

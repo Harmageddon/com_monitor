@@ -387,12 +387,16 @@ class MonitorModelIssue extends MonitorModelAbstract
 
 		$this->db->execute();
 
-		if ($id != 0)
+		if ($id == 0)
 		{
-			return $id;
+			$id = $this->db->insertid();
 		}
 
-		return $this->db->insertid();
+		// Upload attachments
+		$modelAttachments = new MonitorModelAttachments;
+		$modelAttachments->upload($input->files->get('file'), $id, 'issue');
+
+		return $id;
 	}
 
 	/**

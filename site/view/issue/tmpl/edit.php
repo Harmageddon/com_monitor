@@ -41,7 +41,7 @@ $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
 	<?php endif; ?>
 
 	<form action="<?php echo JRoute::_('index.php?option=com_monitor&task=issue.edit' . $id); ?>" method="post"
-		name="adminForm" id="adminForm" class="form-validate">
+		name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 		<div class="form-horizontal">
 			<div class="control-group">
 				<div class="control-label">
@@ -77,7 +77,18 @@ $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
 			</div>
 			<?php echo $this->form->getLabel('text'); ?>
 			<?php echo $this->form->getInput('text'); ?>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('file[]'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('file[]'); ?>
+				</div>
+			</div>
+
 		</div>
+
+
 		<div class="btn-toolbar">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('issue.save')">

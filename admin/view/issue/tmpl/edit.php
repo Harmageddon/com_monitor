@@ -17,7 +17,7 @@ $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_monitor&task=issue.edit' . $id); ?>" method="post"
-	name="adminForm" id="adminForm" class="form-validate">
+	name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 
 	<div class="form-horizontal">
 		<div class="control-group">
@@ -54,6 +54,9 @@ $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
 		</div>
 		<?php echo $this->form->getLabel('text'); ?>
 		<?php echo $this->form->getInput('text'); ?>
+
+		<?php echo $this->form->renderFieldset('attachments'); ?>
+
 	</div>
 
 	<input type="hidden" name="task" value="" />
