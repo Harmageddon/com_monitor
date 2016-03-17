@@ -118,6 +118,26 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 		</dl>
 	</div>
 </div>
+
+<?php
+if ($this->attachments) :
+	$prefix = 'media/com_monitor/';
+?>
+<div class="attachments">
+	<h3><?php echo JText::_('COM_MONITOR_ATTACHMENTS'); ?></h3>
+	<ul class="nav nav-tabs nav-stacked">
+		<?php foreach ($this->attachments as $attachment) : ?>
+			<li class="attachment">
+				<a href="<?php echo JUri::getInstance($prefix . $attachment['path'])->toString(); ?>"
+					title="<?php echo JText::_('COM_MONITOR_VIEW_ATTACHMENT'); ?>">
+					<?php echo $attachment['name']; ?>
+				</a>
+			</li>
+		<?php endforeach; ?>
+	</ul>
+</div>
+<?php endif; ?>
+
 <div class="comments">
 	<h3><?php echo JText::_('COM_MONITOR_COMMENTS'); ?></h3>
 	<?php if ($this->comments) : ?>
@@ -218,6 +238,20 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 					<div class="comment-text" itemprop="text">
 						<?php echo $comment->text; ?>
 					</div>
+					<?php if (!empty($comment->attachments)) : ?>
+					<div class="comment-attachments">
+						<ul>
+							<?php foreach ($comment->attachments as $attachment) : ?>
+								<li class="attachment">
+									<a href="<?php echo JUri::getInstance($prefix . $attachment['path'])->toString(); ?>"
+										title="<?php echo JText::_('COM_MONITOR_VIEW_ATTACHMENT'); ?>">
+										<?php echo $attachment['name']; ?>
+									</a>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</div>
+					<?php endif; ?>
 				</div>
 			</div>
 		<?php endforeach; ?>

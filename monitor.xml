@@ -6,7 +6,7 @@
 	<license>Apache License 2.0 (see LICENSE)</license>
 	<authorEmail>constantin@zweiiconkram.de</authorEmail>
 	<authorUrl>www.zweiiconkram.de</authorUrl>
-	<version>0.0.13</version>
+	<version>0.0.14</version>
 	<description>COM_MONITOR_XML_DESCRIPTION</description>
 	<install> <!-- Runs on install -->
 		<sql>

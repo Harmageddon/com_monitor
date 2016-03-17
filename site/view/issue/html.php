@@ -207,16 +207,19 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 		{
 			$this->comments = $this->modelComment->getIssueComments($this->item->id);
 
-			// Avatars
-			if ($this->avatars !== null)
+			foreach ($this->comments as $comment)
 			{
-				foreach ($this->comments as $comment)
+				// Avatars
+				if ($this->avatars !== null)
 				{
 					if (!isset($this->avatars[$comment->author_id]))
 					{
 						$this->avatars[$comment->author_id] = PlgUserCMAvatarHelper::getAvatar($comment->author_id);
 					}
 				}
+
+				// Attachments
+				$comment->attachments = $this->modelComment->getCommentAttachments($comment->id);
 			}
 
 			// Pagination

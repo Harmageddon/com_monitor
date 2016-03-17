@@ -406,17 +406,24 @@ class MonitorModelComment extends MonitorModelAbstract
 	}
 
 	/**
-	 * Retrieves the attachments for this comment.
+	 * Retrieves the attachments for the given comment.
+	 *
+	 * @param   int  $commentId  ID of the comment. If left empty, the ID stored as $this->commentId is used.
 	 *
 	 * @see MonitorModelAttachments::getAttachments
 	 *
 	 * @return  mixed  Null on failure, an array indexed by attachment IDs on success.
 	 */
-	public function getCommentAttachments()
+	public function getCommentAttachments($commentId = null)
 	{
+		if (!$commentId)
+		{
+			$commentId = $this->commentId;
+		}
+
 		$modelAttachments = new MonitorModelAttachments;
 
-		return $modelAttachments->attachmentsComment($this->commentId);
+		return $modelAttachments->attachmentsComment($commentId);
 	}
 
 	/**

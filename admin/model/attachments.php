@@ -49,9 +49,6 @@ class MonitorModelAttachments extends MonitorModelAbstract
 			$rand = MonitorHelper::genRandHash();
 
 			$pathParts = array(
-				JPATH_ROOT,
-				'media',
-				'com_monitor',
 				$type,
 				$id,
 				$rand . '-' . $file[0]['name'],
@@ -62,6 +59,7 @@ class MonitorModelAttachments extends MonitorModelAbstract
 				'issue_id' => $issueId,
 				'comment_id' => $commentId,
 				'path' => $path,
+				'name' => $file[0]['name'],
 			);
 
 			if (!JFile::upload($file[0]['tmp_name'], $path))
@@ -161,7 +159,7 @@ class MonitorModelAttachments extends MonitorModelAbstract
 		}
 
 		$query = $this->db->getQuery(true);
-		$query->select('id, path')
+		$query->select('id, name, path')
 			->from('#__monitor_attachments');
 
 		switch ($type)
