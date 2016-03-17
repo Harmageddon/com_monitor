@@ -10,6 +10,8 @@
 $date_format = $this->params->get('issue_date_format', JText::_('DATE_FORMAT_LC2'));
 $urlCommentSave = JRoute::_('index.php?option=com_monitor');
 $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issue_id=' . $this->item->id);
+
+$prefix = 'media/com_monitor/';
 ?>
 
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
@@ -121,7 +123,6 @@ $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issu
 
 <?php
 if ($this->attachments) :
-	$prefix = 'media/com_monitor/';
 ?>
 <div class="attachments">
 	<h3><?php echo JText::_('COM_MONITOR_ATTACHMENTS'); ?></h3>
