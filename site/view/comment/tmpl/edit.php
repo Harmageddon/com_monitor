@@ -24,7 +24,7 @@ $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
 
 <div class="monitor edit-comment">
 	<form action="<?php echo JRoute::_('index.php?option=com_monitor&task=comment.edit' . $id); ?>" method="post"
-		name="adminForm" id="adminForm" class="form-validate">
+		name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 		<div class="form-horizontal">
 			<?php if (JFactory::getUser()->authorise('comment.edit.status', 'com_monitor')) : ?>
 				<div class="control-group">
@@ -38,6 +38,16 @@ $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
 			<?php endif; ?>
 			<?php echo $this->form->getLabel('text'); ?>
 			<?php echo $this->form->getInput('text'); ?>
+
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('file[]'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('file[]'); ?>
+				</div>
+			</div>
+
 		</div>
 
 		<div class="btn-toolbar">

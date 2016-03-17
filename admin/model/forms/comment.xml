@@ -35,5 +35,12 @@
 			required="required"
 			filter="intval"
 		/>
+		<field
+			name="file[]"
+			type="file"
+			multiple="true"
+			label="COM_MONITOR_COMMENT_FILE_LABEL"
+			description="COM_MONITOR_COMMENT_FILE_DESC"
+		/>
 	</fieldset>
 </form>

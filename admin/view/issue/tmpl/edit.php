@@ -55,7 +55,14 @@ $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
 		<?php echo $this->form->getLabel('text'); ?>
 		<?php echo $this->form->getInput('text'); ?>
 
-		<?php echo $this->form->renderFieldset('attachments'); ?>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('file[]'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('file[]'); ?>
+			</div>
+		</div>
 
 	</div>
 
