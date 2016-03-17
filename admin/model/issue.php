@@ -81,6 +81,20 @@ class MonitorModelIssue extends MonitorModelAbstract
 	}
 
 	/**
+	 * Retrieves the attachments for this issue.
+	 *
+	 * @see MonitorModelAttachments::getAttachments
+	 *
+	 * @return  mixed  Null on failure, an array indexed by attachment IDs on success.
+	 */
+	public function getAttachments()
+	{
+		$modelAttachments = new MonitorModelAttachments;
+
+		return $modelAttachments->attachmentsIssue($this->issueId);
+	}
+
+	/**
 	 * Retrieves the project ID for a given issue.
 	 *
 	 * @param   int  $issueId  ID of the issue.
@@ -394,7 +408,7 @@ class MonitorModelIssue extends MonitorModelAbstract
 
 		// Upload attachments
 		$modelAttachments = new MonitorModelAttachments;
-		$modelAttachments->upload($input->files->get('file'), $id, 'issue');
+		$modelAttachments->upload($input->files->get('file'), $id);
 
 		return $id;
 	}

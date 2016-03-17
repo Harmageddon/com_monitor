@@ -82,7 +82,7 @@ class MonitorModelComment extends MonitorModelAbstract
 	}
 
 	/**
-	 * Retrieves a comment with all relevant information from the database
+	 * Retrieves comments for a given issue with all relevant information from the database
 	 *
 	 * @param   int  $issueId  ID of the issue the comments belong to.
 	 *
@@ -349,7 +349,7 @@ class MonitorModelComment extends MonitorModelAbstract
 
 		// Upload attachments
 		$modelAttachments = new MonitorModelAttachments;
-		$modelAttachments->upload($input->files->get('file'), $id, 'comment');
+		$modelAttachments->upload($input->files->get('file'), $values["issue_id"], $id);
 
 		return $id;
 	}
@@ -403,6 +403,36 @@ class MonitorModelComment extends MonitorModelAbstract
 		$this->db->execute();
 
 		return $this->db->loadResult();
+	}
+
+	/**
+	 * Retrieves the attachments for this comment.
+	 *
+	 * @see MonitorModelAttachments::getAttachments
+	 *
+	 * @return  mixed  Null on failure, an array indexed by attachment IDs on success.
+	 */
+	public function getCommentAttachments()
+	{
+		$modelAttachments = new MonitorModelAttachments;
+
+		return $modelAttachments->attachmentsComment($this->commentId);
+	}
+
+	/**
+	 * Retrieves the attachments for all comments of the given issue.
+	 *
+	 * @param   int  $issueId  ID of the issue.
+	 *
+	 * @see MonitorModelAttachments::getAttachments
+	 *
+	 * @return  mixed  Null on failure, an array indexed by attachment IDs on success.
+	 */
+	public function getIssueCommentsAttachments($issueId)
+	{
+		$modelAttachments = new MonitorModelAttachments;
+
+		return $modelAttachments->attachmentsComments($issueId);
 	}
 
 	/**

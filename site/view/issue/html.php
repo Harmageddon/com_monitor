@@ -89,6 +89,13 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 	protected $buttons = array();
 
 	/**
+	 * Contains all attachments for this issue.
+	 *
+	 * @var array
+	 */
+	protected $attachments;
+
+	/**
 	 * Constructor for all views.
 	 *
 	 * @param   MonitorModelIssue         $modelIssue         Model providing information on issues.
@@ -223,6 +230,9 @@ class MonitorViewIssueHtml extends MonitorViewAbstract
 		$this->status = $this->model->getStatus();
 
 		$this->defaultStatus = $this->model->getDefaultStatus();
+
+		// Attachments
+		$this->attachments = $this->model->getAttachments();
 
 		// Process the content plugins.
 		$dispatcher	= JEventDispatcher::getInstance();
