@@ -45,6 +45,9 @@ class MonitorViewCommentHtml extends MonitorViewEdit
 
 		$this->form = $this->model->getForm();
 
+		// Attachments
+		$this->attachments = $this->model->getCommentAttachments();
+
 		$this->addToolbar();
 
 		return parent::render();

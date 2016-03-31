@@ -15,6 +15,8 @@ JHtml::_('formbehavior.chosen', 'select');
 $app   = JFactory::getApplication();
 $input = $app->input;
 $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
+
+$prefix = '../media/com_monitor/';
 ?>
 
 <div class="monitor issue-edit">
@@ -77,6 +79,7 @@ $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
 			</div>
 			<?php echo $this->form->getLabel('text'); ?>
 			<?php echo $this->form->getInput('text'); ?>
+
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('file[]'); ?>
@@ -105,5 +108,39 @@ $id    = ($this->item) ? '&id=' . (int) $this->item->id : '';
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>" />
 	</form>
+
+	<?php if (!empty($this->attachments)) : ?>
+		<table class="table table-striped table-hover">
+			<caption>
+				<?php echo JText::_('COM_MONITOR_ATTACHMENTS'); ?>
+			</caption>
+			<tbody>
+			<?php
+			foreach ($this->attachments as $attachment) :
+				$url = 'index.php?option=com_monitor&task=attachment.delete&id=' . $attachment['id']
+					. '&return=' . base64_encode(JUri::getInstance()->toString());
+				?>
+				<tr>
+					<td>
+						<a href="<?php echo JUri::getInstance($prefix . $attachment['path'])->toString(); ?>"
+							title="<?php echo JText::_('COM_MONITOR_ATTACHMENT_VIEW'); ?>"
+							target="_blank">
+							<?php echo $attachment['name']; ?>
+						</a>
+					</td>
+					<td>
+						<form action="<?php echo JRoute::_($url); ?>" method="post"
+							name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
+							<button class="btn btn-danger" type="submit">
+								<span class="icon-remove"></span>
+								<?php echo JText::_('COM_MONITOR_ATTACHMENT_DELETE'); ?>
+							</button>
+						</form>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+	<?php endif; ?>
 
 </div>

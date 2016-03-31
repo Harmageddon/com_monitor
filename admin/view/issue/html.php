@@ -57,6 +57,9 @@ class MonitorViewIssueHtml extends MonitorViewEdit
 
 		$this->form = $this->model->getForm();
 
+		// Attachments
+		$this->attachments = $this->model->getAttachments();
+
 		$this->addToolbar();
 
 		return parent::render();

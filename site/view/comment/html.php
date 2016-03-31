@@ -66,6 +66,7 @@ class MonitorViewCommentHtml extends MonitorViewAbstract
 		$this->issue_title  = $this->model->getIssueTitle();
 		$this->form         = $this->model->getForm();
 		$this->defaultTitle = JText::sprintf('COM_MONITOR_CREATE_COMMENT_TITLE', $this->issue_title);
+		$this->attachments  = $this->model->getCommentAttachments();
 
 		return parent::render();
 	}

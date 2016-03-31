@@ -130,7 +130,7 @@ if ($this->attachments) :
 		<?php foreach ($this->attachments as $attachment) : ?>
 			<li class="attachment">
 				<a href="<?php echo JUri::getInstance($prefix . $attachment['path'])->toString(); ?>"
-					title="<?php echo JText::_('COM_MONITOR_VIEW_ATTACHMENT'); ?>">
+					title="<?php echo JText::_('COM_MONITOR_ATTACHMENT_VIEW'); ?>">
 					<?php echo $attachment['name']; ?>
 				</a>
 			</li>
@@ -245,7 +245,7 @@ if ($this->attachments) :
 							<?php foreach ($comment->attachments as $attachment) : ?>
 								<li class="attachment">
 									<a href="<?php echo JUri::getInstance($prefix . $attachment['path'])->toString(); ?>"
-										title="<?php echo JText::_('COM_MONITOR_VIEW_ATTACHMENT'); ?>">
+										title="<?php echo JText::_('COM_MONITOR_ATTACHMENT_VIEW'); ?>">
 										<?php echo $attachment['name']; ?>
 									</a>
 								</li>
