@@ -15,6 +15,8 @@
  */
 class MonitorModelAttachments extends MonitorModelAbstract
 {
+	protected $pathPrefix = JPATH_ROOT . '/media/com_monitor/';
+
 	/**
 	 * Upload files and attach them to an issue or a comment.
 	 *
@@ -62,9 +64,10 @@ class MonitorModelAttachments extends MonitorModelAbstract
 				'name' => $file[0]['name'],
 			);
 
-			if (!JFile::upload($file[0]['tmp_name'], $path))
+			if (!JFile::upload($file[0]['tmp_name'], $this->pathPrefix . $path))
 			{
-				// TODO: Error handling
+				JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_MONITOR_ATTACHMENT_UPLOAD_FAILED', $file[0]['name']));
+
 				return false;
 			}
 
@@ -92,7 +95,58 @@ class MonitorModelAttachments extends MonitorModelAbstract
 	 */
 	public function delete($ids)
 	{
-		// TODO: Implement delete() method.
+		if (!is_array($ids))
+		{
+			return false;
+		}
+
+		jimport('joomla.filesystem.file');
+		$app = JFactory::getApplication();
+
+		$conditions = array();
+
+		foreach ($ids as $id)
+		{
+			$conditions[] = 'id = ' . (int) $id;
+		}
+
+		// Step 1: Get file paths to delete
+		$query = $this->db->getQuery(true);
+
+		$query->select('id, path')
+			->from('#__monitor_attachments')
+			->where($conditions, 'OR');
+
+		$this->db->setQuery($query)->execute();
+		$result = $this->db->loadAssocList();
+
+		// Step 2: Delete files
+		foreach ($result as $row)
+		{
+			if (!JFile::delete($this->pathPrefix . $row['path']))
+			{
+				// Don't delete database entries for files that couldn't get removed.
+				$conditions = array_filter(
+					$conditions,
+					function ($a) use ($row)
+					{
+						return $a != $row['id'];
+					}
+				);
+
+				$app->enqueueMessage(JText::sprintf('COM_MONITOR_ATTACHMENT_DELETION_FAILED', $this->pathPrefix . $row['path']));
+			}
+		}
+
+		// Step 3: Remove entries from database
+		$query = $this->db->getQuery(true);
+
+		$query->delete('#__monitor_attachments')
+			->where($conditions, 'OR');
+
+		$this->db->setQuery($query);
+
+		return $this->db->execute();
 	}
 
 	/**

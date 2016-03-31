@@ -36,6 +36,8 @@ foreach ($parts as $part)
 		JPATH_ROOT . '/administrator/components/com_monitor/controller/' . $part . '/delete.php');
 }
 
+JLoader::register('MonitorControllerAttachmentDelete', JPATH_ROOT . '/administrator/components/com_monitor/controller/attachment/delete.php');
+
 // Application
 $app  = JFactory::getApplication();
 $view = $app->input->get('view');

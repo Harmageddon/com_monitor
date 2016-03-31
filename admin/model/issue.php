@@ -611,6 +611,6 @@ class MonitorModelIssue extends MonitorModelAbstract
 
 		$this->db->setQuery($query);
 
-		$this->db->execute();
+		return $this->db->execute();
 	}
 }
