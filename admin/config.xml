@@ -338,6 +338,8 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+	</fieldset>
+	<fieldset name="comment" label="COM_MONITOR_COMMENTS" description="COM_MONITOR_CONFIG_COMMENT_DESC">
 		<field
 			name="comment_show_status"
 			type="radio"
@@ -386,8 +388,8 @@
 			name="comment_show_date_created"
 			type="radio"
 			class="btn-group btn-group-yesno"
-			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-			description="JGLOBAL_SHOW_CREATE_DATE_DESC"
+			label="COM_MONITOR_PARAM_COMMENT_SHOW_DATE_CREATED"
+			description="COM_MONITOR_PARAM_COMMENT_SHOW_DATE_CREATED_DESC"
 			default="1"
 		>
 			<option value="1">JSHOW</option>

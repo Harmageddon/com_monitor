@@ -23,7 +23,6 @@
 			description="COM_MONITOR_STATUS_OPEN_DESC"
 			default="1"
 			required="required"
-			validate="boolean"
 		>
 			<option value="1">COM_MONITOR_STATUS_OPEN</option>
 			<option value="0">COM_MONITOR_STATUS_CLOSED</option>
