@@ -33,6 +33,7 @@ Monitor is a component for [Joomla!](https://www.joomla.org). It has all you nee
   * Conversation below each issue.
   * The *status* of the issue can be changed with every comment.
   * Every status change can be displayed along with the comment.
+* Multiple files can be attached to issues or comments.
 * Monitor supports displaying user avatars with [CMAvatar](https://github.com/cmextension/cmavatar)
   
 ### Views
