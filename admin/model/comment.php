@@ -279,6 +279,8 @@ class MonitorModelComment extends MonitorModelAbstract
 	public function save($input)
 	{
 		$user = JFactory::getUser();
+
+		// Validate form data.
 		$values = array (
 			"issue_id" => $input->getInt('issue_id'),
 			"text" => $input->getString('text'),
@@ -287,6 +289,15 @@ class MonitorModelComment extends MonitorModelAbstract
 		$values = $this->validate($values);
 
 		if (!$values)
+		{
+			return false;
+		}
+
+		// Validate attachments.
+		$modelAttachments = new MonitorModelAttachments;
+		$files = $input->files->get('file');
+
+		if (!$this->validateFiles($files, $values, $modelAttachments))
 		{
 			return false;
 		}
@@ -348,8 +359,7 @@ class MonitorModelComment extends MonitorModelAbstract
 		}
 
 		// Upload attachments
-		$modelAttachments = new MonitorModelAttachments;
-		$modelAttachments->upload($input->files->get('file'), $values["issue_id"], $id);
+		$modelAttachments->upload($files, $values["issue_id"], $id);
 
 		return $id;
 	}

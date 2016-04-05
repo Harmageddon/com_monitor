@@ -366,6 +366,7 @@ class MonitorModelIssue extends MonitorModelAbstract
 		$query = $this->db->getQuery(true);
 		$user  = JFactory::getUser();
 
+		// Validate form data.
 		$values = array(
 			"title"          => $input->getString('title'),
 			"text"           => $input->getString('text'),
@@ -377,6 +378,15 @@ class MonitorModelIssue extends MonitorModelAbstract
 		$values = $this->validate($values);
 
 		if (!$values)
+		{
+			return false;
+		}
+
+		// Validate attachments.
+		$modelAttachments = new MonitorModelAttachments;
+		$files = $input->files->get('file');
+
+		if (!$this->validateFiles($files, $values, $modelAttachments))
 		{
 			return false;
 		}
@@ -407,7 +417,6 @@ class MonitorModelIssue extends MonitorModelAbstract
 		}
 
 		// Upload attachments
-		$modelAttachments = new MonitorModelAttachments;
 		$modelAttachments->upload($input->files->get('file'), $id);
 
 		return $id;

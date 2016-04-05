@@ -229,6 +229,38 @@ abstract class MonitorModelAbstract extends JModelDatabase
 	}
 
 	/**
+	 * Validates uploaded files from a form.
+	 *
+	 * @param   array                    $files             Array containing the files to validate.
+	 * @param   array                    $data              Other data from the form.
+	 * @param   MonitorModelAttachments  $modelAttachments  Model to use.
+	 *
+	 * @return  bool  True if all files are valid, false if not.
+	 */
+	public function validateFiles($files, $data, $modelAttachments = null)
+	{
+		if (!$modelAttachments)
+		{
+			$modelAttachments = new MonitorModelAttachments($this->app);
+		}
+
+		if (!$modelAttachments->canUpload($files))
+		{
+			// Store data for redirects.
+			if (!$this->form)
+			{
+				$this->loadForm();
+			}
+
+			$this->app->setUserState($this->form->getName() . '.data', $data);
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Prepares and binds the form.
 	 *
 	 * @return void

@@ -87,6 +87,28 @@ class MonitorModelAttachments extends MonitorModelAbstract
 	}
 
 	/**
+	 * Checks if the uploaded files are valid.
+	 *
+	 * @param   array  $files  Array containing the uploaded files.
+	 *
+	 * @return  bool  True if all files are valid, false if not.
+	 */
+	public function canUpload($files)
+	{
+		foreach ($files as $file)
+		{
+			$helper = new JHelperMedia;
+
+			if (!$helper->canUpload($file[0], 'com_monitor'))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Deletes entities from the database.
 	 *
 	 * @param   int[]  $ids  IDs of the entities to be deleted.

@@ -338,6 +338,17 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+		<field
+			name="issue_enable_attachments"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_MONITOR_PARAM_ISSUE_ENABLE_ATTACHMENTS"
+			description="COM_MONITOR_PARAM_ISSUE_ENABLE_ATTACHMENTS_DESC"
+			default="1"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 	</fieldset>
 	<fieldset name="comment" label="COM_MONITOR_COMMENTS" description="COM_MONITOR_CONFIG_COMMENT_DESC">
 		<field
@@ -395,6 +406,17 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+		<field
+			name="comment_enable_attachments"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			label="COM_MONITOR_PARAM_COMMENT_ENABLE_ATTACHMENTS"
+			description="COM_MONITOR_PARAM_COMMENT_ENABLE_ATTACHMENTS_DESC"
+			default="1"
+		>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 	</fieldset>
 	<fieldset name="unread_issues" label="COM_MONITOR_CONFIG_UNREAD_ISSUES" description="COM_MONITOR_CONFIG_UNREAD_ISSUES_DESC">
 		<field
@@ -415,5 +437,48 @@
 			label="COM_MONITOR_PARAM_INACTIVITY_PERIOD_CLEAN"
 			description="COM_MONITOR_PARAM_INACTIVITY_PERIOD_CLEAN_DESC"
 		/>
+	</fieldset>
+	<fieldset name="attachments" label="COM_MONITOR_CONFIG_ATTACHMENTS" description="COM_MONITOR_CONFIG_ATTACHMENTS_DESC">
+		<field
+			name="upload_extensions"
+			type="text"
+			size="50"
+			default="bmp,csv,doc,gif,ico,jpg,jpeg,pdf,png,txt,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,PDF,PNG,TXT"
+			label="COM_MONITOR_PARAM_ATTACHMENTS_LEGAL_EXTENSIONS_LABEL"
+			description="COM_MONITOR_PARAM_ATTACHMENTS_LEGAL_EXTENSIONS_DESC" />
+		<field
+			name="upload_maxsize"
+			type="text"
+			size="50"
+			default="10"
+			label="COM_MONITOR_PARAM_ATTACHMENTS_MAXIMUM_SIZE_LABEL"
+			description="COM_MONITOR_PARAM_ATTACHMENTS_MAXIMUM_SIZE_DESC" />
+		<field
+			name="image_extensions"
+			type="text"
+			size="50"
+			default="bmp,gif,jpg,png"
+			label="COM_MONITOR_PARAM_ATTACHMENTS_LEGAL_IMAGE_EXTENSIONS_LABEL"
+			description="COM_MONITOR_PARAM_ATTACHMENTS_LEGAL_IMAGE_EXTENSIONS_DESC" />
+		<field
+			name="ignore_extensions"
+			type="text"
+			size="50"
+			label="COM_MONITOR_PARAM_ATTACHMENTS_IGNORED_EXTENSIONS_LABEL"
+			description="COM_MONITOR_PARAM_ATTACHMENTS_IGNORED_EXTENSIONS_DESC" />
+		<field
+			name="upload_mime"
+			type="text"
+			size="50"
+			default="image/jpeg,image/gif,image/png,image/bmp,application/msword,application/pdf,text/plain,application/x-zip"
+			label="COM_MONITOR_PARAM_ATTACHMENTS_LEGAL_MIME_TYPES_LABEL"
+			description="COM_MONITOR_PARAM_ATTACHMENTS_LEGAL_MIME_TYPES_DESC" />
+		<field
+			name="upload_mime_illegal"
+			type="text"
+			size="50"
+			default="text/html"
+			label="COM_MONITOR_PARAM_ATTACHMENTS_ILLEGAL_MIME_TYPES_LABEL"
+			description="COM_MONITOR_PARAM_ATTACHMENTS_ILLEGAL_MIME_TYPES_DESC" />
 	</fieldset>
 </config>
