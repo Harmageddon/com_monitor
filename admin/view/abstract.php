@@ -83,6 +83,10 @@ abstract class MonitorViewAbstract extends JViewHtml
 				$this->params->merge($active->params);
 			}
 		}
+		else
+		{
+			$this->params = JComponentHelper::getParams('com_monitor');
+		}
 
 		$reflector = new ReflectionObject($this);
 		$paths->insert(dirname($reflector->getFileName()) . '/tmpl', 1);

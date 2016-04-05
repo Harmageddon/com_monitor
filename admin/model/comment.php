@@ -294,12 +294,18 @@ class MonitorModelComment extends MonitorModelAbstract
 		}
 
 		// Validate attachments.
-		$modelAttachments = new MonitorModelAttachments;
-		$files = $input->files->get('file');
+		$params = $this->getParams();
+		$enableAttachments = $params->get('comment_enable_attachments', 1);
 
-		if (!$this->validateFiles($files, $values, $modelAttachments))
+		if ($enableAttachments)
 		{
-			return false;
+			$modelAttachments = new MonitorModelAttachments;
+			$files            = $input->files->get('file');
+
+			if (!$this->validateFiles($files, $values, $modelAttachments))
+			{
+				return false;
+			}
 		}
 
 		if ($values["issue_id"] == 0)
@@ -359,7 +365,10 @@ class MonitorModelComment extends MonitorModelAbstract
 		}
 
 		// Upload attachments
-		$modelAttachments->upload($files, $values["issue_id"], $id);
+		if ($enableAttachments)
+		{
+			$modelAttachments->upload($files, $values["issue_id"], $id);
+		}
 
 		return $id;
 	}

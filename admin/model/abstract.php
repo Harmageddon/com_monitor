@@ -261,6 +261,33 @@ abstract class MonitorModelAbstract extends JModelDatabase
 	}
 
 	/**
+	 * Get the configuration for the component and (if given) the active menu item.
+	 *
+	 * TODO: may be removed when new MVC is implemented completely
+	 *
+	 * @return  \Joomla\Registry\Registry  Object containing the parameters.
+	 */
+	public function getParams()
+	{
+		if ($this->app instanceof JApplicationSite)
+		{
+			$params = $this->app->getParams();
+			$active = $this->app->getMenu()->getActive();
+
+			if ($active)
+			{
+				$params->merge($active->params);
+			}
+		}
+		else
+		{
+			$params = JComponentHelper::getParams('com_monitor');
+		}
+
+		return $params;
+	}
+
+	/**
 	 * Prepares and binds the form.
 	 *
 	 * @return void

@@ -216,21 +216,7 @@ class MonitorModelIssue extends MonitorModelAbstract
 		}
 
 		// Get the params
-		// TODO: may be removed when new MVC is implemented completely
-		if ($this->app instanceof JApplicationSite)
-		{
-			$params = $this->app->getParams();
-			$active = $this->app->getMenu()->getActive();
-
-			if ($active)
-			{
-				$params->merge($active->params);
-			}
-		}
-		else
-		{
-			$params = JComponentHelper::getParams('com_monitor');
-		}
+		$params = $this->getParams();
 
 		// Filter by title / text
 		if ($this->filters !== null && !empty($this->filters['search']))
@@ -383,12 +369,18 @@ class MonitorModelIssue extends MonitorModelAbstract
 		}
 
 		// Validate attachments.
-		$modelAttachments = new MonitorModelAttachments;
-		$files = $input->files->get('file');
+		$params = $this->getParams();
+		$enableAttachments = $params->get('issue_enable_attachments', 1);
 
-		if (!$this->validateFiles($files, $values, $modelAttachments))
+		if ($enableAttachments)
 		{
-			return false;
+			$modelAttachments = new MonitorModelAttachments;
+			$files            = $input->files->get('file');
+
+			if (!$this->validateFiles($files, $values, $modelAttachments))
+			{
+				return false;
+			}
 		}
 
 		$id = $input->getInt('id');
@@ -416,8 +408,11 @@ class MonitorModelIssue extends MonitorModelAbstract
 			$id = $this->db->insertid();
 		}
 
-		// Upload attachments
-		$modelAttachments->upload($input->files->get('file'), $id);
+		if ($enableAttachments)
+		{
+			// Upload attachments
+			$modelAttachments->upload($input->files->get('file'), $id);
+		}
 
 		return $id;
 	}

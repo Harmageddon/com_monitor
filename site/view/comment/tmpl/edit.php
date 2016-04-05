@@ -41,6 +41,7 @@ $prefix = '../media/com_monitor/';
 			<?php echo $this->form->getLabel('text'); ?>
 			<?php echo $this->form->getInput('text'); ?>
 
+			<?php if ($this->params->get('comment_enable_attachments', 1)) : ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('file[]'); ?>
@@ -49,6 +50,7 @@ $prefix = '../media/com_monitor/';
 					<?php echo $this->form->getInput('file[]'); ?>
 				</div>
 			</div>
+			<?php endif; ?>
 
 		</div>
 
