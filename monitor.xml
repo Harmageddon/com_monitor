@@ -46,6 +46,7 @@
 	</administration>
 	<files folder="site">
 		<filename>monitor.php</filename>
+		<filename>router.php</filename>
 		<folder>controller</folder>
 		<folder>language</folder>
 		<folder>view</folder>
