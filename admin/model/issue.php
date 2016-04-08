@@ -180,24 +180,20 @@ class MonitorModelIssue extends MonitorModelAbstract
 			{
 				$cond = 'i.status in (SELECT `id` FROM `#__monitor_status` WHERE `open` = 1)';
 
-				if ($defaultStatus->open == 1)
+				if ($defaultStatus !== null && $defaultStatus->open == 1)
 				{
-					$cond .= ' OR i.status = 0';
+					$cond = '(' . $cond . ' OR i.status IS NULL)';
 				}
-
-				$query->where($cond);
 			}
 			// All closed statuses
 			elseif ($this->filters['issue_status'] == "closed")
 			{
 				$cond = 'i.status in (SELECT `id` FROM `#__monitor_status` WHERE `open` = 0)';
 
-				if ($defaultStatus->open == 0)
+				if ($defaultStatus !== null && $defaultStatus->open == 0)
 				{
-					$cond .= ' OR i.status = 0';
+					$cond = '(' . $cond . ' OR i.status IS NULL)';
 				}
-
-				$query->where($cond);
 			}
 			// One specified status
 			else
@@ -208,7 +204,7 @@ class MonitorModelIssue extends MonitorModelAbstract
 
 				if ($defaultStatus !== null && $status == $defaultStatus->id)
 				{
-					$cond .= ' OR i.status = 0';
+					$cond = '(' . $cond . ' OR i.status IS NULL)';
 				}
 			}
 
