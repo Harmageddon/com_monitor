@@ -377,7 +377,7 @@ class MonitorModelIssue extends MonitorModelAbstract
 			$modelAttachments = new MonitorModelAttachments;
 			$files            = $input->files->get('file');
 
-			if (!$this->validateFiles($files, $values, $modelAttachments))
+			if (($files = $this->validateFiles($files, $values, $modelAttachments)) === null)
 			{
 				return false;
 			}
@@ -411,7 +411,7 @@ class MonitorModelIssue extends MonitorModelAbstract
 		if ($enableAttachments)
 		{
 			// Upload attachments
-			$modelAttachments->upload($input->files->get('file'), $id);
+			$modelAttachments->upload($files, $id);
 		}
 
 		return $id;

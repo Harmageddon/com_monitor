@@ -235,13 +235,21 @@ abstract class MonitorModelAbstract extends JModelDatabase
 	 * @param   array                    $data              Other data from the form.
 	 * @param   MonitorModelAttachments  $modelAttachments  Model to use.
 	 *
-	 * @return  bool  True if all files are valid, false if not.
+	 * @return  array|null  A filtered array if all files are valid, null if not.
 	 */
 	public function validateFiles($files, $data, $modelAttachments = null)
 	{
 		if (!$modelAttachments)
 		{
 			$modelAttachments = new MonitorModelAttachments($this->app);
+		}
+
+		foreach ($files as $i => $file)
+		{
+			if ($file[0]['error'] === UPLOAD_ERR_NO_FILE)
+			{
+				unset($files[$i]);
+			}
 		}
 
 		if (!$modelAttachments->canUpload($files))
@@ -254,10 +262,10 @@ abstract class MonitorModelAbstract extends JModelDatabase
 
 			$this->app->setUserState($this->form->getName() . '.data', $data);
 
-			return false;
+			return null;
 		}
 
-		return true;
+		return $files;
 	}
 
 	/**
