@@ -174,6 +174,22 @@ abstract class MonitorModelAbstract extends JModelDatabase
 	}
 
 	/**
+	 * Returns all used filters whose values are not empty.
+	 *
+	 * @return  array  Active filters and their values.
+	 */
+	public function getActiveFilters()
+	{
+		return array_filter(
+			$this->filters,
+			function ($v)
+			{
+				return !empty($v);
+			}
+		);
+	}
+
+	/**
 	 * Validates data from a form.
 	 *
 	 * @param   array  $data  The data to validate.

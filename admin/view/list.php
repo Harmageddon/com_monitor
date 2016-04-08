@@ -79,6 +79,7 @@ abstract class MonitorViewList extends MonitorViewAbstract
 		if ($this->model)
 		{
 			$this->filterForm = $this->model->getFilterForm();
+			$this->activeFilters = $this->model->getActiveFilters();
 		}
 
 		return parent::render();
