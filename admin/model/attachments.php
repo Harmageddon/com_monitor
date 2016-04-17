@@ -15,7 +15,23 @@
  */
 class MonitorModelAttachments extends MonitorModelAbstract
 {
-	protected $pathPrefix = JPATH_ROOT . '/media/com_monitor/';
+	protected $pathPrefix;
+
+	/**
+	 * MonitorModelAttachments constructor.
+	 *
+	 * @param   JApplicationCms  $application  The Application object to use in this model.
+	 * @param   boolean          $loadFilters  If set to true, filters and list options will be loaded from the page request.
+	 * @param   string           $pathPrefix   Base path for file storage for this component.
+	 *                                         Defaults to /media/com_monitor.
+	 */
+	public function __construct($application = null, $loadFilters = true,
+		$pathPrefix = '/media/com_monitor/')
+	{
+		$this->pathPrefix = JPATH_ROOT . $pathPrefix;
+
+		parent::__construct();
+	}
 
 	/**
 	 * Upload files and attach them to an issue or a comment.
