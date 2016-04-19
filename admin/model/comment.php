@@ -300,7 +300,7 @@ class MonitorModelComment extends MonitorModelAbstract
 		if ($enableAttachments)
 		{
 			$modelAttachments = new MonitorModelAttachments;
-			$files            = $input->files->get('file');
+			$files            = $input->files->get('file', null, 'raw');
 
 			if (($files = $this->validateFiles($files, $values, $modelAttachments)) === null)
 			{
