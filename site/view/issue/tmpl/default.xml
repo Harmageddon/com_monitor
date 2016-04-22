@@ -147,7 +147,7 @@
 				name="comment_show_author"
 				type="radio"
 				class="btn-group btn-group-yesno"
-				label="COM_MONITOR_PARAM_COMMENT_SHOW_AUTHOR_LABEL"
+				label="COM_MONITOR_PARAM_COMMENT_SHOW_AUTHOR"
 				description="COM_MONITOR_PARAM_COMMENT_SHOW_AUTHOR_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
