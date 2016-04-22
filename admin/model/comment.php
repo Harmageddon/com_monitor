@@ -134,7 +134,14 @@ class MonitorModelComment extends MonitorModelAbstract
 		$query->select('s.name AS status_name')
 			->select('i.title AS issue_title, p.name AS project_name, p.id AS project_id')
 			->leftJoin('#__monitor_issues AS i ON c.issue_id = i.id')
-			->leftJoin('#__monitor_projects AS p ON i.project_id = p.id');
+			->leftJoin('#__monitor_projects AS p ON i.project_id = p.id')
+			->select('contact.id AS contact_id')
+			->leftJoin('#__contact_details AS contact ON contact.user_id = i.author_id AND contact.published = 1');
+
+		// Filter by ACL
+		$user = JFactory::getUser();
+		$query->leftJoin('#__monitor_issue_classifications AS cl ON i.classification = cl.id')
+			->where('cl.access IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
 
 		$app = JFactory::getApplication();
 
