@@ -56,11 +56,11 @@
 				<option value="0">JHIDE</option>
 			</field>
 			<field
-				name="list_show_classification"
+				name="issue_show_classification"
 				type="radio"
 				class="btn-group btn-group-yesno"
-				label="COM_MONITOR_PARAM_LIST_SHOW_CLASSIFICATION"
-				description="COM_MONITOR_PARAM_LIST_SHOW_CLASSIFICATION_DESC"
+				label="COM_MONITOR_PARAM_ISSUE_SHOW_CLASSIFICATION"
+				description="COM_MONITOR_PARAM_ISSUE_SHOW_CLASSIFICATION_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>

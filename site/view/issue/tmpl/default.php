@@ -12,6 +12,35 @@ $urlCommentSave = JRoute::_('index.php?option=com_monitor');
 $urlCommentEdit = JRoute::_('index.php?option=com_monitor&task=comment.edit&issue_id=' . $this->item->id);
 
 $prefix = 'media/com_monitor/';
+
+// Two-column layout for issue info
+$infoCount = (int) $this->params->get('issue_show_status', 1)
+	+ (int) $this->params->get('issue_show_classification', 1)
+	+ (int) $this->params->get('issue_show_author', 1)
+	+ (int) $this->params->get('issue_show_date_created', 1)
+	+ (int) $this->params->get('issue_show_project', 1)
+	+ (int) $this->params->get('issue_show_version', 1);
+$infoCount = ceil($infoCount / 2);
+
+/**
+ * Divides the info block in two columns.
+ *
+ * @param   int  $maxItems  Number of items per column.
+ *
+ * @return void
+ */
+function divider($maxItems)
+{
+	static $i = 0;
+
+	$i++;
+
+	if ($i >= $maxItems)
+	{
+		$i = 0;
+		echo '</dl><dl class="span6 dl-horizontal">';
+	}
+}
 ?>
 
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
@@ -39,13 +68,10 @@ $prefix = 'media/com_monitor/';
 <?php endif; ?>
 
 <?php // TODO: Split in blocks when new MVC is implemented. ?>
-<div class="row-fluid issue" itemscope itemtype="http://schema.org/Question">
-	<?php echo $this->item->event->beforeDisplayContent; ?>
-	<div class="issue-description span9" itemprop="text">
-		<?php echo $this->item->text; ?>
-	</div>
-	<div class="issue-details span3">
-		<dl class="dl-horizontal">
+<div class="issue" itemscope itemtype="http://schema.org/Question">
+	<?php if ($infoCount > 0) : ?>
+	<div class="row-fluid issue-details">
+		<dl class="span6 dl-horizontal">
 			<?php if ($this->params->get('issue_show_status', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_STATUS'); ?>:</dt>
 				<dd>
@@ -59,15 +85,20 @@ $prefix = 'media/com_monitor/';
 						<?php echo $this->item->status; ?>
 					</span>
 				</dd>
-			<?php endif; ?>
+			<?php
+				divider($infoCount);
+			endif;
+			?>
 
 			<?php if ($this->params->get('issue_show_classification', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_CLASSIFICATION'); ?>:</dt>
 				<dd>
 					<?php echo $this->item->classification_title; ?>
 				</dd>
-			<?php endif; ?>
-
+				<?php
+				divider($infoCount);
+			endif;
+			?>
 			<?php if ($this->params->get('issue_show_author', 1)) : ?>
 				<dt><?php echo JText::_('COM_MONITOR_CREATED_BY'); ?>:</dt>
 				<dd>
@@ -93,14 +124,20 @@ $prefix = 'media/com_monitor/';
 					}
 					?>
 				</dd>
-			<?php endif; ?>
+				<?php
+				divider($infoCount);
+			endif;
+			?>
 
 			<?php if ($this->params->get('issue_show_date_created', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_CREATE_DATE'); ?>:</dt>
 				<dd itemprop="dateCreated">
 					<?php echo JHtml::_('date', $this->item->created, $date_format); ?>
 				</dd>
-			<?php endif; ?>
+				<?php
+				divider($infoCount);
+			endif;
+			?>
 
 			<?php if ($this->params->get('issue_show_project', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_PROJECT_NAME'); ?>:</dt>
@@ -109,15 +146,26 @@ $prefix = 'media/com_monitor/';
 						<?php echo $this->item->project_name; ?>
 					</a>
 				</dd>
-			<?php endif; ?>
+				<?php
+				divider($infoCount);
+			endif;
+			?>
 
 			<?php if ($this->params->get('issue_show_version', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_VERSION'); ?>:</dt>
 				<dd>
 					<?php echo $this->item->version; ?>
 				</dd>
-			<?php endif; ?>
+				<?php
+				divider($infoCount);
+			endif;
+			?>
 		</dl>
+	</div>
+	<?php endif; ?>
+	<?php echo $this->item->event->beforeDisplayContent; ?>
+	<div class="issue-description" itemprop="text">
+		<?php echo $this->item->text; ?>
 	</div>
 </div>
 
