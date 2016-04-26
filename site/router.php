@@ -125,6 +125,8 @@ class MonitorRouter implements JComponentRouterInterface
 				$queryEdited['layout'] = 'default';
 			}
 
+			self::convertTaskToView($queryEdited);
+
 			$itemId = $this->lookupQuery($queryEdited);
 
 			if ($itemId)
@@ -699,6 +701,7 @@ class MonitorRouter implements JComponentRouterInterface
 				return $this->lookup[$query['view']];
 			}
 		}
+
 		// View doesn't match.
 		// Menu: Project, URL: Issues for the same project.
 		if ($query['view'] === 'issues' && isset($query['project_id']))
