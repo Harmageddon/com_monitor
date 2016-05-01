@@ -161,7 +161,6 @@ class MonitorRouter implements JComponentRouterInterface
 		 * {project}/{issue}/edit
 		 * comment/edit/{comment}
 		 * comments
-		 * comments/{user}
 		*/
 
 		// TODO: What about the option?
@@ -257,29 +256,11 @@ class MonitorRouter implements JComponentRouterInterface
 		$url = array();
 
 		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : '';
-		$hasId = isset($query['user_id']);
 
 		// If the menu item points to "comments", leave out the "comments".
 		if ($menuView !== 'comments')
 		{
 			$url[0] = 'comments';
-		}
-		// If the menu item points to "comments" of a specific user different
-		// from the one specified in the query, return the full URL.
-		elseif (
-			isset($menuQuery['user_id'])
-			&& (!$hasId || $query['user_id'] !== $menuQuery['user_id'])
-		)
-		{
-			$url[0] = 'comments';
-		}
-
-		if ($hasId)
-		{
-			if (!(isset($menuQuery['user_id']) && $menuView === 'comments' && $query['user_id'] === $menuQuery['user_id']))
-			{
-				$url[1] = $query['user_id'];
-			}
 		}
 
 		unset($query['view']);
@@ -540,7 +521,6 @@ class MonitorRouter implements JComponentRouterInterface
 		 * {project}/{issue}/edit
 		 * comment/edit/{comment}
 		 * comments
-		 * comments/{user}
 		*/
 
 		$query = array(
@@ -596,29 +576,16 @@ class MonitorRouter implements JComponentRouterInterface
 		elseif ($segments[0] == 'comments')
 		{
 			$query['view']   = 'comments';
-
-			if (isset($segments[1]) && is_numeric($segments[1]))
-			{
-				$query['user_id'] = $segments[1];
-			}
 		}
-		// {issue} or {user_id}
+		// {issue}
 		elseif (is_numeric($segments[0]))
 		{
-			if ($menuView === 'comments')
-			{
-				$query['view'] = 'comments';
-				$query['user_id']   = $segments[0];
-			}
-			else
-			{
-				$query['view'] = 'issue';
-				$query['id']   = $segments[0];
+			$query['view'] = 'issue';
+			$query['id']   = $segments[0];
 
-				if (isset($segments[1]) && $segments[1] === 'edit')
-				{
-					$query['layout'] = 'edit';
-				}
+			if (isset($segments[1]) && $segments[1] === 'edit')
+			{
+				$query['layout'] = 'edit';
 			}
 		}
 		// /edit
@@ -827,6 +794,9 @@ class MonitorRouter implements JComponentRouterInterface
 				{
 					case 'projects':
 						$this->addLookup((int) $item->id, 'projects');
+						break;
+					case 'comments':
+						$this->addLookup((int) $item->id, 'comments');
 						break;
 					case 'project':
 						if (isset($item->query['id']))

@@ -47,7 +47,11 @@ else
 	class="search-form form-inline">
 	<div class="row-fluid">
 		<?php
-		echo $this->renderFilterField('filter_author');
+		if ($this->params->get('list_show_filters', 1))
+		{
+			echo $this->renderFilterField('filter_author');
+		}
+
 		echo $this->renderListField('fullordering');
 		?>
 	</div>
