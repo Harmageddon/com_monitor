@@ -55,6 +55,13 @@ abstract class MonitorViewAbstract extends JViewHtml
 	protected $customToolbar = null;
 
 	/**
+	 * Prefix for list option keys.
+	 *
+	 * @var string
+	 */
+	protected $prefix = '';
+
+	/**
 	 * Constructor for all views.
 	 *
 	 * @param   MonitorModelAbstract  $model  Model containing the information to be displayed by the view.
@@ -109,8 +116,8 @@ abstract class MonitorViewAbstract extends JViewHtml
 			$this->pagination = $this->model->getPagination();
 
 			// Ordering
-			$this->listOrder	= $this->escape($this->model->getState()->get('list.ordering'));
-			$this->listDir	= $this->escape($this->model->getState()->get('list.direction'));
+			$this->listOrder	= $this->escape($this->model->getState()->get('list.' . $this->prefix . '.ordering'));
+			$this->listDir	= $this->escape($this->model->getState()->get('list.' . $this->prefix . '.direction'));
 		}
 
 		// Page title

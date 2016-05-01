@@ -57,6 +57,21 @@ class MonitorModelIssue extends MonitorModelAbstract
 	private static $defaultStatus = null;
 
 	/**
+	 * MonitorModelIssue constructor.
+	 *
+	 * @param   JApplicationCms  $application  The Application object to use in this model.
+	 * @param   boolean          $loadFilters  If set to true, filters and list options will be loaded from the page request.
+	 *
+	 * @throws Exception
+	 */
+	public function __construct($application = null, $loadFilters = true)
+	{
+		$this->prefix = 'issue';
+
+		parent::__construct($application, $loadFilters);
+	}
+
+	/**
 	 * Retrieves an issue from the database.
 	 *
 	 * @return stdClass Object containing all relevant information about the issue, if it exists;

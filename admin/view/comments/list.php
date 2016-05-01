@@ -72,6 +72,8 @@ class MonitorViewCommentsList extends MonitorViewList
 	 */
 	public function render()
 	{
+		$this->prefix = 'comment';
+
 		$comments = $this->model->getComments();
 
 		$this->items = $comments;

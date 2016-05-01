@@ -35,6 +35,21 @@ class MonitorModelProject extends MonitorModelAbstract
 	);
 
 	/**
+	 * MonitorModelProject constructor.
+	 *
+	 * @param   JApplicationCms  $application  The Application object to use in this model.
+	 * @param   boolean          $loadFilters  If set to true, filters and list options will be loaded from the page request.
+	 *
+	 * @throws Exception
+	 */
+	public function __construct($application = null, $loadFilters = true)
+	{
+		$this->prefix = 'project';
+
+		parent::__construct($application, $loadFilters);
+	}
+
+	/**
 	 * Retrieves the project with the ID given in $projectId from the database.
 	 *
 	 * @return mixed Object describing the project; null, if $projectId is not set or the project doesn't exist.

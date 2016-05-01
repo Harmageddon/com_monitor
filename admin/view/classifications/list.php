@@ -42,6 +42,8 @@ class MonitorViewClassificationsList extends MonitorViewList
 	 */
 	public function render()
 	{
+		$this->prefix = 'classification';
+
 		$classifications = $this->model->getClassifications();
 
 		$this->items = $classifications;

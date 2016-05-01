@@ -42,6 +42,8 @@ class MonitorViewIssuesList extends MonitorViewList
 	 */
 	public function render()
 	{
+		$this->prefix = 'issue';
+
 		$this->items = $this->model->getIssues();
 
 		$this->setLayout('default');

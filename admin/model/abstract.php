@@ -83,35 +83,35 @@ abstract class MonitorModelAbstract extends JModelDatabase
 		if ($loadFilters)
 		{
 			// Receive & set filters
-			if ($this->filters = $this->app->getUserStateFromRequest('filter', 'filter', array(), 'array'))
+			if ($this->filters = $this->app->getUserStateFromRequest('filter.' . $this->prefix, 'filter', array(), 'array'))
 			{
 				foreach ($this->filters as $filter => $value)
 				{
-					$this->getState()->set('filter.' . $filter, $value);
+					$this->getState()->set('filter.' . $this->prefix . '.' . $filter, $value);
 				}
 			}
 
 			// Receive & set list options
-			if ($this->list = $this->app->getUserStateFromRequest('list', 'list', array(), 'array'))
+			if ($this->list = $this->app->getUserStateFromRequest('list.' . $this->prefix, 'list', array(), 'array'))
 			{
-				if (isset($list[$this->prefix . 'fullordering']) && $this->list[$this->prefix . 'fullordering'])
+				if (isset($this->list['fullordering']) && $this->list['fullordering'])
 				{
-					$fullOrdering            = explode(' ', $this->list[$this->prefix . 'fullordering']);
+					$fullOrdering            = explode(' ', $this->list['fullordering']);
 					$this->list['ordering']  = $fullOrdering[0];
 					$this->list['direction'] = $fullOrdering[1];
 				}
 
 				foreach ($this->list as $key => $value)
 				{
-					$this->getState()->set('list.' . $this->prefix . $key, $value);
+					$this->getState()->set('list.' . $this->prefix . '.' . $key, $value);
 				}
 			}
 
 			if (!isset($this->list['limit'])
-				&& ($limit = $this->app->getUserStateFromRequest($this->prefix . 'limit', $this->prefix . 'limit', null)) !== null)
+				&& ($limit = $this->app->getUserStateFromRequest('list.' . $this->prefix . '.limit', 'limit', null)) !== null)
 			{
 				$this->list['limit'] = $limit;
-				$this->getState()->set('list.' . $this->prefix . 'limit', $limit);
+				$this->getState()->set('list.' . $this->prefix . '.limit', $limit);
 			}
 		}
 	}
@@ -132,12 +132,12 @@ abstract class MonitorModelAbstract extends JModelDatabase
 
 		$count = $this->db->loadResult();
 
-		$offset = (isset($this->list['offset'])) ? $this->list['offset'] : $this->getState()->get('list.' . $this->prefix . 'offset', 0);
+		$offset = (isset($this->list['offset'])) ? $this->list['offset'] : $this->getState()->get('list.' . $this->prefix . '.offset', 0);
 		$offset = $this->app->input->getInt('limitstart', $offset);
 		$this->getState()->set('list.' . $this->prefix . 'offset', $offset);
 
 		$defaultLimit = $this->app->get('list_limit');
-		$limit = (isset($this->list['limit'])) ? $this->list['limit'] : $this->getState()->get('list.' . $this->prefix . 'limit', $defaultLimit);
+		$limit = (isset($this->list['limit'])) ? $this->list['limit'] : $this->getState()->get('list.' . $this->prefix . '.limit', $defaultLimit);
 		$this->pagination = new JPagination($count, $offset, $limit, '', $this->app);
 
 		if ($query instanceof JDatabaseQueryLimitable)

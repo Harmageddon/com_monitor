@@ -131,6 +131,8 @@ else
 		</div>
 		</div>
 	<?php endif; ?>
+
+	<?php echo $this->renderListField('fullordering'); ?>
 	<div class="pull-right">
 		<?php echo $this->pagination->getLimitBox(); ?>
 	</div>

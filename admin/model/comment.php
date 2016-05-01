@@ -32,7 +32,7 @@ class MonitorModelComment extends MonitorModelAbstract
 	private $commentId;
 
 	/**
-	 * MonitorModelAbstract constructor.
+	 * MonitorModelComment constructor.
 	 *
 	 * @param   JApplicationCms  $application  The Application object to use in this model.
 	 * @param   boolean          $loadFilters  If set to true, filters and list options will be loaded from the page request.
@@ -41,7 +41,7 @@ class MonitorModelComment extends MonitorModelAbstract
 	 */
 	public function __construct($application = null, $loadFilters = true)
 	{
-		$this->prefix = 'comment_';
+		$this->prefix = 'comment';
 
 		parent::__construct($application, $loadFilters);
 	}
@@ -183,8 +183,7 @@ class MonitorModelComment extends MonitorModelAbstract
 		$this->countItems($query);
 
 		// Ordering
-		if (($app->isAdmin() || $list)
-			&& $this->list !== null
+		if ($this->list !== null
 			&& isset($this->list['fullordering'])
 			&& in_array($this->list['fullordering'], $this->orderOptions))
 		{

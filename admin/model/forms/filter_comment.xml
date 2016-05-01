@@ -47,20 +47,20 @@
 		<field
 			name="fullordering"
 			type="list"
-			label="COM_CONTENT_LIST_FULL_ORDERING"
-			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
+			label="COM_MONITOR_LIST_FULL_ORDERING"
+			description="COM_MONITOR_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="id ASC"
 		>
-			<option value="">JGLOBAL_SORT_BY</option>
-			<option value="c.id ASC">JGRID_HEADING_ID_ASC</option>
-			<option value="c.id DESC">JGRID_HEADING_ID_DESC</option>
-			<option value="i.title ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="i.title DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="u.name ASC">JAUTHOR_ASC</option>
-			<option value="u.name DESC">JAUTHOR_DESC</option>
-			<option value="c.created ASC">JDATE_ASC</option>
-			<option value="c.created DESC">JDATE_DESC</option>
+			<option value="">COM_MONITOR_ORDER_BY</option>
+			<option value="c.id ASC">COM_MONITOR_ORDER_ID_ASC</option>
+			<option value="c.id DESC">COM_MONITOR_ORDER_ID_DESC</option>
+			<option value="i.title ASC">COM_MONITOR_ORDER_TITLE_ASC</option>
+			<option value="i.title DESC">COM_MONITOR_ORDER_TITLE_DESC</option>
+			<option value="u.name ASC">COM_MONITOR_ORDER_AUTHOR_ASC</option>
+			<option value="u.name DESC">COM_MONITOR_ORDER_AUTHOR_DESC</option>
+			<option value="c.created ASC">COM_MONITOR_ORDER_DATE_ASC</option>
+			<option value="c.created DESC">COM_MONITOR_ORDER_DATE_DESC</option>
 		</field>
 		<field
 			name="limit"

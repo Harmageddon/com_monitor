@@ -57,6 +57,8 @@ class MonitorViewStatusList extends MonitorViewList
 	 */
 	public function render()
 	{
+		$this->prefix = 'status';
+
 		$status = $this->model->getAllStatus();
 
 		$this->items = $status;

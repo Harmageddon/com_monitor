@@ -23,6 +23,21 @@ class MonitorModelStatus extends MonitorModelAbstract
 	private $statusId;
 
 	/**
+	 * MonitorModelStatus constructor.
+	 *
+	 * @param   JApplicationCms  $application  The Application object to use in this model.
+	 * @param   boolean          $loadFilters  If set to true, filters and list options will be loaded from the page request.
+	 *
+	 * @throws Exception
+	 */
+	public function __construct($application = null, $loadFilters = true)
+	{
+		$this->prefix = 'status';
+
+		parent::__construct($application, $loadFilters);
+	}
+
+	/**
 	 * Retrieves the status with the ID given in $statusId from the database.
 	 *
 	 * @return mixed Object describing the status; null, if $statusId is not set or the status doesn't exist.

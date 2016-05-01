@@ -29,6 +29,21 @@ class MonitorModelClassification extends MonitorModelAbstract
 	private $classificationId;
 
 	/**
+	 * MonitorModelClassification constructor.
+	 *
+	 * @param   JApplicationCms  $application  The Application object to use in this model.
+	 * @param   boolean          $loadFilters  If set to true, filters and list options will be loaded from the page request.
+	 *
+	 * @throws Exception
+	 */
+	public function __construct($application = null, $loadFilters = true)
+	{
+		$this->prefix = 'classification';
+
+		parent::__construct($application, $loadFilters);
+	}
+
+	/**
 	 * Retrieves an classification from the database.
 	 *
 	 * @return stdClass Object containing all relevant information about the classification, if it exists;

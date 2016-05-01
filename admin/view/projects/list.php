@@ -42,6 +42,8 @@ class MonitorViewProjectsList extends MonitorViewList
 	 */
 	public function render()
 	{
+		$this->prefix = 'project';
+
 		$projects = $this->model->getProjects();
 
 		$this->items = $projects;

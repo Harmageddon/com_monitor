@@ -45,9 +45,12 @@ else
 
 <form action="<?php echo JRoute::_('index.php?option=com_monitor&view=comments' . $projectId); ?>" method="post" id="adminForm"
 	class="search-form form-inline">
-	<?php
-	echo $this->renderFilterField('filter_author');
-	?>
+	<div class="row-fluid">
+		<?php
+		echo $this->renderFilterField('filter_author');
+		echo $this->renderListField('fullordering');
+		?>
+	</div>
 
 	<div class="pull-right">
 		<?php echo $this->pagination->getLimitBox(); ?>

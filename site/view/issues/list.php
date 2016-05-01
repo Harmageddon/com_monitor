@@ -124,8 +124,25 @@ class MonitorViewIssuesList extends MonitorViewAbstract
 		$class = ($filters[$fieldName]->value == '') ? '' : ' filter-selected';
 
 		return '<div class="controls span4' . $class . '">'
-			. $filters[$fieldName]->label
-			. $filters[$fieldName]->input
-			. '</div>';
+		. $filters[$fieldName]->label
+		. $filters[$fieldName]->input
+		. '</div>';
+	}
+
+	/**
+	 * Renders a list field (ordering, limit) for the list display.
+	 *
+	 * @param   string  $fieldName  Name of the list field.
+	 *
+	 * @return   string  HTML output.
+	 */
+	public function renderListField($fieldName)
+	{
+		$list = $this->filterForm->getGroup('list');
+
+		return '<div class="controls">'
+		. $list['list_' . $fieldName]->label
+		. $list['list_' . $fieldName]->input
+		. '</div>';
 	}
 }
