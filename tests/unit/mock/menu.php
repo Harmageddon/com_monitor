@@ -165,7 +165,7 @@ class MonitorTestMockMenu
 			array(
 				'id' => 11,
 				'title'        => 'Comments of user 1',
-				'query'        => array('option' => 'com_monitor', 'view' => 'comments', 'user_id' => 1),
+				'query'        => array('option' => 'com_monitor', 'view' => 'comments', 'user_id' => '1'),
 			)
 		);
 		self::createMenuItem(

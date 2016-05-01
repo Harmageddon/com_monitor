@@ -259,7 +259,7 @@ class MonitorRouterTest extends TestCase
 			array(
 				'query'      => array(
 					'option'   => 'com_monitor',
-					'task'     => 'comments',
+					'view'     => 'comments',
 				),
 				'expected'   => 'comments',
 				'exceptions' => array(
@@ -269,7 +269,7 @@ class MonitorRouterTest extends TestCase
 			array(
 				'query'      => array(
 					'option'   => 'com_monitor',
-					'task'     => 'comments',
+					'view'     => 'comments',
 					'user_id'  => '1',
 				),
 				'expected'   => 'comments/1',

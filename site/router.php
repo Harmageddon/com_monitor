@@ -160,6 +160,8 @@ class MonitorRouter implements JComponentRouterInterface
 		 * {project}/{issue}
 		 * {project}/{issue}/edit
 		 * comment/edit/{comment}
+		 * comments
+		 * comments/{user}
 		*/
 
 		// TODO: What about the option?
@@ -200,6 +202,9 @@ class MonitorRouter implements JComponentRouterInterface
 			case 'comment':
 				$url = $this->buildComment($query, $menuQuery);
 				break;
+			case 'comments':
+				$url = $this->buildComments($query, $menuQuery);
+				break;
 			case 'issues':
 			case 'issue':
 				$url = $this->buildIssue($query, $menuQuery);
@@ -232,6 +237,49 @@ class MonitorRouter implements JComponentRouterInterface
 		if ($menuView !== 'projects')
 		{
 			$url[0] = 'projects';
+		}
+
+		unset($query['view']);
+
+		return $url;
+	}
+
+	/**
+	 * Builds an URL for the "comments" view.
+	 *
+	 * @param   array  &$query     An array of URL arguments.
+	 * @param   array  $menuQuery  The query for the active menu item.
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 */
+	private function buildComments(&$query, $menuQuery)
+	{
+		$url = array();
+
+		$menuView = (isset($menuQuery['view'])) ? $menuQuery['view'] : '';
+		$hasId = isset($query['user_id']);
+
+		// If the menu item points to "comments", leave out the "comments".
+		if ($menuView !== 'comments')
+		{
+			$url[0] = 'comments';
+		}
+		// If the menu item points to "comments" of a specific user different
+		// from the one specified in the query, return the full URL.
+		elseif (
+			isset($menuQuery['user_id'])
+			&& (!$hasId || $query['user_id'] !== $menuQuery['user_id'])
+		)
+		{
+			$url[0] = 'comments';
+		}
+
+		if ($hasId)
+		{
+			if (!(isset($menuQuery['user_id']) && $menuView === 'comments' && $query['user_id'] === $menuQuery['user_id']))
+			{
+				$url[1] = $query['user_id'];
+			}
 		}
 
 		unset($query['view']);
@@ -491,6 +539,8 @@ class MonitorRouter implements JComponentRouterInterface
 		 * {project}/{issue}
 		 * {project}/{issue}/edit
 		 * comment/edit/{comment}
+		 * comments
+		 * comments/{user}
 		*/
 
 		$query = array(
@@ -543,15 +593,32 @@ class MonitorRouter implements JComponentRouterInterface
 				$query['id'] = $segments[2];
 			}
 		}
-		// {issue}
+		elseif ($segments[0] == 'comments')
+		{
+			$query['view']   = 'comments';
+
+			if (isset($segments[1]) && is_numeric($segments[1]))
+			{
+				$query['user_id'] = $segments[1];
+			}
+		}
+		// {issue} or {user_id}
 		elseif (is_numeric($segments[0]))
 		{
-			$query['view'] = 'issue';
-			$query['id']   = $segments[0];
-
-			if (isset($segments[1]) && $segments[1] === 'edit')
+			if ($menuView === 'comments')
 			{
-				$query['layout'] = 'edit';
+				$query['view'] = 'comments';
+				$query['user_id']   = $segments[0];
+			}
+			else
+			{
+				$query['view'] = 'issue';
+				$query['id']   = $segments[0];
+
+				if (isset($segments[1]) && $segments[1] === 'edit')
+				{
+					$query['layout'] = 'edit';
+				}
 			}
 		}
 		// /edit
