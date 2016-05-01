@@ -256,6 +256,28 @@ class MonitorRouterTest extends TestCase
 					9 => 'new/1',
 				),
 			),
+			array(
+				'query'      => array(
+					'option'   => 'com_monitor',
+					'task'     => 'comments',
+				),
+				'expected'   => 'comments',
+				'exceptions' => array(
+					10 => '',
+				),
+			),
+			array(
+				'query'      => array(
+					'option'   => 'com_monitor',
+					'task'     => 'comments',
+					'user_id'  => '1',
+				),
+				'expected'   => 'comments/1',
+				'exceptions' => array(
+					10 => '1',
+					11 => '',
+				),
+			),
 		);
 	}
 }
