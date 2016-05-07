@@ -116,23 +116,20 @@ class MonitorRouter implements JComponentRouterInterface
 	 */
 	public function preprocess($query)
 	{
-		if (!isset($query['Itemid']))
+		$queryEdited = $query;
+
+		if (!isset($queryEdited['layout']))
 		{
-			$queryEdited = $query;
+			$queryEdited['layout'] = 'default';
+		}
 
-			if (!isset($queryEdited['layout']))
-			{
-				$queryEdited['layout'] = 'default';
-			}
+		self::convertTaskToView($queryEdited);
 
-			self::convertTaskToView($queryEdited);
+		$itemId = $this->lookupQuery($queryEdited);
 
-			$itemId = $this->lookupQuery($queryEdited);
-
-			if ($itemId)
-			{
-				$query['Itemid'] = $itemId;
-			}
+		if ($itemId)
+		{
+			$query['Itemid'] = $itemId;
 		}
 
 		return $query;
@@ -691,8 +688,13 @@ class MonitorRouter implements JComponentRouterInterface
 			$this->makeLookup();
 		}
 
+		if (!isset($query['view']))
+		{
+			return null;
+		}
+
 		// View matches.
-		if (isset($query['view']) && isset($this->lookup[$query['view']]))
+		if (isset($this->lookup[$query['view']]))
 		{
 			// More complex view.
 			if (is_array($this->lookup[$query['view']]))
@@ -764,6 +766,14 @@ class MonitorRouter implements JComponentRouterInterface
 						return $this->lookup['issues'][$projectId];
 					}
 				}
+			}
+		}
+		// Menu: projects, URL: project
+		elseif ($query['view'] === 'project')
+		{
+			if (isset($this->lookup['projects']))
+			{
+				return $this->lookup['projects'];
 			}
 		}
 
