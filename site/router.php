@@ -701,6 +701,16 @@ class MonitorRouter implements JComponentRouterInterface
 			{
 				$key = isset($query['id']) ? $query['id'] : ((isset($query['project_id'])) ? $query['project_id'] : '_');
 
+				// Use "new" as layout for view=issue&project_id=* and view=comment&issue_id=*
+				if ($query['layout'] === 'edit')
+				{
+					if ($query['view'] === 'issue' && isset($query['project_id'])
+						|| $query['view'] === 'comment' && isset($query['issue_id']))
+					{
+						$query['layout'] = 'new';
+					}
+				}
+
 				// View and ID match.
 				if (isset($this->lookup[$query['view']][$key]))
 				{
