@@ -8,6 +8,7 @@
 			size="40"
 			class="inputbox"
 			default=""
+			hint="JSEARCH_TITLE"
 		/>
 		<field
 			name="issue_status"

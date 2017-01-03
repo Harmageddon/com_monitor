@@ -49,93 +49,70 @@ else
 	// Search tools bar
 	if ($this->params->get('list_show_filters', 1)):
 		$filters = $this->filterForm->getGroup('filter');
-		$i       = 0;
+		$i = 0;
 		?>
 		<div class="row-fluid">
-		<?php
-		if ($this->params->get('list_show_filter_search', 1)) :
-			$i += 8;
-			?>
-			<div class="controls span8">
-				<label for="filter_search" class="element-invisible">
-					<?php echo JText::_('JSEARCH_FILTER'); ?>
-				</label>
+			<?php
+			if ($this->params->get('list_show_filter_search', 1)) :
+				$i = 5;
+				?>
+				<div class="controls span5">
+					<label for="filter_search" class="element-invisible">
+						<?php echo JText::_('JSEARCH_FILTER'); ?>
+					</label>
 
-				<div class="btn-wrapper input-append">
-					<?php echo $filters['filter_search']->input; ?>
-					<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-						<i class="icon-search"></i>
-					</button>
+					<div class="btn-wrapper input-append">
+						<?php echo $filters['filter_search']->input; ?>
+						<button type="submit" class="btn" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+							<i class="icon-search"></i>
+						</button>
+					</div>
+				</div>
+			<?php endif; ?>
+
+			<?php
+			$showFilters = $this->params->get('list_show_filter_status', 1)
+				|| $this->params->get('list_show_filter_classification', 1)
+				|| $this->params->get('list_show_filter_project', 1)
+				|| $this->params->get('list_show_filter_author', 1);
+			if ($showFilters) :
+				?>
+				<div class="controls span<?php echo 12 - $i; ?>">
+
+					<?php
+					if ($this->params->get('list_show_filter_status', 1))
+					{
+						echo $this->renderFilterField('filter_issue_status');
+					}
+
+					if ($this->params->get('list_show_filter_classification', 1))
+					{
+						echo $this->renderFilterField('filter_classification');
+					}
+
+					if ($this->params->get('list_show_filter_project', 1))
+					{
+						echo $this->renderFilterField('filter_project_id');
+					}
+
+					if ($this->params->get('list_show_filter_author', 1))
+					{
+						echo $this->renderFilterField('filter_author');
+					}
+					?>
 				</div>
 			</div>
-		<?php endif; ?>
+			<?php endif;?>
 
-		<?php
-		if ($this->params->get('list_show_filter_status', 1))
-		{
-			$i += 4;
-			echo $this->renderFilterField('filter_issue_status');
-		}
-
-		if ($i >= 12) :
-			$i = 0;
-			?>
-			</div>
-			<div class="row-fluid">
-		<?php endif;
-
-		if ($this->params->get('list_show_filter_classification', 1))
-		{
-			$i += 4;
-			echo $this->renderFilterField('filter_classification');
-		}
-
-		if ($i >= 12) :
-			$i = 0;
-			?>
-			</div>
-			<div class="row-fluid">
-		<?php endif;
-
-		if ($this->params->get('list_show_filter_project', 1))
-		{
-			$i += 4;
-			echo $this->renderFilterField('filter_project_id');
-		}
-
-		if ($i >= 12) :
-			$i = 0;
-			?>
-			</div>
-			<div class="row-fluid">
-		<?php endif;
-
-		if ($this->params->get('list_show_filter_author', 1))
-		{
-			$i += 4;
-			echo $this->renderFilterField('filter_author');
-		}
-
-		if ($i >= 12) :
-			$i = 0;
-			?>
-			</div>
-			<div class="row-fluid">
-		<?php endif; ?>
-
-		<div class="span-<?php echo 12 - $i; ?>">
-			<button type="button" class="btn hasTooltip js-stools-btn-clear" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>"
-				onclick="clearForm(this.form)">
+		<div class="pull-right">
+			<button type="button" class="btn js-stools-btn-clear" onclick="clearForm(this.form)">
 				<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>
 			</button>
 		</div>
-		</div>
+		<?php if (!$showFilters): ?>
+			</div>
+		<?php endif; ?>
 	<?php endif; ?>
-
-	<?php echo $this->renderListField('fullordering'); ?>
-	<div class="pull-right">
-		<?php echo $this->pagination->getLimitBox(); ?>
-	</div>
 </form>
 
 <?php if (empty($this->items)) : ?>

@@ -119,14 +119,14 @@ class MonitorViewIssuesList extends MonitorViewAbstract
 	 */
 	public function renderFilterField($fieldName)
 	{
-		$filters = $this->filterForm->getGroup('filter');
+		$field = $this->filterForm->getGroup('filter')[$fieldName];
 
-		$class = ($filters[$fieldName]->value == '') ? '' : ' filter-selected';
+		if ($field->value !== '')
+		{
+			$field->class = 'filter-selected';
+		}
 
-		return '<div class="controls span4' . $class . '">'
-		. $filters[$fieldName]->label
-		. $filters[$fieldName]->input
-		. '</div>';
+		return $field->input;
 	}
 
 	/**
