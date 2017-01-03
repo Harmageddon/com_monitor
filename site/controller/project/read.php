@@ -52,7 +52,7 @@ class MonitorControllerProjectRead extends JControllerBase
 
 		if (!$return || !JUri::isInternal($return))
 		{
-			$return = 'index.php?option=com_monitor&view=issues&id=' . $id;
+			$return = 'index.php?option=com_monitor&view=issues&project_id=' . $id;
 		}
 
 		$this->app->redirect(JRoute::_($return, false));
