@@ -302,7 +302,11 @@ if ($this->attachments) :
 			</div>
 		<?php endforeach; ?>
 
-		<?php echo $this->pagination->getListFooter(); ?>
+		<div class="pagination">
+			<?php
+			echo $this->pagination->getPagesLinks();
+			?>
+		</div>
 	<?php else: ?>
 		<p class="muted"><?php echo JText::_('COM_MONITOR_NO_COMMENTS'); ?></p>
 	<?php endif; ?>

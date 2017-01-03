@@ -230,9 +230,11 @@ else
 	</table>
 <?php endif; ?>
 
+<div class="pagination">
 <?php
-echo $this->pagination->getListFooter();
+echo $this->pagination->getPagesLinks();
 ?>
+</div>
 
 <script>
 	function clearForm(el) {

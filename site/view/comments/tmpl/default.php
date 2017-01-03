@@ -131,5 +131,8 @@ else
 	</table>
 <?php endif; ?>
 
-<?php
-echo $this->pagination->getListFooter();
+<div class="pagination">
+	<?php
+	echo $this->pagination->getPagesLinks();
+	?>
+</div>
