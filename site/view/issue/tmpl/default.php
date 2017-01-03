@@ -16,7 +16,6 @@ $prefix = 'media/com_monitor/';
 // Two-column layout for issue info
 $infoCount = (int) $this->params->get('issue_show_status', 1)
 	+ (int) $this->params->get('issue_show_classification', 1)
-	+ (int) $this->params->get('issue_show_author', 1)
 	+ (int) $this->params->get('issue_show_date_created', 1)
 	+ (int) $this->params->get('issue_show_project', 1)
 	+ (int) $this->params->get('issue_show_version', 1);
@@ -38,7 +37,7 @@ function divider($maxItems)
 	if ($i >= $maxItems)
 	{
 		$i = 0;
-		echo '</dl><dl class="span6 dl-horizontal">';
+		echo '</dl><dl class="span5 dl-horizontal">';
 	}
 }
 ?>
@@ -71,7 +70,35 @@ function divider($maxItems)
 <div class="issue" itemscope itemtype="http://schema.org/Question">
 	<?php if ($infoCount > 0) : ?>
 	<div class="row-fluid issue-details">
-		<dl class="span6 dl-horizontal">
+		<?php if ($this->params->get('issue_show_author', 1)) : ?>
+			<dl class="span2 issue-author">
+				<dt><?php echo JText::_('COM_MONITOR_CREATED_BY'); ?>:</dt>
+				<dd>
+				<?php
+				// Profile avatar (using the CMAvatar plugin).
+				if ($this->params->get('issue_show_avatar', 1) && $this->avatars !== null && isset($this->avatars[$this->item->author_id]))
+				{
+					$url        = $this->avatars[$this->item->author_id];
+					$attributes = array('title' => JText::sprintf('COM_MONITOR_VIEW_PROFILE', $this->item->author_name));
+					$image      = JHtml::_('image', $url, $this->item->author_name, $attributes);
+
+					echo $image;
+				}
+
+				if (!empty($this->item->contact_id) && $this->params->get('link_author', 1) == true)
+				{
+					$contact_link = JRoute::_('index.php?option=com_contact&view=contact&id=' . (int) $this->item->contact_id);
+					echo JHtml::_('link', $contact_link, $this->item->author_name, array('itemprop' => 'author'));
+				}
+				else
+				{
+					echo $this->item->author_name;
+				}
+				?>
+				</dd>
+			</dl>
+		<?php endif; ?>
+		<dl class="span5 dl-horizontal">
 			<?php if ($this->params->get('issue_show_status', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_STATUS'); ?>:</dt>
 				<dd class="issue-status">
@@ -94,35 +121,6 @@ function divider($maxItems)
 				<dt><?php echo JText::_('COM_MONITOR_CLASSIFICATION'); ?>:</dt>
 				<dd class="issue-classification">
 					<?php echo $this->item->classification_title; ?>
-				</dd>
-				<?php
-				divider($infoCount);
-			endif;
-			?>
-			<?php if ($this->params->get('issue_show_author', 1)) : ?>
-				<dt><?php echo JText::_('COM_MONITOR_CREATED_BY'); ?>:</dt>
-				<dd class="issue-author">
-					<?php
-					// Profile avatar (using the CMAvatar plugin).
-					if ($this->params->get('issue_show_avatar', 1) && $this->avatars !== null && isset($this->avatars[$this->item->author_id]))
-					{
-						$url   = $this->avatars[$this->item->author_id];
-						$attributes = array('title' => JText::sprintf('COM_MONITOR_VIEW_PROFILE', $this->item->author_name));
-						$image = JHtml::_('image', $url, $this->item->author_name, $attributes);
-
-						echo $image;
-					}
-
-					if (!empty($this->item->contact_id) && $this->params->get('link_author', 1) == true)
-					{
-						$contact_link = JRoute::_('index.php?option=com_contact&view=contact&id=' . (int) $this->item->contact_id);
-						echo JHtml::_('link', $contact_link, $this->item->author_name, array('itemprop' => 'author'));
-					}
-					else
-					{
-						echo $this->item->author_name;
-					}
-					?>
 				</dd>
 				<?php
 				divider($infoCount);
@@ -157,7 +155,6 @@ function divider($maxItems)
 					<?php echo $this->item->version; ?>
 				</dd>
 				<?php
-				divider($infoCount);
 			endif;
 			?>
 		</dl>
