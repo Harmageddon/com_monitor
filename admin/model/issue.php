@@ -147,9 +147,24 @@ class MonitorModelIssue extends MonitorModelAbstract
 	 */
 	public function getIssues($filters = null, $list = null)
 	{
+		$params = $this->getParams();
+
 		if ($filters)
 		{
 			$this->filters = $filters;
+		}
+		else
+		{
+			$filterTypes = array('issue_status', 'classification', 'author');
+
+			foreach ($filterTypes as $filterType)
+			{
+				if (isset($params['filter_' . $filterType]) && !empty($params['filter_' . $filterType])
+					&& (!isset($this->filters[$filterType]) || $this->filters[$filterType] === ""))
+				{
+					$this->filters[$filterType] = $params['filter_' . $filterType];
+				}
+			}
 		}
 
 		if ($list)
@@ -186,7 +201,7 @@ class MonitorModelIssue extends MonitorModelAbstract
 		}
 
 		// Filter by status
-		if ($this->filters !== null && !empty($this->filters['issue_status']))
+		if ($this->filters !== null && !empty($this->filters['issue_status']) && $this->filters['issue_status'] !== "all")
 		{
 			$defaultStatus = $this->getDefaultStatus();
 
@@ -225,9 +240,6 @@ class MonitorModelIssue extends MonitorModelAbstract
 
 			$query->where($cond);
 		}
-
-		// Get the params
-		$params = $this->getParams();
 
 		// Filter by title / text
 		if ($this->filters !== null && !empty($this->filters['search']))

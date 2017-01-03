@@ -16,7 +16,7 @@
 	</fields>
 	<fields name="params">
 		<fieldset name="basic">
-			<field 
+			<field
 				name="list_date_format"
 				type="text"
 				label="COM_MONITOR_DATE_FORMAT_LABEL"
@@ -175,6 +175,36 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
+			</field>
+		</fieldset>
+		<fieldset name="filters" label="COM_MONITOR_FILTERS">
+			<field
+				name="filter_issue_status"
+				type="sql"
+				query="SELECT id, name AS filter_issue_status FROM #__monitor_status"
+				key_field="id"
+				label="COM_MONITOR_FILTER_STATUS_LABEL"
+				description="COM_MONITOR_FILTER_STATUS_DESC"
+			>
+				<option value="">COM_MONITOR_FILTER_STATUS</option>
+				<option value="open">COM_MONITOR_FILTER_STATUS_ALL_OPEN</option>
+				<option value="closed">COM_MONITOR_FILTER_STATUS_ALL_CLOSED</option>
+			</field>
+			<field
+				name="filter_classification"
+				type="classification"
+				label="COM_MONITOR_FILTER_CLASSIFICATION_LABEL"
+				description="COM_MONITOR_FILTER_CLASSIFICATION_DESC"
+			>
+				<option value="">COM_MONITOR_FILTER_CLASSIFICATION</option>
+			</field>
+			<field
+				name="filter_author"
+				type="AuthorIssue"
+				label="COM_MONITOR_FILTER_ISSUE_AUTHOR_LABEL"
+				description="COM_MONITOR_FILTER_ISSUE_AUTHOR_DESC"
+			>
+				<option value="">JOPTION_SELECT_AUTHOR</option>
 			</field>
 		</fieldset>
 	</fields>

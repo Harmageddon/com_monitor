@@ -18,8 +18,9 @@
 			hiddenLabel="true"
 			description="COM_MONITOR_FILTER_STATUS_DESC"
 			onchange="this.form.submit();"
+			default="all"
 		>
-			<option value="">COM_MONITOR_FILTER_STATUS</option>
+			<option value="all">COM_MONITOR_FILTER_STATUS</option>
 			<option value="open">COM_MONITOR_FILTER_STATUS_ALL_OPEN</option>
 			<option value="closed">COM_MONITOR_FILTER_STATUS_ALL_CLOSED</option>
 		</field>
@@ -30,7 +31,7 @@
 			description="COM_MONITOR_FILTER_CLASSIFICATION_DESC"
 			onchange="this.form.submit();"
 		>
-			<option value="">COM_MONITOR_FILTER_CLASSIFICATION</option>
+			<option value="0">COM_MONITOR_FILTER_CLASSIFICATION</option>
 		</field>
 		<field
 			name="project_id"
@@ -40,7 +41,7 @@
 			description="COM_MONITOR_FILTER_PROJECT_DESC"
 			onchange="this.form.submit();"
 		>
-			<option value="">COM_MONITOR_FILTER_PROJECT</option>
+			<option value="0">COM_MONITOR_FILTER_PROJECT</option>
 		</field>
 		<field
 			name="author"
@@ -50,7 +51,7 @@
 			description="COM_MONITOR_FILTER_ISSUE_AUTHOR_DESC"
 			onchange="this.form.submit();"
 		>
-			<option value="">JOPTION_SELECT_AUTHOR</option>
+			<option value="0">JOPTION_SELECT_AUTHOR</option>
 		</field>
 	</fields>
 	<fields name="list">
