@@ -74,7 +74,7 @@ function divider($maxItems)
 		<dl class="span6 dl-horizontal">
 			<?php if ($this->params->get('issue_show_status', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_STATUS'); ?>:</dt>
-				<dd>
+				<dd class="issue-status">
 					<?php
 						$statusHelp = ($this->params->get('issue_show_status_help', 1) && isset($this->item->status_help))
 							? 'data-content="' . $this->item->status_help . '" data-original-title="' . $this->item->status . '"'
@@ -92,7 +92,7 @@ function divider($maxItems)
 
 			<?php if ($this->params->get('issue_show_classification', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_CLASSIFICATION'); ?>:</dt>
-				<dd>
+				<dd class="issue-classification">
 					<?php echo $this->item->classification_title; ?>
 				</dd>
 				<?php
@@ -101,7 +101,7 @@ function divider($maxItems)
 			?>
 			<?php if ($this->params->get('issue_show_author', 1)) : ?>
 				<dt><?php echo JText::_('COM_MONITOR_CREATED_BY'); ?>:</dt>
-				<dd>
+				<dd class="issue-author">
 					<?php
 					// Profile avatar (using the CMAvatar plugin).
 					if ($this->params->get('issue_show_avatar', 1) && $this->avatars !== null && isset($this->avatars[$this->item->author_id]))
@@ -131,7 +131,7 @@ function divider($maxItems)
 
 			<?php if ($this->params->get('issue_show_date_created', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_CREATE_DATE'); ?>:</dt>
-				<dd itemprop="dateCreated">
+				<dd itemprop="dateCreated" class="issue-created">
 					<?php echo JHtml::_('date', $this->item->created, $date_format); ?>
 				</dd>
 				<?php
@@ -141,7 +141,7 @@ function divider($maxItems)
 
 			<?php if ($this->params->get('issue_show_project', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_PROJECT_NAME'); ?>:</dt>
-				<dd>
+				<dd class="issue-project">
 					<a href="<?php echo JRoute::_('index.php?option=com_monitor&view=project&id=' . $this->item->project_id); ?>">
 						<?php echo $this->item->project_name; ?>
 					</a>
@@ -153,7 +153,7 @@ function divider($maxItems)
 
 			<?php if ($this->params->get('issue_show_version', 1)): ?>
 				<dt><?php echo JText::_('COM_MONITOR_VERSION'); ?>:</dt>
-				<dd>
+				<dd class="issue-version">
 					<?php echo $this->item->version; ?>
 				</dd>
 				<?php
