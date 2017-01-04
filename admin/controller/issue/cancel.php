@@ -38,8 +38,20 @@ class MonitorControllerIssueCancel extends JControllerBase
 		}
 		else
 		{
-			$project_id = $this->input->getInt('project_id');
-			$app->redirect(JRoute::_('index.php?option=com_monitor&view=issues&project_id=' . $project_id, false));
+			$issue_id = $this->input->getInt('id');
+
+			if (!empty($issue_id))
+			{
+				$app->redirect(JRoute::_('index.php?option=com_monitor&view=issue&id=' . $issue_id, false));
+			}
+			else
+			{
+				$project_id = $this->input->getInt('project_id');
+				$app->redirect(JRoute::_('index.php?option=com_monitor&view=issues&project_id=' . $project_id, false));
+			}
 		}
+
+		// No redirect. This shouldn't happen.
+		return false;
 	}
 }
